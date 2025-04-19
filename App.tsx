@@ -39,7 +39,7 @@ export default function App() {
   useEffect(pickNewWord, []);
 
   function pickNewWord() {
-    const list: WordItem[] = (wordsData as any).wordList;
+    const list: WordItem[] = (wordsData as { wordList: WordItem[] }).wordList;
     const idx = Math.floor(Math.random() * list.length);
     setCurrentWord(list[idx]);
     setGuessedLetters([]);
