@@ -40,4 +40,4 @@ jobs:
       with:
         node-version: 18
     - run: npm ci
-    - run: npm run web     # expo start --web 대신 빌드 스크립트 설정 시
+    - run: npm run build:web   # 정적 웹 빌드
