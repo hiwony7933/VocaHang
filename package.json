@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --config .eslintrc.js --quiet",
-    "test": "jest"
+     "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
