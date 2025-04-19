@@ -1,4 +1,5 @@
 // src/components/HangmanDrawing.tsx
+/* eslint-disable @typescript-eslint/no-require-imports */
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 

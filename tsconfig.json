@@ -1,6 +1,9 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    // … 나머지 옵션 …
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "include": ["src", "App.tsx", "assets/data","index.ts"]
 }
