@@ -8,8 +8,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:web": "expo build:web --no-dev",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --config .eslintrc.js --quiet",
-     "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
