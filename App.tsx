@@ -1,4 +1,5 @@
 // App.tsx
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -7,12 +8,17 @@ import {
   Modal,
   TouchableOpacity,
   SafeAreaView,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+  Animated,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { WordItem } from "./src/types";
 import wordsData from "./assets/data/words.json";
 import { Keyboard } from "./src/components/Keyboard";
 import { BalloonLife } from "./src/components/BalloonLife";
+import { Colors } from "./src/constants/theme";
 
 type GameStatus = "playing" | "won" | "lost";
 
@@ -23,6 +29,13 @@ interface Stats {
 
 const STATS_KEY = "VocaHangStats";
 const MAX_TRIES = 6;
+// Android에서는 명시적으로 활성화 필요
+if (
+  Platform.OS === "android" &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default function App() {
   const [currentWord, setCurrentWord] = useState<WordItem | null>(null);
@@ -30,6 +43,21 @@ export default function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
   const [stats, setStats] = useState<Stats>({ wins: 0, losses: 0 });
   const [showModal, setShowModal] = useState(false);
+
+  /* inside App() */
+  const modalScale = useRef(new Animated.Value(0.8)).current;
+  // 모달 등장 스케일 애니메이션
+  useEffect(() => {
+    if (showModal) {
+      modalScale.setValue(0.8);
+      Animated.spring(modalScale, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 6,
+        tension: 75,
+      }).start();
+    }
+  }, [showModal]);
 
   // animation state
   const [isAnimating, setIsAnimating] = useState(false);
@@ -116,6 +144,8 @@ export default function App() {
 
   const handlePressLetter = (letter: string) => {
     if (gameStatus !== "playing" || isAnimating) return;
+    // 배열 변경 애니메이션
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setGuessedLetters((prev) => [...prev, letter]);
   };
 
@@ -166,19 +196,21 @@ export default function App() {
         disabled={isAnimating}
       />
 
-      <Modal visible={showModal} transparent animationType="fade">
-        <View style={modalStyles.overlay}>
-          <View style={modalStyles.modal}>
-            <Text style={modalStyles.modalTitle}>
+      <Modal visible={showModal} transparent animationType="none">
+        <View style={modal.overlay}>
+          <Animated.View
+            style={[modal.modal, { transform: [{ scale: modalScale }] }]}
+          >
+            <Text style={modal.title}>
               {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
             </Text>
-            <Text style={modalStyles.modalAnswer}>
+            <Text style={modal.answer}>
               Answer: {currentWord.word.toUpperCase()}
             </Text>
-            <TouchableOpacity style={modalStyles.button} onPress={handleNext}>
-              <Text style={modalStyles.buttonText}>Next</Text>
+            <TouchableOpacity style={modal.button} onPress={handleNext}>
+              <Text style={modal.buttonText}>Next</Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </View>
       </Modal>
     </SafeAreaView>
@@ -186,36 +218,66 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", padding: 20 },
-  title: { fontSize: 32, fontWeight: "bold", marginVertical: 10 },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: Colors.background,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color: Colors.primary,
+  },
   stats: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: "60%",
+    justifyContent: "center",
+    gap: 20,
     marginBottom: 10,
   },
-  placeholdersContainer: { flexDirection: "row", marginVertical: 20 },
-  letterPlaceholder: { fontSize: 40, marginHorizontal: 5 },
-  hintText: { fontSize: 18, color: "#555", marginVertical: 4 },
-  infoText: { fontSize: 16, marginVertical: 2 },
+  placeholdersContainer: {
+    flexDirection: "row",
+    marginVertical: 20,
+  },
+  letterPlaceholder: {
+    fontSize: 40,
+    marginHorizontal: 5,
+    color: Colors.text,
+  },
+  hintText: {
+    fontSize: 18,
+    color: Colors.hint,
+    marginVertical: 4,
+  },
+  infoText: {
+    fontSize: 16,
+    marginVertical: 2,
+    color: Colors.text,
+  },
 });
 
-const modalStyles = StyleSheet.create({
+const modal = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "#00000099",
+    backgroundColor: Colors.overlay,
     justifyContent: "center",
     alignItems: "center",
   },
   modal: {
-    backgroundColor: "#fff",
+    backgroundColor: Colors.modalBackground,
     padding: 24,
     borderRadius: 8,
     width: "80%",
     alignItems: "center",
   },
-  modalTitle: { fontSize: 24, fontWeight: "bold", marginBottom: 12 },
-  modalAnswer: { fontSize: 18, color: "#b00", marginBottom: 20 },
-  button: { backgroundColor: "#0066cc", padding: 10, borderRadius: 4 },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 12,
+    color: Colors.primary,
+  },
+  answer: { fontSize: 18, color: "#b00", marginBottom: 20 },
+  button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 4 },
   buttonText: { color: "#fff", fontSize: 16 },
 });
