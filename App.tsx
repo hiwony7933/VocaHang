@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,26 @@ import {
   Modal,
   TouchableOpacity,
   SafeAreaView,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { WordItem } from './src/types';
-import wordsData from './assets/data/words.json';
-import { Keyboard } from './src/components/Keyboard';
-import { HangmanDrawing } from './src/components/HangmanDrawing';
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { WordItem } from "./src/types";
+import wordsData from "./assets/data/words.json";
+import { Keyboard } from "./src/components/Keyboard";
+// import { HangmanDrawing } from "./src/components/HangmanDrawing";
+import { BalloonLife } from "./src/components/BalloonLife";
 
-type GameStatus = 'playing' | 'won' | 'lost';
+type GameStatus = "playing" | "won" | "lost";
 interface Stats {
   wins: number;
   losses: number;
 }
-const STATS_KEY = 'VocaHangStats';
+const STATS_KEY = "VocaHangStats";
 
 export default function App() {
   const [currentWord, setCurrentWord] = useState<WordItem | null>(null);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
+  const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
+  const [showModal, setShowModal] = useState(false);
   const [stats, setStats] = useState<Stats>({ wins: 0, losses: 0 });
   const maxTries = 6;
 
@@ -43,7 +45,8 @@ export default function App() {
     const idx = Math.floor(Math.random() * list.length);
     setCurrentWord(list[idx]);
     setGuessedLetters([]);
-    setGameStatus('playing');
+    setGameStatus("playing");
+    setShowModal(false); // 새 게임 시작할 땐 모달 숨김
   }
 
   // -- 틀린 글자 & 남은 기회
@@ -57,26 +60,36 @@ export default function App() {
 
   // -- 승패 감지 & 통계 갱신
   useEffect(() => {
-    if (!currentWord || gameStatus !== 'playing') return;
+    if (!currentWord || gameStatus !== "playing") return;
 
-    const letters = currentWord.word.toUpperCase().split('');
+    const letters = currentWord.word.toUpperCase().split("");
     const isWin = letters.every((c) => guessedLetters.includes(c));
 
     if (isWin) {
-      setGameStatus('won');
+      setGameStatus("won");
       const updated = { ...stats, wins: stats.wins + 1 };
       setStats(updated);
       AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
     } else if (remainingTries <= 0) {
-      setGameStatus('lost');
+      setGameStatus("lost");
       const updated = { ...stats, losses: stats.losses + 1 };
       setStats(updated);
       AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
     }
   }, [guessedLetters, remainingTries]);
 
+  /**
+   * gameStatus가 'won' 또는 'lost'로 바뀐 직후,
+   * 1초(1000ms) 뒤에 showModal을 true로 설정해서 모달 등장 딜레이 구현
+   */
+  useEffect(() => {
+    if (gameStatus === "playing") return;
+    const timer = setTimeout(() => setShowModal(true), 500);
+    return () => clearTimeout(timer);
+  }, [gameStatus]);
+
   const handlePressLetter = (letter: string) => {
-    if (gameStatus !== 'playing') return;
+    if (gameStatus !== "playing") return;
     setGuessedLetters((p) => [...p, letter]);
   };
 
@@ -101,16 +114,17 @@ export default function App() {
       </View>
 
       {/* 행맨 그림 */}
-      <HangmanDrawing wrongCount={wrongCount} />
+      {/* <HangmanDrawing wrongCount={wrongCount} /> */}
+      <BalloonLife remaining={remainingTries} max={maxTries} />
 
       {/* 단어 자리 표시 */}
       <View style={styles.placeholdersContainer}>
         {currentWord.word
           .toUpperCase()
-          .split('')
+          .split("")
           .map((char, i) => (
             <Text key={i} style={styles.letterPlaceholder}>
-              {guessedLetters.includes(char) ? char : '_'}
+              {guessedLetters.includes(char) ? char : "_"}
             </Text>
           ))}
       </View>
@@ -122,7 +136,7 @@ export default function App() {
       {/* 상태 표시 */}
       <Text style={styles.infoText}>남은 기회: {remainingTries}</Text>
       <Text style={styles.infoText}>
-        틀린 글자: {wrongLetters.join(', ') || '없음'}
+        틀린 글자: {wrongLetters.join(", ") || "없음"}
       </Text>
 
       {/* 키보드 */}
@@ -132,17 +146,16 @@ export default function App() {
       />
 
       {/* 결과 모달 */}
-      <Modal visible={gameStatus !== 'playing'} transparent animationType="fade">
+      <Modal visible={showModal} transparent animationType="fade">
         <View style={modal.overlay}>
           <View style={modal.modal}>
             <Text style={modal.title}>
-              {gameStatus === 'won' ? '🎉 You Win!' : '😢 You Lose'}
+              {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
             </Text>
-            {gameStatus === 'lost' && (
-              <Text style={modal.answer}>
-                Answer: {currentWord.word.toUpperCase()}
-              </Text>
-            )}
+            {/* 승·패 상관없이 항상 정답 노출 */}
+            <Text style={modal.answer}>
+              Answer: {currentWord.word.toUpperCase()}
+            </Text>
             <TouchableOpacity style={modal.button} onPress={handleNext}>
               <Text style={modal.buttonText}>Next</Text>
             </TouchableOpacity>
@@ -154,20 +167,31 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', padding: 20 },
-  title: { fontSize: 32, fontWeight: 'bold', marginVertical: 10 },
-  stats: { flexDirection: 'row', gap: 20, marginBottom: 10 },
-  placeholdersContainer: { flexDirection: 'row', marginVertical: 20 },
+  container: { flex: 1, alignItems: "center", padding: 20 },
+  title: { fontSize: 32, fontWeight: "bold", marginVertical: 10 },
+  stats: { flexDirection: "row", gap: 20, marginBottom: 10 },
+  placeholdersContainer: { flexDirection: "row", marginVertical: 20 },
   letterPlaceholder: { fontSize: 40, marginHorizontal: 5 },
-  hintText: { fontSize: 18, color: '#555', marginVertical: 4 },
+  hintText: { fontSize: 18, color: "#555", marginVertical: 4 },
   infoText: { fontSize: 16, marginVertical: 2 },
 });
-  
+
 const modal = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: '#00000099', justifyContent: 'center', alignItems: 'center' },
-  modal: { backgroundColor: '#fff', padding: 24, borderRadius: 8, width: '80%', alignItems: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 12 },
-  answer: { fontSize: 18, color: '#b00', marginBottom: 20 },
-  button: { backgroundColor: '#0066cc', padding: 10, borderRadius: 4 },
-  buttonText: { color: '#fff', fontSize: 16 },
+  overlay: {
+    flex: 1,
+    backgroundColor: "#00000099",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modal: {
+    backgroundColor: "#fff",
+    padding: 24,
+    borderRadius: 8,
+    width: "80%",
+    alignItems: "center",
+  },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 12 },
+  answer: { fontSize: 18, color: "#b00", marginBottom: 20 },
+  button: { backgroundColor: "#0066cc", padding: 10, borderRadius: 4 },
+  buttonText: { color: "#fff", fontSize: 16 },
 });
