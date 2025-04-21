@@ -18,6 +18,7 @@ import wordsData from "./assets/data/words.json";
 import { Keyboard } from "./src/components/Keyboard";
 import { BalloonLife } from "./src/components/BalloonLife";
 import { Colors } from "./src/constants/theme";
+import NetInfo from "@react-native-community/netinfo";
 
 type GameStatus = "playing" | "won" | "lost";
 
@@ -40,6 +41,8 @@ if (
 }
 
 export default function App() {
+  const [isConnected, setIsConnected] = useState<boolean>(true);
+
   // 현재 단어 정보
   const [currentWord, setCurrentWord] = useState<WordItem | null>(null);
   // 사용자가 추측한 글자 목록
@@ -66,6 +69,13 @@ export default function App() {
   const modalScale = useRef(new Animated.Value(0.8)).current;
   // 각 글자별 스케일 애니메이션 값 배열
   const letterAnims = useRef<Animated.Value[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsConnected(state.isConnected === true);
+    });
+    return unsubscribe;
+  }, []);
 
   // AsyncStorage에서 통계 로드
   useEffect(() => {
@@ -343,6 +353,13 @@ export default function App() {
           </Animated.View>
         </View>
       </Modal>
+      {!isConnected && (
+        <View style={styles.offlineBanner}>
+          <Text style={styles.offlineText}>
+            ⚠️ 오프라인 모드 — 인터넷 연결이 없습니다
+          </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -431,6 +448,16 @@ const styles = StyleSheet.create({
     color: Colors.textDisabled,
     marginTop: 2,
     textTransform: "uppercase",
+  },
+  offlineBanner: {
+    width: "100%",
+    backgroundColor: "#ffcc00",
+    padding: 8,
+    alignItems: "center",
+  },
+  offlineText: {
+    color: "#333",
+    fontSize: 14,
   },
 });
 
