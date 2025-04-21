@@ -24,7 +24,17 @@ export function BalloonLife({ remaining }: BalloonLifeProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", marginVertical: 16 },
-  balloon: { fontSize: 32, marginHorizontal: 4 },
-  pop: { fontSize: 32, marginHorizontal: 4 },
+  container: {
+    flexDirection: "row",
+    marginVertical: 24, // 위아래 여백 살짝 더
+    justifyContent: "center",
+  },
+  balloon: {
+    fontSize: 48, // 크기를 32→48로 키움
+    marginHorizontal: 6,
+  },
+  pop: {
+    fontSize: 48, // 팡! 아이콘도 동일 크기
+    marginHorizontal: 6,
+  },
 });

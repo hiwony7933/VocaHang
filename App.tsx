@@ -166,16 +166,20 @@ export default function App() {
             </Text>
           ))}
       </View>
-      <Text style={styles.hintText}>힌트1: {currentWord.hints.hint1}</Text>
-      <Text style={styles.hintText}>힌트2: {currentWord.hints.hint2}</Text>
-      <Text style={styles.infoText}>
-        틀린 글자: {wrongLetters.join(", ") || "없음"}
-      </Text>
-      <Keyboard
-        onPressLetter={handlePressLetter}
-        disabledLetters={guessedLetters}
-        disabled={isAnimating}
-      />
+      <View style={styles.hintWrapper}>
+        <Text style={styles.hintText}>힌트1: {currentWord.hints.hint1}</Text>
+        <Text style={styles.hintText}>힌트2: {currentWord.hints.hint2}</Text>
+        <Text style={styles.infoText}>
+          틀린 글자: {wrongLetters.join(", ") || "없음"}
+        </Text>
+      </View>
+      <View style={styles.keyboardWrapper}>
+        <Keyboard
+          onPressLetter={handlePressLetter}
+          disabledLetters={guessedLetters}
+          disabled={isAnimating}
+        />
+      </View>
       <Modal visible={showModal} transparent animationType="none">
         <View style={modal.overlay}>
           <Animated.View
@@ -221,6 +225,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
   },
+  hintWrapper: {
+    width: "100%",
+    paddingVertical: 12, // 위아래 여유 공간
+    alignItems: "center",
+  },
   letterPlaceholder: {
     fontSize: 40,
     marginHorizontal: 6,
@@ -229,12 +238,16 @@ const styles = StyleSheet.create({
   hintText: {
     fontSize: 18,
     color: Colors.hint,
-    marginVertical: 4,
+    marginVertical: 6,
   },
   infoText: {
     fontSize: 16,
     color: Colors.text,
-    marginVertical: 4,
+    marginVertical: 6,
+  },
+  keyboardWrapper: {
+    width: "100%",
+    marginTop: 24, // 키보드 위에 충분한 여백
   },
 });
 
