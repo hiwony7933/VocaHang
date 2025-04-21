@@ -5,16 +5,13 @@ import { Colors } from "../constants/theme";
 
 interface KeyboardProps {
   onPressLetter: (letter: string) => void;
-  disabledLetters: string[];
-  disabled?: boolean;
+  disabledLetters: string[]; // 이미 눌렀거나 사용 불가한 글자 목록
+  disabled?: boolean; // 애니메이션 등으로 전체 비활성화할 때
 }
 
-const ALPHABET = Array.from(Array(26)).map((_, i) =>
+const ALPHABET = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(65 + i)
 );
-
-// 3줄 레이아웃: 9-9-8
-const ROWS = [ALPHABET.slice(0, 9), ALPHABET.slice(9, 18), ALPHABET.slice(18)];
 
 export function Keyboard({
   onPressLetter,
@@ -23,54 +20,46 @@ export function Keyboard({
 }: KeyboardProps) {
   return (
     <View style={styles.container}>
-      {ROWS.map((row, rowIndex) => (
-        <View key={rowIndex} style={styles.row}>
-          {row.map((letter) => {
-            const isDisabled = disabled || disabledLetters.includes(letter);
-            return (
-              <Pressable
-                key={letter}
-                onPress={() => !isDisabled && onPressLetter(letter)}
-                style={({ pressed }) => [
-                  styles.key,
-                  isDisabled
-                    ? styles.keyDisabled
-                    : pressed
-                    ? styles.keyPressed
-                    : styles.keyEnabled,
-                ]}
-                disabled={isDisabled}
-              >
-                <Text
-                  style={[
-                    styles.keyText,
-                    isDisabled ? styles.keyTextDisabled : null,
-                  ]}
-                >
-                  {letter}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-      ))}
+      {ALPHABET.map((letter) => {
+        const isDisabled = disabled || disabledLetters.includes(letter);
+        return (
+          <Pressable
+            key={letter}
+            onPress={() => !isDisabled && onPressLetter(letter)}
+            style={({ pressed }) => [
+              styles.key,
+              isDisabled
+                ? styles.keyDisabled
+                : pressed
+                ? styles.keyPressed
+                : styles.keyEnabled,
+            ]}
+            disabled={isDisabled}
+            android_ripple={{ color: Colors.primaryDark }}
+          >
+            <Text
+              style={[styles.keyText, isDisabled && styles.keyTextDisabled]}
+            >
+              {letter}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
-  },
-  row: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginVertical: 4,
+    flexWrap: "wrap", // 화면 너비에 맞춰 자동 줄바꿈
+    justifyContent: "center", // 가운데 정렬
+    marginVertical: 16,
   },
   key: {
     width: 36,
     height: 44,
-    marginHorizontal: 4,
+    margin: 6, // 상하좌우 균일한 간격
     borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
@@ -87,7 +76,7 @@ const styles = StyleSheet.create({
   keyText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "white",
+    color: "#FFFFFF",
   },
   keyTextDisabled: {
     color: Colors.textDisabled,

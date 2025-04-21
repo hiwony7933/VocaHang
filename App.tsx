@@ -1,13 +1,12 @@
 // App.tsx
-
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
+  SafeAreaView,
   Modal,
   TouchableOpacity,
-  SafeAreaView,
   LayoutAnimation,
   Platform,
   UIManager,
@@ -21,7 +20,6 @@ import { BalloonLife } from "./src/components/BalloonLife";
 import { Colors } from "./src/constants/theme";
 
 type GameStatus = "playing" | "won" | "lost";
-
 interface Stats {
   wins: number;
   losses: number;
@@ -29,7 +27,8 @@ interface Stats {
 
 const STATS_KEY = "VocaHangStats";
 const MAX_TRIES = 6;
-// Android에서는 명시적으로 활성화 필요
+
+// Android: LayoutAnimation 활성화
 if (
   Platform.OS === "android" &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -43,10 +42,76 @@ export default function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
   const [stats, setStats] = useState<Stats>({ wins: 0, losses: 0 });
   const [showModal, setShowModal] = useState(false);
+  const [displayTries, setDisplayTries] = useState(MAX_TRIES);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  /* inside App() */
+  const prevWrongCount = useRef(0);
   const modalScale = useRef(new Animated.Value(0.8)).current;
-  // 모달 등장 스케일 애니메이션
+
+  // Load stats
+  useEffect(() => {
+    AsyncStorage.getItem(STATS_KEY).then((raw) => {
+      if (raw) setStats(JSON.parse(raw));
+    });
+  }, []);
+
+  // Initial word
+  useEffect(() => {
+    pickNewWord();
+  }, []);
+
+  function pickNewWord() {
+    const list: WordItem[] = (wordsData as { wordList: WordItem[] }).wordList;
+    const idx = Math.floor(Math.random() * list.length);
+    setCurrentWord(list[idx]);
+    setGuessedLetters([]);
+    setGameStatus("playing");
+    setShowModal(false);
+    setDisplayTries(MAX_TRIES);
+    prevWrongCount.current = 0;
+  }
+
+  // Wrong letters & remaining
+  const wrongLetters = currentWord
+    ? guessedLetters.filter((l) => !currentWord.word.toUpperCase().includes(l))
+    : [];
+  const remainingTries = Math.max(0, MAX_TRIES - wrongLetters.length);
+
+  // Balloon animation & lock input
+  useEffect(() => {
+    const newWrong = wrongLetters.length;
+    const diff = newWrong - prevWrongCount.current;
+    if (diff > 0) {
+      setIsAnimating(true);
+      for (let i = 1; i <= diff; i++) {
+        setTimeout(() => {
+          setDisplayTries((prev) => Math.max(0, prev - 1));
+          if (i === diff) setIsAnimating(false);
+        }, 200 * i);
+      }
+    }
+    prevWrongCount.current = newWrong;
+  }, [wrongLetters.length]);
+
+  // Win/Lose detection & update stats
+  useEffect(() => {
+    if (!currentWord || gameStatus !== "playing") return;
+    const letters = currentWord.word.toUpperCase().split("");
+    const isWin = letters.every((c) => guessedLetters.includes(c));
+    if (isWin) {
+      setGameStatus("won");
+      const updated = { ...stats, wins: stats.wins + 1 };
+      setStats(updated);
+      AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
+    } else if (remainingTries <= 0) {
+      setGameStatus("lost");
+      const updated = { ...stats, losses: stats.losses + 1 };
+      setStats(updated);
+      AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
+    }
+  }, [guessedLetters, remainingTries]);
+
+  // Modal scale animation
   useEffect(() => {
     if (showModal) {
       modalScale.setValue(0.8);
@@ -59,99 +124,21 @@ export default function App() {
     }
   }, [showModal]);
 
-  // animation state
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // for balloon display animation
-  const [displayTries, setDisplayTries] = useState(MAX_TRIES);
-  const prevWrongCount = useRef(0);
-
-  // Load stats from storage
-  useEffect(() => {
-    AsyncStorage.getItem(STATS_KEY).then((raw) => {
-      if (raw) setStats(JSON.parse(raw));
-    });
-  }, []);
-
-  // Initialize first word
-  useEffect(() => {
-    pickNewWord();
-  }, []);
-
-  function pickNewWord() {
-    const list: WordItem[] = (wordsData as { wordList: WordItem[] }).wordList;
-    const idx = Math.floor(Math.random() * list.length);
-    setCurrentWord(list[idx]);
-    setGuessedLetters([]);
-    setGameStatus("playing");
-    setShowModal(false);
-
-    // reset balloons
-    setDisplayTries(MAX_TRIES);
-    prevWrongCount.current = 0;
-  }
-
-  // compute wrong letters and remaining tries
-  const wrongLetters = currentWord
-    ? guessedLetters.filter((l) => !currentWord.word.toUpperCase().includes(l))
-    : [];
-  const remainingTries = Math.max(0, MAX_TRIES - wrongLetters.length);
-
-  // animate balloon loss with delay
-  useEffect(() => {
-    const newWrong = wrongLetters.length;
-    const diff = newWrong - prevWrongCount.current;
-    if (diff > 0) {
-      setIsAnimating(true);
-      for (let i = 1; i <= diff; i++) {
-        setTimeout(() => {
-          setDisplayTries((prev) => Math.max(0, prev - 1));
-          if (i === diff) {
-            setIsAnimating(false);
-          }
-        }, 200 * i);
-      }
-    }
-    prevWrongCount.current = newWrong;
-  }, [wrongLetters.length]);
-
-  // win/loss detection & stats update
-  useEffect(() => {
-    if (!currentWord || gameStatus !== "playing") return;
-
-    const letters = currentWord.word.toUpperCase().split("");
-    const isWin = letters.every((c) => guessedLetters.includes(c));
-
-    if (isWin) {
-      setGameStatus("won");
-      const updated = { wins: stats.wins + 1, losses: stats.losses };
-      setStats(updated);
-      AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
-    } else if (remainingTries <= 0) {
-      setGameStatus("lost");
-      const updated = { wins: stats.wins, losses: stats.losses + 1 };
-      setStats(updated);
-      AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
-    }
-  }, [guessedLetters, remainingTries]);
-
-  // delay showing modal by 1 second
+  // Delay showing modal
   useEffect(() => {
     if (gameStatus === "playing") return;
-    const timer = setTimeout(() => setShowModal(true), 1000);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setShowModal(true), 1000);
+    return () => clearTimeout(t);
   }, [gameStatus]);
 
+  // Handle letter press with LayoutAnimation
   const handlePressLetter = (letter: string) => {
     if (gameStatus !== "playing" || isAnimating) return;
-    // 배열 변경 애니메이션
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setGuessedLetters((prev) => [...prev, letter]);
   };
 
-  const handleNext = () => {
-    pickNewWord();
-  };
+  const handleNext = () => pickNewWord();
 
   if (!currentWord) {
     return (
@@ -164,14 +151,11 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>VocaHang 🚀</Text>
-
       <View style={styles.stats}>
-        <Text>🏆 Wins: {stats.wins}</Text>
-        <Text>💀 Losses: {stats.losses}</Text>
+        <Text>🏆 {stats.wins}</Text>
+        <Text>💀 {stats.losses}</Text>
       </View>
-
       <BalloonLife remaining={displayTries} />
-
       <View style={styles.placeholdersContainer}>
         {currentWord.word
           .toUpperCase()
@@ -182,20 +166,16 @@ export default function App() {
             </Text>
           ))}
       </View>
-
       <Text style={styles.hintText}>힌트1: {currentWord.hints.hint1}</Text>
       <Text style={styles.hintText}>힌트2: {currentWord.hints.hint2}</Text>
-
       <Text style={styles.infoText}>
         틀린 글자: {wrongLetters.join(", ") || "없음"}
       </Text>
-
       <Keyboard
         onPressLetter={handlePressLetter}
         disabledLetters={guessedLetters}
         disabled={isAnimating}
       />
-
       <Modal visible={showModal} transparent animationType="none">
         <View style={modal.overlay}>
           <Animated.View
@@ -220,21 +200,22 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    padding: 20,
     backgroundColor: Colors.background,
+    paddingVertical: 20,
+    paddingHorizontal: 32,
+    alignItems: "center",
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    marginVertical: 10,
     color: Colors.primary,
+    marginBottom: 12,
   },
   stats: {
     flexDirection: "row",
     justifyContent: "center",
     gap: 20,
-    marginBottom: 10,
+    marginBottom: 16,
   },
   placeholdersContainer: {
     flexDirection: "row",
@@ -242,7 +223,7 @@ const styles = StyleSheet.create({
   },
   letterPlaceholder: {
     fontSize: 40,
-    marginHorizontal: 5,
+    marginHorizontal: 6,
     color: Colors.text,
   },
   hintText: {
@@ -252,8 +233,8 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 16,
-    marginVertical: 2,
     color: Colors.text,
+    marginVertical: 4,
   },
 });
 
@@ -265,19 +246,31 @@ const modal = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
+    width: "80%",
     backgroundColor: Colors.modalBackground,
     padding: 24,
     borderRadius: 8,
-    width: "80%",
     alignItems: "center",
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 12,
     color: Colors.primary,
+    marginBottom: 12,
   },
-  answer: { fontSize: 18, color: "#b00", marginBottom: 20 },
-  button: { backgroundColor: Colors.primary, padding: 10, borderRadius: 4 },
-  buttonText: { color: "#fff", fontSize: 16 },
+  answer: {
+    fontSize: 18,
+    color: "#b00",
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
 });
