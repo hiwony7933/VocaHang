@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,142 +11,139 @@ import {
   Animated,
   Modal,
   TouchableOpacity,
-} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { WordItem } from "./src/types";
-import wordsData from "./assets/data/words.json";
-import { Keyboard } from "./src/components/Keyboard";
-import { BalloonLife } from "./src/components/BalloonLife";
-import { Colors } from "./src/constants/theme";
-import NetInfo from "@react-native-community/netinfo";
+} from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { WordItem } from './src/types';
+import wordsData from './assets/data/words.json';
+import { Keyboard } from './src/components/Keyboard';
+import { BalloonLife } from './src/components/BalloonLife';
+import { Colors } from './src/constants/theme';
 
-type GameStatus = "playing" | "won" | "lost";
-
+// 게임 상태 타입 정의
+type GameStatus = 'playing' | 'won' | 'lost';
+// 통계 인터페이스
 interface Stats {
   wins: number;
   losses: number;
-  bestStreak: number;
   currentStreak: number;
+  bestStreak: number;
 }
 
-const STATS_KEY = "VocaHangStats";
+const STATS_KEY = 'VocaHangStats';
 const MAX_TRIES = 6;
 
-// Android에서 LayoutAnimation 사용을 위해 설정
+// Android에서 LayoutAnimation 활성화
 if (
-  Platform.OS === "android" &&
+  Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 export default function App() {
-  const [isConnected, setIsConnected] = useState<boolean>(true);
+  /* 네트워크 상태 */
+  const [isConnected, setIsConnected] = useState(true);
 
-  // 현재 단어 정보
+  /* 게임 관련 상태 */
   const [currentWord, setCurrentWord] = useState<WordItem | null>(null);
-  // 사용자가 추측한 글자 목록
-  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
-  // 게임 상태: 진행 중, 승리, 패배
-  const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
-  // 통계: 승리/패배 횟수
+  const [currentIndex, setCurrentIndex] = useState(0); // 순서 제한용 인덱스
+  const [wrongGuesses, setWrongGuesses] = useState<string[]>([]); // 틀린 글자만 저장
+  const [displayTries, setDisplayTries] = useState(MAX_TRIES);  // 풍선 수
+  const [isAnimating, setIsAnimating] = useState(false);       // 애니메이션 잠금 플래그
+  const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
+  const [showModal, setShowModal] = useState(false);
+
+  /* 통계 상태 */
   const [stats, setStats] = useState<Stats>({
     wins: 0,
     losses: 0,
-    bestStreak: 0,
     currentStreak: 0,
+    bestStreak: 0,
   });
-  // 결과 모달 표시 여부
-  const [showModal, setShowModal] = useState(false);
-  // 풍선 생명력 표시용 남은 기회
-  const [displayTries, setDisplayTries] = useState(MAX_TRIES);
-  // 풍선 애니메이션 중 입력 차단 플래그
-  const [isAnimating, setIsAnimating] = useState(false);
-   const handleBalloonPopComplete = () => {
-       setIsAnimating(false);
-     };
 
-  // 이전 틀린 횟수 저장용 ref
+  // 레퍼런스: 이전 틀린 횟수, 모달 스케일, 글자별 애니메이션
   const prevWrongCount = useRef(0);
-  // 모달 등장 스케일 애니메이션 값
   const modalScale = useRef(new Animated.Value(0.8)).current;
-  // 각 글자별 스케일 애니메이션 값 배열
   const letterAnims = useRef<Animated.Value[]>([]);
 
+  // 네트워크 상태 구독
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsConnected(state.isConnected === true);
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(!!state.isConnected);
     });
     return unsubscribe;
   }, []);
 
   // AsyncStorage에서 통계 로드
   useEffect(() => {
-    AsyncStorage.getItem(STATS_KEY).then((raw) => {
-      if (raw) {
-        const saved: Stats = JSON.parse(raw);
-        setStats(saved);
-      }
+    AsyncStorage.getItem(STATS_KEY).then(raw => {
+      if (raw) setStats(JSON.parse(raw));
     });
   }, []);
 
-  // 앱 시작 시 첫 단어 선택
-  useEffect(() => {
-    pickNewWord();
-  }, []);
+  // 첫 단어 선택
+  useEffect(() => pickNewWord(), []);
 
-  // 단어가 바뀔 때마다 글자 애니메이션 값 초기화
+  // 단어 변경 시 글자 애니메이션 초기화
   useEffect(() => {
     if (!currentWord) return;
     letterAnims.current = currentWord.word
       .toUpperCase()
-      .split("")
+      .split('')
       .map(() => new Animated.Value(0));
   }, [currentWord]);
 
   // 새 단어 선택 및 상태 초기화
   function pickNewWord() {
     const list = (wordsData as { wordList: WordItem[] }).wordList;
-    const idx = Math.floor(Math.random() * list.length);
-    setCurrentWord(list[idx]);
-    setGuessedLetters([]);
-    setGameStatus("playing");
-    setShowModal(false);
+    const wordItem = list[Math.floor(Math.random() * list.length)];
+
+    // 글자별 애니메이션 값 초기화
+    letterAnims.current = wordItem.word
+      .toUpperCase()
+      .split('')
+      .map(() => new Animated.Value(0));
+
+    setCurrentWord(wordItem);
+    setCurrentIndex(0);
+    setWrongGuesses([]);
     setDisplayTries(MAX_TRIES);
     prevWrongCount.current = 0;
+    setGameStatus('playing');
+    setShowModal(false);
   }
 
-  // 틀린 글자 목록 계산
-  const wrongLetters = currentWord
-    ? guessedLetters.filter((l) => !currentWord.word.toUpperCase().includes(l))
-    : [];
-  // 남은 기회 계산
-  const remainingTries = Math.max(0, MAX_TRIES - wrongLetters.length);
+  // 답안 및 남은 글자 계산
+  const answer = currentWord?.word.toUpperCase() || '';
 
-  // 풍선(`displayTries`) 애니메이션 및 입력 잠금 처리
+  // 틀린 횟수 및 남은 기회
+  const wrongCount = wrongGuesses.length;
+  const remainingTries = Math.max(0, MAX_TRIES - wrongCount);
+
+  // 풍선 애니메이션 및 입력 잠금 (틀린 글자 증가 시)
   useEffect(() => {
-    const newWrong = wrongLetters.length;
+    const newWrong = wrongCount;
     const diff = newWrong - prevWrongCount.current;
     if (diff > 0) {
       setIsAnimating(true);
       for (let i = 1; i <= diff; i++) {
         setTimeout(() => {
-          setDisplayTries((prev) => Math.max(0, prev - 1));
-          if (i === diff) setIsAnimating(false);
+          setDisplayTries(t => Math.max(0, t - 1));
         }, 200 * i);
       }
     }
     prevWrongCount.current = newWrong;
-  }, [wrongLetters.length]);
+  }, [wrongCount]);
 
   // 승패 감지 및 통계 업데이트
   useEffect(() => {
-    if (!currentWord || gameStatus !== "playing") return;
-    const letters = currentWord.word.toUpperCase().split("");
-    const isWin = letters.every((c) => guessedLetters.includes(c));
-    if (isWin) {
-      setGameStatus("won");
-      // 연승 갱신
+    if (!currentWord || gameStatus !== 'playing') return;
+
+    // 순서 제한: 인덱스가 답안 길이와 같으면 승리
+    if (currentIndex === answer.length) {
+      setGameStatus('won');
+      // 통계 갱신: 승리, 연승 업데이트
       const newCurrent = stats.currentStreak + 1;
       const newBest = Math.max(stats.bestStreak, newCurrent);
       const updated: Stats = {
@@ -158,8 +155,8 @@ export default function App() {
       setStats(updated);
       AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
     } else if (remainingTries <= 0) {
-      setGameStatus("lost");
-      // 연승 리셋
+      setGameStatus('lost');
+      // 통계 갱신: 패배, 연승 리셋
       const updated: Stats = {
         ...stats,
         losses: stats.losses + 1,
@@ -168,61 +165,55 @@ export default function App() {
       setStats(updated);
       AsyncStorage.setItem(STATS_KEY, JSON.stringify(updated));
     }
-  }, [guessedLetters, remainingTries]);
+  }, [currentIndex, remainingTries]);
 
-  // 모달 등장 시 스케일 애니메이션 실행
+  // 모달 스케일 애니메이션
   useEffect(() => {
     if (showModal) {
       modalScale.setValue(0.8);
       Animated.spring(modalScale, {
         toValue: 1,
-        useNativeDriver: true,
         friction: 6,
         tension: 75,
-      }).start();
+        useNativeDriver: false,
+      }).start(() => setIsAnimating(false));
     }
   }, [showModal]);
 
-  // 게임 종료 직후 1초 뒤에 모달 표시
+  // 게임 종료 후 1초 뒤 모달 표시
   useEffect(() => {
-    if (gameStatus === "playing") return;
-    const t = setTimeout(() => setShowModal(true), 1000);
-    return () => clearTimeout(t);
+    if (gameStatus !== 'playing') {
+      setTimeout(() => setShowModal(true), 1000);
+    }
   }, [gameStatus]);
 
-  // 글자 선택 핸들러: LayoutAnimation과 글자 스케일 애니메이션 실행
+  // 글자 선택 핸들러 (순서 제한)
   const handlePressLetter = (letter: string) => {
-    if (gameStatus !== "playing" || isAnimating) return;
+    if (gameStatus !== 'playing' || isAnimating || !currentWord) return;
 
-    // 레이아웃 전환 애니메이션
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    // 맞춘 글자만 스케일 애니메이션
-    if (currentWord) {
-      currentWord.word
-        .toUpperCase()
-        .split("")
-        .forEach((c, i) => {
-          if (c === letter) {
-            const anim = letterAnims.current[i];
-            anim.setValue(0);
-            Animated.spring(anim, {
-              toValue: 1,
-              useNativeDriver: true,
-              friction: 4,
-              tension: 50,
-            }).start();
-          }
-        });
+    // 다음 맞춰야 할 글자와 비교
+    if (letter === answer[currentIndex]) {
+      // 맞춘 글자 스케일 애니메이션
+      const anim = letterAnims.current[currentIndex];
+      anim.setValue(0);
+      Animated.spring(anim, {
+        toValue: 1,
+        friction: 4,
+        tension: 50,
+        useNativeDriver: false,
+      }).start();
+      setCurrentIndex(idx => idx + 1);
+    } else {
+      // 틀린 글자 기록
+      setWrongGuesses(prev => [...prev, letter]);
     }
-
-    setGuessedLetters((prev) => [...prev, letter]);
   };
 
-  // 다음 문제 버튼 핸들러
+  // 다음 문제로 이동
   const handleNext = () => pickNewWord();
 
-  // 단어 로딩 전 로딩 화면
   if (!currentWord) {
     return (
       <View style={styles.container}>
@@ -231,12 +222,34 @@ export default function App() {
     );
   }
 
+  // 견고한 disabled 로직: 빈도 카운팅
+  const freq: Record<string, number> = {};
+  answer.split('').forEach(c => { freq[c] = (freq[c] || 0) + 1; });
+  const used: Record<string, number> = {};
+  answer.split('').slice(0, currentIndex).forEach(c => { used[c] = (used[c] || 0) + 1; });
+  const overUsed = Object.entries(used)
+    .filter(([c, count]) => count >= (freq[c] || 0))
+    .map(([c]) => c);
+  const disabledLetters = [
+    ...wrongGuesses.filter(l => !answer.slice(currentIndex).includes(l)),
+    ...overUsed,
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* 타이틀 */}
-      <Text style={styles.title}>VocaMan 🚀</Text>
+      {/* 오프라인 배너 */}
+      {!isConnected && (
+        <View style={styles.offlineBanner}>
+          <Text style={styles.offlineText}>
+            ⚠️ 오프라인 모드 — 인터넷 연결 없음
+          </Text>
+        </View>
+      )}
 
-      {/* 통계 표시 (카드 형태) */}
+      {/* 타이틀 */}
+      <Text style={styles.title}>VocaHang 🚀</Text>
+
+      {/* 통계 카드 형태 */}
       <View style={styles.statsContainer}>
         <View style={styles.statBox}>
           <Text style={styles.statIcon}>🏆</Text>
@@ -260,65 +273,46 @@ export default function App() {
         </View>
       </View>
 
-           {/* onPopComplete 전달 */}
-     <BalloonLife
-       remaining={displayTries}
-       onPopComplete={handleBalloonPopComplete}
-     />
+      {/* 풍선 생명력 */}
+      <BalloonLife
+        remaining={displayTries}
+        onPopComplete={() => setIsAnimating(false)}
+      />
 
-      {/* 단어 밑줄 & 맞춘 글자 */}
+      {/* 밑줄+글자 (순서 제한) */}
       <View style={styles.placeholdersContainer}>
-        {currentWord.word
-          .toUpperCase()
-          .split("")
-          .map((char, i) => {
-            const revealed = guessedLetters.includes(char);
-            const anim = letterAnims.current[i];
-            // 애니메이션 값이 준비되지 않았으면 기본 텍스트
-            if (!anim) {
-              return (
-                <Text key={i} style={styles.letterPlaceholder}>
-                  {revealed ? char : "_"}
-                </Text>
-              );
-            }
-            // 1) 크기 보간: 1.5배 → 1배
-            const scale = anim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [1.5, 1],
-            });
-            // 2) 색상 보간: 강조색(primary) → 기본색(text)
-            const color = anim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [Colors.primary, Colors.text],
-            });
+        {answer.split('').map((char, i) => {
+          const revealed = i < currentIndex;
+          const anim = letterAnims.current[i];
+          if (!anim) {
             return (
-              <Animated.Text
-                key={i}
-                style={[
-                  styles.letterPlaceholder,
-                  revealed && {
-                    transform: [{ scale }],
-                    color, // interpolate된 컬러 적용
-                  },
-                ]}
-              >
-                {revealed ? char : "_"}
-              </Animated.Text>
+              <Text key={i} style={styles.letterPlaceholder}>
+                {revealed ? char : '_'}
+              </Text>
             );
-          })}
+          }
+          const scale = anim.interpolate({ inputRange: [0,1], outputRange: [1.5,1] });
+          const color = anim.interpolate({ inputRange: [0,1], outputRange: [Colors.primary, Colors.text] });
+          return (
+            <Animated.Text
+              key={i}
+              style={[
+                styles.letterPlaceholder,
+                revealed && { transform: [{ scale }], color }
+              ]}
+            >
+              {revealed ? char : '_'}
+            </Animated.Text>
+          );
+        })}
       </View>
 
-      {/* 힌트 및 틀린 글자 */}
+      {/* 힌트 & 틀린 글자 */}
       <View style={styles.hintWrapper}>
-        <Text style={styles.hintText} accessibilityLiveRegion="polite">
-          힌트1: {currentWord.hints.hint1}
-        </Text>
-        <Text style={styles.hintText} accessibilityLiveRegion="polite">
-          힌트2: {currentWord.hints.hint2}
-        </Text>
-        <Text style={styles.infoText} accessibilityLiveRegion="polite">
-          틀린 글자: {wrongLetters.join(", ") || "없음"}
+        <Text style={styles.hintText}>힌트1: {currentWord.hints.hint1}</Text>
+        <Text style={styles.hintText}>힌트2: {currentWord.hints.hint2}</Text>
+        <Text style={styles.infoText}>
+          틀린 글자: {wrongGuesses.join(', ') || '없음'}
         </Text>
       </View>
 
@@ -326,7 +320,7 @@ export default function App() {
       <View style={styles.keyboardWrapper}>
         <Keyboard
           onPressLetter={handlePressLetter}
-          disabledLetters={guessedLetters}
+          disabledLetters={disabledLetters}
           disabled={isAnimating}
         />
       </View>
@@ -336,17 +330,15 @@ export default function App() {
         visible={showModal}
         transparent
         animationType="none"
-        accessibilityViewIsModal={true}
+        accessibilityViewIsModal
       >
         <View style={modalStyles.overlay}>
-          <Animated.View
-            style={[modalStyles.modal, { transform: [{ scale: modalScale }] }]}
-          >
+          <Animated.View style={[modalStyles.modal, { transform: [{ scale: modalScale }] }]}>
             <Text style={modalStyles.modalTitle} accessibilityRole="header">
-              {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
+              {gameStatus === 'won' ? '🎉 You Win!' : '😢 You Lose'}
             </Text>
             <Text style={modalStyles.modalAnswer}>
-              Answer: {currentWord.word.toUpperCase()}
+              Answer: {answer}
             </Text>
             <TouchableOpacity
               style={modalStyles.modalButton}
@@ -359,13 +351,6 @@ export default function App() {
           </Animated.View>
         </View>
       </Modal>
-      {!isConnected && (
-        <View style={styles.offlineBanner}>
-          <Text style={styles.offlineText}>
-            ⚠️ 오프라인 모드 — 인터넷 연결이 없습니다
-          </Text>
-        </View>
-      )}
     </SafeAreaView>
   );
 }
@@ -377,22 +362,59 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     paddingVertical: 20,
     paddingHorizontal: 32,
-    alignItems: "center",
+    alignItems: 'center',
+  },
+  offlineBanner: {
+    width: '100%',
+    backgroundColor: '#ffcc00',
+    padding: 8,
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  offlineText: {
+    color: '#333',
+    fontSize: 14,
   },
   title: {
     fontSize: 32,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.primary,
     marginBottom: 12,
   },
-  stats: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 20,
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
     marginBottom: 16,
   },
+  statBox: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginHorizontal: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  statIcon: { fontSize: 20 },
+  statNumber: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 4,
+    color: Colors.text,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: Colors.textDisabled,
+    marginTop: 2,
+    textTransform: 'uppercase',
+  },
   placeholdersContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 20,
   },
   letterPlaceholder: {
@@ -401,9 +423,9 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
   hintWrapper: {
-    width: "100%",
+    width: '100%',
     paddingVertical: 12,
-    alignItems: "center",
+    alignItems: 'center',
   },
   hintText: {
     fontSize: 18,
@@ -416,54 +438,8 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   keyboardWrapper: {
-    width: "100%",
-    // marginTop: 24,
-  },
-  statsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginVertical: 16,
-  },
-  statBox: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: "center",
-    marginHorizontal: 4,
-    // iOS 그림자
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    // Android 그림자
-    elevation: 2,
-  },
-  statIcon: {
-    fontSize: 20,
-  },
-  statNumber: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: 4,
-    color: Colors.text,
-  },
-  statLabel: {
-    fontSize: 12,
-    color: Colors.textDisabled,
-    marginTop: 2,
-    textTransform: "uppercase",
-  },
-  offlineBanner: {
-    width: "100%",
-    backgroundColor: "#ffcc00",
-    padding: 8,
-    alignItems: "center",
-  },
-  offlineText: {
-    color: "#333",
-    fontSize: 14,
+    width: '100%',
+    marginTop: 24,
   },
 });
 
@@ -472,25 +448,25 @@ const modalStyles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: Colors.overlay,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modal: {
-    width: "80%",
+    width: '80%',
     backgroundColor: Colors.modalBackground,
     padding: 24,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
   },
   modalTitle: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.primary,
     marginBottom: 12,
   },
   modalAnswer: {
     fontSize: 18,
-    color: "#b00",
+    color: '#b00',
     marginBottom: 20,
   },
   modalButton: {
@@ -500,7 +476,7 @@ const modalStyles = StyleSheet.create({
     borderRadius: 4,
   },
   modalButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
   },
 });
