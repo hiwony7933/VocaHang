@@ -41,8 +41,11 @@ function BalloonPop({ size, onComplete }: { size: number; onComplete(): void }) 
     </Animated.Text>
   );
 }
-
-export function BalloonLife({ remaining }: { remaining: number }) {
+  interface BalloonLifeProps {
+    remaining: number;
+    onPopComplete: () => void;  // 추가된 prop
+  }
+  export function BalloonLife({ remaining, onPopComplete }: BalloonLifeProps) {
   const screenWidth = Dimensions.get('window').width;
   // 한 줄에 최대 3개씩 배치하되 좌우 패딩과 슬롯 간격 반영
   const totalMargin = 32 * 2 + MAX_TRIES * 8;
@@ -65,6 +68,9 @@ export function BalloonLife({ remaining }: { remaining: number }) {
   const handlePopComplete = () => {
     setShowPop(false);
     setPoppedIndex(null);
+        setPoppedIndex(null);
+    // 여기서 App으로 “애니메이션 끝났다”를 알립니다!
+    onPopComplete();
   };
 
   // 2행×3열 슬롯 인덱스
