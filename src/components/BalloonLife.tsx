@@ -7,17 +7,19 @@ interface BalloonLifeProps {
 }
 
 export function BalloonLife({ remaining }: BalloonLifeProps) {
-  // 🎈 이모지를 remaining 개수만큼 표시
-  const balloons = Array.from({ length: remaining }).map((_, i) => (
-    <Text key={i} style={styles.balloon}>
-      🎈
-    </Text>
-  ));
-
   return (
-    <View style={styles.container}>
-      {balloons}
-      {/* 모두 날아가면 팡! 아이콘으로 대체 */}
+    <View
+      style={styles.container}
+      // 스크린리더에 현재 생명력 알리기
+      accessible
+      accessibilityRole="adjustable"
+      accessibilityLabel={`남은 기회: ${remaining}`}
+    >
+      {Array.from({ length: remaining }).map((_, i) => (
+        <Text key={i} style={styles.balloon}>
+          🎈
+        </Text>
+      ))}
       {remaining === 0 && <Text style={styles.pop}>💥</Text>}
     </View>
   );

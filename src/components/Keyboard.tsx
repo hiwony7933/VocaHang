@@ -36,6 +36,11 @@ export function Keyboard({
             ]}
             disabled={isDisabled}
             android_ripple={{ color: Colors.primaryDark }}
+            // 접근성 속성 추가
+            accessibilityRole="button"
+            accessibilityLabel={`키 ${letter}${
+              isDisabled ? " (사용 불가)" : ""
+            }`}
           >
             <Text
               style={[styles.keyText, isDisabled && styles.keyTextDisabled]}
