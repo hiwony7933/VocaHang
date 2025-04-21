@@ -25,8 +25,8 @@ function BalloonPop({ size, onComplete }: { size: number; onComplete(): void }) 
 
   useEffect(() => {
     Animated.parallel([
-      Animated.timing(scale,    { toValue: 2, duration: 400, useNativeDriver: true }),
-      Animated.timing(opacity,  { toValue: 0, duration: 400, useNativeDriver: true }),
+      Animated.timing(scale,    { toValue: 2, duration: 400, useNativeDriver: false }),
+      Animated.timing(opacity,  { toValue: 0, duration: 400, useNativeDriver: false }),
     ]).start(onComplete);
   }, []);
 
