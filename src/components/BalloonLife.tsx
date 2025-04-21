@@ -1,42 +1,118 @@
 // src/components/BalloonLife.tsx
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Animated,
+  Text,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 
-interface BalloonLifeProps {
-  remaining: number; // 남은 기회 (0~6)
+// 최대 슬롯 수
+const MAX_TRIES = 6;
+
+// 이전 값 저장 훅
+function usePrevious<T>(value: T): T | undefined {
+  const ref = useRef<T>();
+  useEffect(() => { ref.current = value }, [value]);
+  return ref.current;
 }
 
-export function BalloonLife({ remaining }: BalloonLifeProps) {
+// 터지는 애니메이션 컴포넌트
+function BalloonPop({ size, onComplete }: { size: number; onComplete(): void }) {
+  const scale = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(scale,    { toValue: 2, duration: 400, useNativeDriver: true }),
+      Animated.timing(opacity,  { toValue: 0, duration: 400, useNativeDriver: true }),
+    ]).start(onComplete);
+  }, []);
+
   return (
-    <View
-      style={styles.container}
-      // 스크린리더에 현재 생명력 알리기
-      accessible
-      accessibilityRole="adjustable"
-      accessibilityLabel={`남은 기회: ${remaining}`}
+    <Animated.Text
+      style={[
+        styles.balloon,
+        { fontSize: size, position: 'absolute', transform: [{ scale }], opacity }
+      ]}
     >
-      {Array.from({ length: remaining }).map((_, i) => (
-        <Text key={i} style={styles.balloon}>
-          🎈
-        </Text>
+      💥
+    </Animated.Text>
+  );
+}
+
+export function BalloonLife({ remaining }: { remaining: number }) {
+  const screenWidth = Dimensions.get('window').width;
+  // 한 줄에 최대 3개씩 배치하되 좌우 패딩과 슬롯 간격 반영
+  const totalMargin = 32 * 2 + MAX_TRIES * 8;
+  const maxSize = (screenWidth - totalMargin) / 3;
+  // 기본 크기 계산 후 20% 확대
+  const baseSize = Math.max(24, Math.min(48, maxSize));
+  const size = baseSize * 1.2;
+
+  const prev = usePrevious(remaining);
+  const [showPop, setShowPop] = useState(false);
+  const [poppedIndex, setPoppedIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (prev != null && remaining < prev) {
+      setPoppedIndex(prev - 1);
+      setShowPop(true);
+    }
+  }, [remaining]);
+
+  const handlePopComplete = () => {
+    setShowPop(false);
+    setPoppedIndex(null);
+  };
+
+  // 2행×3열 슬롯 인덱스
+  const rows = [
+    [0,1,2],
+    [3,4,5],
+  ];
+
+  return (
+    <View style={styles.container}>
+      {rows.map((row, ridx) => (
+        <View style={styles.row} key={ridx}>
+          {row.map(i => (
+            <View key={i} style={[styles.slot, { width: size, height: size }]}>  
+              {i < remaining && (
+                <Text style={[styles.balloon, { fontSize: size }]}>
+                  🎈
+                </Text>
+              )}
+              {showPop && i === poppedIndex && (
+                <BalloonPop size={size} onComplete={handlePopComplete} />
+              )}
+            </View>
+          ))}
+        </View>
       ))}
-      {remaining === 0 && <Text style={styles.pop}>💥</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    marginVertical: 24, // 위아래 여백 살짝 더
-    justifyContent: "center",
+    width: '100%',
+    paddingHorizontal: 32,
+    marginVertical: 24,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 4,
+  },
+  slot: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 15,
+    marginVertical: 8,
   },
   balloon: {
-    fontSize: 48, // 크기를 32→48로 키움
-    marginHorizontal: 6,
-  },
-  pop: {
-    fontSize: 48, // 팡! 아이콘도 동일 크기
-    marginHorizontal: 6,
+    margin: 0,
   },
 });
