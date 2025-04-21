@@ -62,6 +62,9 @@ export default function App() {
   const [displayTries, setDisplayTries] = useState(MAX_TRIES);
   // 풍선 애니메이션 중 입력 차단 플래그
   const [isAnimating, setIsAnimating] = useState(false);
+   const handleBalloonPopComplete = () => {
+       setIsAnimating(false);
+     };
 
   // 이전 틀린 횟수 저장용 ref
   const prevWrongCount = useRef(0);
@@ -257,8 +260,11 @@ export default function App() {
         </View>
       </View>
 
-      {/* 풍선 생명력 표시 */}
-      <BalloonLife remaining={displayTries} />
+           {/* onPopComplete 전달 */}
+     <BalloonLife
+       remaining={displayTries}
+       onPopComplete={handleBalloonPopComplete}
+     />
 
       {/* 단어 밑줄 & 맞춘 글자 */}
       <View style={styles.placeholdersContainer}>
@@ -411,7 +417,7 @@ const styles = StyleSheet.create({
   },
   keyboardWrapper: {
     width: "100%",
-    marginTop: 24,
+    // marginTop: 24,
   },
   statsContainer: {
     flexDirection: "row",
