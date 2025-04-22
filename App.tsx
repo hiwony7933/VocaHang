@@ -1,3 +1,4 @@
+// App.tsx
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -55,7 +56,6 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0); // 순서 제한용 인덱스
   const [wrongGuesses, setWrongGuesses] = useState<string[]>([]); // 틀린 글자만 저장
   const [displayTries, setDisplayTries] = useState(MAX_TRIES); // 풍선 수
-  const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 잠금
   const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
   const [showModal, setShowModal] = useState(false);
 
@@ -138,12 +138,11 @@ export default function App() {
   const wrongCount = wrongGuesses.length;
   const remainingTries = Math.max(0, MAX_TRIES - wrongCount);
 
-  // 풍선 애니메이션 및 입력 잠금 (틀린 글자 증가 시)
+  // 풍선 애니메이션 (틀린 글자 증가 시)
   useEffect(() => {
     const newWrong = wrongCount;
     const diff = newWrong - prevWrongCount.current;
     if (diff > 0) {
-      setIsAnimating(true);
       for (let i = 1; i <= diff; i++) {
         setTimeout(() => {
           setDisplayTries((t) => Math.max(0, t - 1));
@@ -160,7 +159,6 @@ export default function App() {
     if (currentIndex === answer.length) {
       // 승리
       setGameStatus("won");
-      // 통계: 승리&연승
       const newCurrent = stats.currentStreak + 1;
       const newBest = Math.max(stats.bestStreak, newCurrent);
       const updated: Stats = {
@@ -197,7 +195,7 @@ export default function App() {
         friction: 6,
         tension: 75,
         useNativeDriver: false,
-      }).start(() => setIsAnimating(false));
+      }).start();
     }
   }, [showModal]);
 
@@ -208,12 +206,11 @@ export default function App() {
     }
   }, [gameStatus]);
 
-  // 정답 글자 스펠 빈도 계산
+  // 정답 글자 빈도 계산
   const freq: Record<string, number> = {};
   answer.split("").forEach((c) => {
     freq[c] = (freq[c] || 0) + 1;
   });
-  // 사용된 글자 빈도
   const used: Record<string, number> = {};
   answer
     .split("")
@@ -221,24 +218,19 @@ export default function App() {
     .forEach((c) => {
       used[c] = (used[c] || 0) + 1;
     });
-  // 빈도 초과된 글자
   const overUsed = Object.entries(used)
     .filter(([c, cnt]) => cnt >= (freq[c] || 0))
     .map(([c]) => c);
-  // 비활성화할 글자: 오답 중 정답에 남아있지 않은 + 빈도 초과
   const disabledLetters = [
     ...wrongGuesses.filter((l) => !answer.slice(currentIndex).includes(l)),
     ...overUsed,
   ];
 
-  // 글자 선택 핸들러 (순서 제한)
+  // 입력 핸들러 (순서 제한)
   const handlePressLetter = (letter: string) => {
     if (gameStatus !== "playing") return;
-
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
     if (letter === answer[currentIndex]) {
-      // 맞힌 글자 스케일 애니
       const anim = letterAnims.current[currentIndex];
       anim.setValue(0);
       Animated.spring(anim, {
@@ -253,7 +245,7 @@ export default function App() {
     }
   };
 
-  // 다음 문제로 이동
+  // 다음 문제 이동
   const handleNext = () => pickNewWord();
 
   if (!currentWord) {
@@ -270,12 +262,10 @@ export default function App() {
         style={styles.flex}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        {/* 스크롤 가능한 부분 */}
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
         >
-          {/* 오프라인 배너 */}
           {!isConnected && (
             <View style={styles.offlineBanner}>
               <Text style={styles.offlineText}>
@@ -283,9 +273,7 @@ export default function App() {
               </Text>
             </View>
           )}
-          {/* 타이틀 */}
           <Text style={styles.title}>VocaMan 🚀</Text>
-          {/* 통계 카드 */}
           <View style={styles.statsContainer}>
             <View style={styles.statBox}>
               <Text style={styles.statIcon}>🏆</Text>
@@ -308,12 +296,7 @@ export default function App() {
               <Text style={styles.statLabel}>Best</Text>
             </View>
           </View>
-          {/* 풍선 생명력 */}
-          <BalloonLife
-            remaining={displayTries}
-            onPopComplete={() => setIsAnimating(false)}
-          />
-          {/* 밑줄+글자 (순서 제한) */}
+          <BalloonLife remaining={displayTries} onPopComplete={() => {}} />
           <View style={styles.placeholdersContainer}>
             {answer.split("").map((char, i) => {
               const revealed = i < currentIndex;
@@ -346,7 +329,6 @@ export default function App() {
               );
             })}
           </View>
-          {/* 힌트 & 틀린 글자 */}
           <View style={styles.hintWrapper}>
             <Text style={styles.hintText}>
               힌트1: {currentWord.hints.hint1}
@@ -359,7 +341,6 @@ export default function App() {
             </Text>
           </View>
         </ScrollView>
-        {/* 키보드 */}
         <View style={styles.keyboardWrapper}>
           <Keyboard
             onPressLetter={handlePressLetter}
@@ -367,7 +348,6 @@ export default function App() {
           />
         </View>
       </KeyboardAvoidingView>
-      {/* 결과 모달 */}
       <Modal
         visible={showModal}
         transparent
@@ -378,7 +358,7 @@ export default function App() {
           <Animated.View
             style={[modalStyles.modal, { transform: [{ scale: modalScale }] }]}
           >
-            <Text style={modalStyles.modalTitle} accessibilityRole="header">
+            <Text style={modalStyles.modalTitle}>
               {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
             </Text>
             <Text style={modalStyles.modalAnswer}>Answer: {answer}</Text>
@@ -386,7 +366,6 @@ export default function App() {
               style={modalStyles.modalButton}
               onPress={handleNext}
               accessibilityRole="button"
-              accessibilityLabel="다음 문제"
             >
               <Text style={modalStyles.modalButtonText}>Next</Text>
             </TouchableOpacity>
@@ -397,16 +376,9 @@ export default function App() {
   );
 }
 
-// 스타일 정의
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    // paddingVertical: 20,
-    // paddingHorizontal: 32,
-    // alignItems: "center",
-  },
+  container: { flex: 1, backgroundColor: Colors.background },
   scrollContent: {
     paddingVertical: 20,
     paddingHorizontal: 32,
