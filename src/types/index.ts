@@ -1,4 +1,3 @@
-// src/types/index.ts
 export interface WordItem {
   id: string;
   word: string;

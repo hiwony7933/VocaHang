@@ -1,4 +1,3 @@
-// App.tsx
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -234,7 +233,7 @@ export default function App() {
 
   // 글자 선택 핸들러 (순서 제한)
   const handlePressLetter = (letter: string) => {
-    if (gameStatus !== "playing" || isAnimating || !currentWord) return;
+    if (gameStatus !== "playing") return;
 
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
@@ -365,7 +364,6 @@ export default function App() {
           <Keyboard
             onPressLetter={handlePressLetter}
             disabledLetters={disabledLetters}
-            disabled={isAnimating}
           />
         </View>
       </KeyboardAvoidingView>
