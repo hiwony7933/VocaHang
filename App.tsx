@@ -91,8 +91,10 @@ export default function App() {
     });
   }, []);
 
-  // 첫 단어 선택(useEffect)
-  useEffect(() => pickNewWord(), [solvedWords]);
+  // 첫 단어 선택 — 마운트 시 단 한 번만 실행
+  useEffect(() => {
+    pickNewWord();
+  }, []);
 
   // 단어 변경 시 글자 애니메이션 초기화
   useEffect(() => {
