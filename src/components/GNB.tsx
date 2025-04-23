@@ -9,6 +9,13 @@ import {
   Dimensions,
 } from "react-native";
 import { Colors } from "../constants/theme";
+import {
+  GameIcon,
+  BookIcon,
+  StatsIcon,
+  SettingsIcon,
+  HeartIcon,
+} from "./icons";
 
 interface GNBProps {
   visible: boolean;
@@ -39,27 +46,27 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
   const menuItems = [
     {
       name: "게임",
-      icon: "game-controller",
+      icon: GameIcon,
       screen: "VocaMan",
     },
     {
       name: "튜토리얼",
-      icon: "book",
+      icon: BookIcon,
       screen: "Tutorial",
     },
     {
       name: "통계",
-      icon: "stats-chart",
+      icon: StatsIcon,
       screen: "Dashboard",
     },
     {
       name: "설정",
-      icon: "settings",
+      icon: SettingsIcon,
       screen: "Settings",
     },
     {
       name: "후원하기",
-      icon: "heart",
+      icon: HeartIcon,
       screen: "Support",
     },
   ];
@@ -96,10 +103,7 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
                   onClose();
                 }}
               >
-                <i
-                  className={`ion-${item.icon}`}
-                  style={{ fontSize: 24, color: Colors.text }}
-                />
+                <item.icon size={24} color={Colors.text} />
                 <View style={styles.menuTextContainer}>
                   <Text style={styles.menuText}>{item.name}</Text>
                 </View>
