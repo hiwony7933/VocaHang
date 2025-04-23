@@ -54,7 +54,9 @@ export const GameModal: React.FC = () => {
             style={styles.modalButton}
             onPress={() => {
               setShowModal(false);
-              handleNext();
+              setTimeout(() => {
+                handleNext();
+              }, 150);
             }}
             accessibilityRole="button"
           >
