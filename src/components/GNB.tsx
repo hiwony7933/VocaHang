@@ -7,6 +7,7 @@ import {
   Text,
   Animated,
   Dimensions,
+  Platform,
 } from "react-native";
 import { Colors } from "../constants/theme";
 import {
@@ -25,7 +26,11 @@ interface GNBProps {
 
 export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
-  const { height } = Dimensions.get("window");
+  const { width, height } = Dimensions.get("window");
+  const isWeb = Platform.OS === "web";
+
+  // PC 환경에서는 더 작은 너비 사용
+  const menuWidth = isWeb ? Math.min(360, width * 0.3) : width * 0.7;
 
   React.useEffect(() => {
     if (visible) {
@@ -90,6 +95,8 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
             {
               opacity: fadeAnim,
               height: height,
+              width: menuWidth,
+              right: 0,
             },
           ]}
         >
@@ -127,9 +134,6 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 0,
-    right: 0,
-    width: "70%",
-    height: "100%",
     backgroundColor: Colors.background,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,

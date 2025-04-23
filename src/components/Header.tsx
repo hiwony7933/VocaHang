@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Colors } from "../constants/theme";
-import { Ionicons } from "@expo/vector-icons";
+import { MenuIcon } from "./icons";
 import { useGame, GradeType } from "./GameProvider";
 
 interface HeaderProps {
@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuPress }) => {
         accessibilityRole="button"
         accessibilityLabel="메뉴"
       >
-        <Ionicons name="menu" size={24} color={Colors.text} />
+        <MenuIcon size={24} color={Colors.text} />
       </TouchableOpacity>
     </View>
   );
