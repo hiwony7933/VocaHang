@@ -56,7 +56,7 @@ export const GameModal: React.FC = () => {
               setShowModal(false);
               setTimeout(() => {
                 handleNext();
-              }, 150);
+              }, 200);
             }}
             accessibilityRole="button"
           >
