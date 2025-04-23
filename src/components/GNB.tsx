@@ -69,11 +69,11 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
       icon: SettingsIcon,
       screen: "Settings",
     },
-    {
-      name: "후원하기",
-      icon: HeartIcon,
-      screen: "Support",
-    },
+    // {
+    //   name: "후원하기",
+    //   icon: HeartIcon,
+    //   screen: "Support",
+    // },
   ];
 
   return (
