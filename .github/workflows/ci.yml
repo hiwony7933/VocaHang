@@ -3,9 +3,9 @@ name: VocaHang CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   lint:
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/setup-node@v3
         with: { node-version: 18 }
       - run: npm ci
-      - run: npm run build:web   # expo export --platform web
+      - run: npm run build:web # expo export --platform web
 
   deploy-web:
     name: Deploy to Firebase Hosting
@@ -56,5 +56,6 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
-          firebaseToolsVersion: '13.35.1'
+          firebaseToolsVersion: "13.35.1"
           projectId: vocahang-c0751
+          entryPoint: "." # firebase.json이 있는 디렉토리
