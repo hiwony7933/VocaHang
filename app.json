@@ -4,7 +4,7 @@
     "slug": "vocaman",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icon.png",
+    "icon": "./assets/images/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,7 +13,8 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/app-icon.png"
+      "favicon": "./assets/images/logo.png",
+      "staticDirectory": "./web-build"
     },
     "android": {
       "package": "com.yourcompany.vocaman",
