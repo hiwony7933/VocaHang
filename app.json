@@ -10,6 +10,11 @@
       "resizeMode": "contain",
       "backgroundColor": "#F5F7FA"
     },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/app-icon.png"
+    },
     "android": {
       "package": "com.yourcompany.vocaman",
       "versionCode": 1,
