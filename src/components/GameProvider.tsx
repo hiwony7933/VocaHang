@@ -227,6 +227,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsLoading(true);
         console.log("Initializing game...");
 
+        // 저장된 키보드 레이아웃 불러오기
+        const savedLayout = await AsyncStorage.getItem("keyboardLayout");
+        if (savedLayout === "alphabet" || savedLayout === "qwerty") {
+          setKeyboardLayout(savedLayout);
+        }
+
         // 데이터 사전 로드
         console.log("Pre-loading word data...");
         for (let grade = 1; grade <= 6; grade++) {
@@ -423,8 +429,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const toggleKeyboardLayout = () => {
-    setKeyboardLayout((prev) => (prev === "qwerty" ? "alphabet" : "qwerty"));
+  const toggleKeyboardLayout = async () => {
+    try {
+      const newLayout = keyboardLayout === "qwerty" ? "alphabet" : "qwerty";
+      setKeyboardLayout(newLayout);
+      await AsyncStorage.setItem("keyboardLayout", newLayout);
+      console.log("Keyboard layout changed to:", newLayout);
+    } catch (error) {
+      console.error("Error saving keyboard layout:", error);
+    }
   };
 
   const stats = {

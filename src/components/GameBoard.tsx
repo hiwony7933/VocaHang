@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { useGame } from "./GameProvider";
 import { Colors } from "../constants/theme";
 import { Keyboard } from "./Keyboard";
@@ -13,12 +13,18 @@ export const GameBoard: React.FC = () => {
     displayTries,
     handlePressLetter,
     stats,
-    keyboardLayout,
   } = useGame();
 
   if (!currentWord) return null;
 
   const answer = currentWord.word.toUpperCase();
+  const screenWidth = Dimensions.get("window").width;
+  const letterCount = answer.length;
+
+  // 글자 크기와 간격을 동적으로 계산
+  const maxWidth = screenWidth - 40; // 패딩 고려
+  const letterWidth = Math.min(26, Math.floor(maxWidth / letterCount) - 4); // 4는 좌우 마진
+  const fontSize = Math.min(26, letterWidth);
 
   const handlePopComplete = () => {
     // 풍선이 터진 후 추가 작업이 필요한 경우 여기에 구현
@@ -53,11 +59,14 @@ export const GameBoard: React.FC = () => {
 
       <View style={styles.wordContainer}>
         {answer.split("").map((letter, index) => (
-          <View key={index} style={styles.letterContainer}>
-            <Text style={styles.letter}>
+          <View
+            key={index}
+            style={[styles.letterContainer, { width: letterWidth }]}
+          >
+            <Text style={[styles.letter, { fontSize }]}>
               {index < currentIndex ? letter : " "}
             </Text>
-            <View style={styles.underline} />
+            <View style={[styles.underline, { width: letterWidth }]} />
           </View>
         ))}
       </View>
@@ -70,7 +79,7 @@ export const GameBoard: React.FC = () => {
         </Text> */}
       </View>
 
-      <Keyboard onPressLetter={handlePressLetter} layout={keyboardLayout} />
+      <Keyboard onPressLetter={handlePressLetter} />
     </View>
   );
 };
@@ -124,18 +133,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 20,
     marginTop: 20,
+    flexWrap: "nowrap",
+    justifyContent: "center",
+    width: "100%",
   },
   letterContainer: {
     alignItems: "center",
     marginHorizontal: 2,
   },
   letter: {
-    fontSize: 26,
     fontWeight: "bold",
     color: Colors.text,
   },
   underline: {
-    width: 26,
     height: 2,
     backgroundColor: Colors.text,
     marginTop: 5,
