@@ -18,7 +18,10 @@ export const Header: React.FC<HeaderProps> = ({ onMenuPress }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{getGradeName(currentGrade)}</Text>
+      <Text style={styles.title}>
+        VocaMan
+        <Text style={styles.gradeName}> {getGradeName(currentGrade)}</Text>
+      </Text>
       <TouchableOpacity
         style={styles.menuButton}
         onPress={onMenuPress}
@@ -43,6 +46,11 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
   },
   title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: Colors.primary,
+  },
+  gradeName: {
     fontSize: 20,
     fontWeight: "bold",
     color: Colors.text,
