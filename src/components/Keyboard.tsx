@@ -1,6 +1,13 @@
 // src/components/Keyboard.tsx
 import React from "react";
-import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Dimensions,
+  Platform,
+} from "react-native";
 import { Colors } from "../constants/theme";
 import { useGame } from "./GameProvider"; // Import useGame hook
 
@@ -28,10 +35,15 @@ export function Keyboard({
   const { keyboardLayout } = useGame();
   const screenWidth = Dimensions.get("window").width;
   const isSmallScreen = screenWidth < 380;
+  const isWeb = Platform.OS === "web";
 
   // 키보드 크기 계산
   const containerPadding = 8;
-  const totalWidth = screenWidth - containerPadding * 2;
+  const maxKeyboardWidth = isWeb ? 600 : screenWidth; // PC에서는 최대 600px로 제한
+  const totalWidth = Math.min(
+    maxKeyboardWidth - containerPadding * 2,
+    screenWidth - containerPadding * 2
+  );
   const qwertyKeysInRow = 10; // 첫 번째 줄의 키 개수
   const keyMargin = 2;
   const keyWidth = Math.floor(
@@ -60,12 +72,14 @@ export function Keyboard({
                         : 0,
                     flexWrap: "nowrap",
                     width: "100%",
+                    maxWidth: maxKeyboardWidth,
                   }
                 : {
                     flexDirection: "row",
                     flexWrap: "wrap",
                     justifyContent: "center",
                     width: "100%",
+                    maxWidth: maxKeyboardWidth,
                     paddingHorizontal: 4,
                   },
             ]}
@@ -116,7 +130,17 @@ export function Keyboard({
   };
 
   return (
-    <View style={[styles.keyboardWrapper, { padding: containerPadding }]}>
+    <View
+      style={[
+        styles.keyboardWrapper,
+        {
+          padding: containerPadding,
+          maxWidth: maxKeyboardWidth,
+          alignSelf: "center",
+          width: "100%",
+        },
+      ]}
+    >
       {renderKeys()}
     </View>
   );
@@ -125,7 +149,6 @@ export function Keyboard({
 const styles = StyleSheet.create({
   keyboardWrapper: {
     alignItems: "center",
-    width: "100%",
     marginVertical: 8,
   },
   baseContainer: {
