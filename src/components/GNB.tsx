@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from "react-native";
 import { Colors } from "../constants/theme";
-import { Ionicons } from "@expo/vector-icons";
 
 interface GNBProps {
   visible: boolean;
@@ -40,27 +39,27 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
   const menuItems = [
     {
       name: "게임",
-      icon: "game-controller-outline" as const,
+      icon: "game-controller",
       screen: "VocaMan",
     },
     {
       name: "튜토리얼",
-      icon: "book-outline" as const,
+      icon: "book",
       screen: "Tutorial",
     },
     {
       name: "통계",
-      icon: "stats-chart-outline" as const,
+      icon: "stats-chart",
       screen: "Dashboard",
     },
     {
       name: "설정",
-      icon: "settings-outline" as const,
+      icon: "settings",
       screen: "Settings",
     },
     {
       name: "후원하기",
-      icon: "heart-outline" as const,
+      icon: "heart",
       screen: "Support",
     },
   ];
@@ -97,7 +96,10 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
                   onClose();
                 }}
               >
-                <Ionicons name={item.icon} size={24} color={Colors.text} />
+                <i
+                  className={`ion-${item.icon}`}
+                  style={{ fontSize: 24, color: Colors.text }}
+                />
                 <View style={styles.menuTextContainer}>
                   <Text style={styles.menuText}>{item.name}</Text>
                 </View>
