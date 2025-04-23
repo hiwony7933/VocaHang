@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "0201",
+    "word": "eagle",
+    "hints": {
+      "hint1": "A bird of prey",
+      "hint2": "E A G E L"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0202",
+    "word": "penguin",
+    "hints": {
+      "hint1": "A flightless seabird",
+      "hint2": "G E I N P N U"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0203",
+    "word": "squirrel",
+    "hints": {
+      "hint1": "A bushy-tailed rodent",
+      "hint2": "U I R Q S E L R"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0204",
+    "word": "koala",
+    "hints": {
+      "hint1": "A tree-dwelling marsupial",
+      "hint2": "K O A A L"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0205",
+    "word": "camel",
+    "hints": {
+      "hint1": "A desert pack animal",
+      "hint2": "A C M E L"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0206",
+    "word": "leopard",
+    "hints": {
+      "hint1": "A spotted big cat",
+      "hint2": "P D L E R A O"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0207",
+    "word": "deer",
+    "hints": {
+      "hint1": "A woodland hoofed animal",
+      "hint2": "D E E R"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0208",
+    "word": "fox",
+    "hints": {
+      "hint1": "A cunning wild animal",
+      "hint2": "O X F"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0209",
+    "word": "wolf",
+    "hints": {
+      "hint1": "A wild canine pack animal",
+      "hint2": "O W L F"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0210",
+    "word": "rhino",
+    "hints": {
+      "hint1": "A large thick-skinned mammal",
+      "hint2": "R H O N I"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0211",
+    "word": "spinach",
+    "hints": {
+      "hint1": "A leafy green vegetable",
+      "hint2": "H A I C P S N"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0212",
+    "word": "pepper",
+    "hints": {
+      "hint1": "A spicy seasoning vegetable",
+      "hint2": "P E P P E R"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0213",
+    "word": "onion",
+    "hints": {
+      "hint1": "A tear-inducing bulb",
+      "hint2": "I N N O O"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0214",
+    "word": "garlic",
+    "hints": {
+      "hint1": "A strong-flavored bulb",
+      "hint2": "G I L C A R"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0215",
+    "word": "cucumber",
+    "hints": {
+      "hint1": "A green salad vegetable",
+      "hint2": "U E U B C M R C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0216",
+    "word": "mushroom",
+    "hints": {
+      "hint1": "A fungi used in cooking",
+      "hint2": "S M H U M R O O"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0217",
+    "word": "pumpkin",
+    "hints": {
+      "hint1": "A large orange squash",
+      "hint2": "P I P N U M K"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0218",
+    "word": "watermelon",
+    "hints": {
+      "hint1": "A sweet summer fruit",
+      "hint2": "E O W L E M R A T N"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0219",
+    "word": "avocado",
+    "hints": {
+      "hint1": "A creamy green fruit",
+      "hint2": "C V D O O A A"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0220",
+    "word": "burger",
+    "hints": {
+      "hint1": "A sandwich with a patty",
+      "hint2": "R U R B E G"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0221",
+    "word": "volcano",
+    "hints": {
+      "hint1": "A mountain that erupts",
+      "hint2": "A L O V O C N"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0222",
+    "word": "glacier",
+    "hints": {
+      "hint1": "A slow-moving ice mass",
+      "hint2": "I G C E R L A"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0223",
+    "word": "rainforest",
+    "hints": {
+      "hint1": "A dense tropical forest",
+      "hint2": "O T F E A I N R S R"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0224",
+    "word": "meadow",
+    "hints": {
+      "hint1": "A field of grass and flowers",
+      "hint2": "O D M E W A"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0225",
+    "word": "canyon",
+    "hints": {
+      "hint1": "A deep valley with steep sides",
+      "hint2": "O A Y N C N"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0226",
+    "word": "cave",
+    "hints": {
+      "hint1": "A hollow in a rock mountain",
+      "hint2": "C A V E"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0227",
+    "word": "prairie",
+    "hints": {
+      "hint1": "A large grassy plain",
+      "hint2": "E A R P I R I"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0228",
+    "word": "swamp",
+    "hints": {
+      "hint1": "A wetland with trees",
+      "hint2": "S W A M P"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0229",
+    "word": "dune",
+    "hints": {
+      "hint1": "A hill of sand in desert",
+      "hint2": "D U N E"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0230",
+    "word": "geyser",
+    "hints": {
+      "hint1": "A hot spring that jets water",
+      "hint2": "R S G Y E E"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0231",
+    "word": "drizzle",
+    "hints": {
+      "hint1": "Light rain drops",
+      "hint2": "R I L Z E D Z"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0232",
+    "word": "breeze",
+    "hints": {
+      "hint1": "A gentle wind",
+      "hint2": "E R E E Z B"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0233",
+    "word": "gust",
+    "hints": {
+      "hint1": "A sudden strong wind",
+      "hint2": "U S T G"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0234",
+    "word": "frost",
+    "hints": {
+      "hint1": "Ice on cold surfaces",
+      "hint2": "O T R S F"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0235",
+    "word": "humidity",
+    "hints": {
+      "hint1": "Moisture in the air",
+      "hint2": "H U I I T D Y M"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0236",
+    "word": "subway",
+    "hints": {
+      "hint1": "An underground train",
+      "hint2": "A W Y B U S"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0237",
+    "word": "rocket",
+    "hints": {
+      "hint1": "A spacecraft launcher",
+      "hint2": "C O T R E K"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0238",
+    "word": "spaceship",
+    "hints": {
+      "hint1": "A vehicle for space travel",
+      "hint2": "E C S A H P P I S"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0239",
+    "word": "ferry",
+    "hints": {
+      "hint1": "A boat for passengers",
+      "hint2": "R E Y F R"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0240",
+    "word": "cablecar",
+    "hints": {
+      "hint1": "A tram on suspended cables",
+      "hint2": "L E R B A A C C"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0241",
+    "word": "pajamas",
+    "hints": {
+      "hint1": "Sleepwear outfit",
+      "hint2": "P A A M J A S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0242",
+    "word": "swimsuit",
+    "hints": {
+      "hint1": "A suit for swimming",
+      "hint2": "S I T I M W S U"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0243",
+    "word": "uniform",
+    "hints": {
+      "hint1": "Matching outfit for groups",
+      "hint2": "F R U N I O M"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0244",
+    "word": "apron",
+    "hints": {
+      "hint1": "A kitchen front cover",
+      "hint2": "A P N R O"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0245",
+    "word": "helmet",
+    "hints": {
+      "hint1": "A protective headgear",
+      "hint2": "H E E M T L"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0246",
+    "word": "shoulder",
+    "hints": {
+      "hint1": "Upper arm joint area",
+      "hint2": "E R U H O L S D"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0247",
+    "word": "elbow",
+    "hints": {
+      "hint1": "Mid-arm bending joint",
+      "hint2": "W E L B O"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0248",
+    "word": "knee",
+    "hints": {
+      "hint1": "Leg bending joint",
+      "hint2": "K E N E"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0249",
+    "word": "ankle",
+    "hints": {
+      "hint1": "Foot connecting joint",
+      "hint2": "E L K N A"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0250",
+    "word": "wrist",
+    "hints": {
+      "hint1": "Hand connecting joint",
+      "hint2": "W T R I S"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0251",
+    "word": "computer",
+    "hints": {
+      "hint1": "An electronic data machine",
+      "hint2": "C T O R M P U E"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0252",
+    "word": "telephone",
+    "hints": {
+      "hint1": "A voice-calling device",
+      "hint2": "O N E T E L H P E"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0253",
+    "word": "smartphone",
+    "hints": {
+      "hint1": "A mobile computing device",
+      "hint2": "R O S N T M A P E H"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0254",
+    "word": "television",
+    "hints": {
+      "hint1": "A video display device",
+      "hint2": "I E N V T O S I E L"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0255",
+    "word": "camera",
+    "hints": {
+      "hint1": "A device to take photos",
+      "hint2": "E A A R C M"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0256",
+    "word": "clock",
+    "hints": {
+      "hint1": "A time-telling device",
+      "hint2": "C O K L C"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0257",
+    "word": "mirror",
+    "hints": {
+      "hint1": "A reflecting glass surface",
+      "hint2": "M R R O I R"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0258",
+    "word": "flashlight",
+    "hints": {
+      "hint1": "A portable light device",
+      "hint2": "G F L A S H L I T H"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0259",
+    "word": "toothbrush",
+    "hints": {
+      "hint1": "Tool for cleaning teeth",
+      "hint2": "H T H U S O R B O T"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0260",
+    "word": "backpack",
+    "hints": {
+      "hint1": "A bag worn on back",
+      "hint2": "A B C A C K K P"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0261",
+    "word": "museum",
+    "hints": {
+      "hint1": "A place for exhibits",
+      "hint2": "S U U M E M"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0262",
+    "word": "airport",
+    "hints": {
+      "hint1": "A place for airplanes",
+      "hint2": "P R O I R T A"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0263",
+    "word": "station",
+    "hints": {
+      "hint1": "A stop for trains",
+      "hint2": "I T N T O A S"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0264",
+    "word": "market",
+    "hints": {
+      "hint1": "A place to buy goods",
+      "hint2": "T E K R A M"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0265",
+    "word": "hospital",
+    "hints": {
+      "hint1": "A place for healthcare",
+      "hint2": "P S I L O T H A"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0266",
+    "word": "restaurant",
+    "hints": {
+      "hint1": "A place to eat meals",
+      "hint2": "R A E T U S R T N A"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0267",
+    "word": "theater",
+    "hints": {
+      "hint1": "A place for performances",
+      "hint2": "T H T E A E R"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0268",
+    "word": "zoo",
+    "hints": {
+      "hint1": "A place with animals",
+      "hint2": "Z O O"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0269",
+    "word": "garden",
+    "hints": {
+      "hint1": "A planted outdoor area",
+      "hint2": "N A G R D E"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0270",
+    "word": "stadium",
+    "hints": {
+      "hint1": "A sports arena",
+      "hint2": "M I D U A T S"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0271",
+    "word": "brown",
+    "hints": {
+      "hint1": "A mix of red and green",
+      "hint2": "W R B O N"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0272",
+    "word": "gray",
+    "hints": {
+      "hint1": "A mix of black and white",
+      "hint2": "R Y A G"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0273",
+    "word": "silver",
+    "hints": {
+      "hint1": "A shiny gray metal color",
+      "hint2": "S L R E I V"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0274",
+    "word": "gold",
+    "hints": {
+      "hint1": "A shiny yellow metal color",
+      "hint2": "G D O L"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0275",
+    "word": "bronze",
+    "hints": {
+      "hint1": "A brownish metal color",
+      "hint2": "B R O E N Z"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0276",
+    "word": "pentagon",
+    "hints": {
+      "hint1": "A five-sided shape",
+      "hint2": "O P T A E G N N"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0277",
+    "word": "hexagon",
+    "hints": {
+      "hint1": "A six-sided shape",
+      "hint2": "A E G O X H N"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0278",
+    "word": "whisper",
+    "hints": {
+      "hint1": "To speak very softly",
+      "hint2": "H P S R I E W"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0279",
+    "word": "think",
+    "hints": {
+      "hint1": "To use your mind",
+      "hint2": "K N I H T"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0280",
+    "word": "watch",
+    "hints": {
+      "hint1": "To look at carefully",
+      "hint2": "C T A W H"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0281",
+    "word": "decide",
+    "hints": {
+      "hint1": "To make a choice",
+      "hint2": "E D D E I C"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0282",
+    "word": "solve",
+    "hints": {
+      "hint1": "To find an answer",
+      "hint2": "L O E V S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0283",
+    "word": "engineer",
+    "hints": {
+      "hint1": "A person who designs things",
+      "hint2": "I R E G N E N E"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0284",
+    "word": "artist",
+    "hints": {
+      "hint1": "A person who creates art",
+      "hint2": "A I R S T T"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0285",
+    "word": "pilot",
+    "hints": {
+      "hint1": "A person who flies planes",
+      "hint2": "O L I T P"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0286",
+    "word": "chef",
+    "hints": {
+      "hint1": "A person who cooks food",
+      "hint2": "F H C E"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0287",
+    "word": "gardener",
+    "hints": {
+      "hint1": "A person who grows plants",
+      "hint2": "G A R D E R N E"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0288",
+    "word": "science",
+    "hints": {
+      "hint1": "Study of the natural world",
+      "hint2": "E I C C S N E"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0289",
+    "word": "history",
+    "hints": {
+      "hint1": "Study of past events",
+      "hint2": "R O T S Y I H"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0290",
+    "word": "geography",
+    "hints": {
+      "hint1": "Study of Earth places",
+      "hint2": "G E R P G H O Y A"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0291",
+    "word": "math",
+    "hints": {
+      "hint1": "Study of numbers",
+      "hint2": "T H M A"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0292",
+    "word": "language",
+    "hints": {
+      "hint1": "System of communication",
+      "hint2": "N A L G E U A G"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0293",
+    "word": "happy",
+    "hints": {
+      "hint1": "Feeling of joy",
+      "hint2": "P P A Y H"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0294",
+    "word": "sad",
+    "hints": {
+      "hint1": "Feeling unhappy",
+      "hint2": "S A D"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0295",
+    "word": "angry",
+    "hints": {
+      "hint1": "Feeling of anger",
+      "hint2": "A N G R Y"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0296",
+    "word": "excited",
+    "hints": {
+      "hint1": "Feeling very eager",
+      "hint2": "E D X C I T E"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0297",
+    "word": "bored",
+    "hints": {
+      "hint1": "Feeling uninterested",
+      "hint2": "E R D O B"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0298",
+    "word": "friendship",
+    "hints": {
+      "hint1": "The bond between friends",
+      "hint2": "S P H N R I I F E D"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0299",
+    "word": "family",
+    "hints": {
+      "hint1": "A group of relatives",
+      "hint2": "L I Y F A M"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  },
+  {
+    "id": "0300",
+    "word": "holiday",
+    "hints": {
+      "hint1": "A day of celebration",
+      "hint2": "D L A O H Y I"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 3
+    }
+  }
+]

@@ -111,6 +111,8 @@ const styles = StyleSheet.create({
     flexDirection: "row", // 한 줄 레이아웃
     justifyContent: "space-between", // 슬롯 간 균등 간격
     alignSelf: "center", // 중앙 정렬
+    marginTop: 12,
+    marginBottom: 12,
   },
   slot: {
     alignItems: "center",

@@ -1,0 +1,158 @@
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Text,
+  Animated,
+  Dimensions,
+} from "react-native";
+import { Colors } from "../constants/theme";
+import { Ionicons } from "@expo/vector-icons";
+
+interface GNBProps {
+  visible: boolean;
+  onClose: () => void;
+  onNavigate: (screen: string) => void;
+}
+
+export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  const { height } = Dimensions.get("window");
+
+  React.useEffect(() => {
+    if (visible) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [visible]);
+
+  const menuItems = [
+    {
+      name: "게임",
+      icon: "game-controller-outline" as const,
+      screen: "VocaMan",
+    },
+    {
+      name: "튜토리얼",
+      icon: "book-outline" as const,
+      screen: "Tutorial",
+    },
+    {
+      name: "통계",
+      icon: "stats-chart-outline" as const,
+      screen: "Dashboard",
+    },
+    {
+      name: "설정",
+      icon: "settings-outline" as const,
+      screen: "Settings",
+    },
+    {
+      name: "후원하기",
+      icon: "heart-outline" as const,
+      screen: "Support",
+    },
+  ];
+
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="none"
+      onRequestClose={onClose}
+    >
+      <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
+        <TouchableOpacity
+          style={styles.overlayTouchable}
+          activeOpacity={1}
+          onPress={onClose}
+        />
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              opacity: fadeAnim,
+              height: height,
+            },
+          ]}
+        >
+          <View style={styles.menuContainer}>
+            {menuItems.map((item) => (
+              <TouchableOpacity
+                key={item.screen}
+                style={styles.menuItem}
+                onPress={() => {
+                  onNavigate(item.screen);
+                  onClose();
+                }}
+              >
+                <Ionicons name={item.icon} size={24} color={Colors.text} />
+                <View style={styles.menuTextContainer}>
+                  <Text style={styles.menuText}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </Animated.View>
+      </Animated.View>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: Colors.overlay,
+  },
+  overlayTouchable: {
+    flex: 1,
+  },
+  container: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: "70%",
+    height: "100%",
+    backgroundColor: Colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuContainer: {
+    padding: 16,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  menuTextContainer: {
+    marginLeft: 16,
+  },
+  menuText: {
+    fontSize: 16,
+    color: Colors.text,
+  },
+});

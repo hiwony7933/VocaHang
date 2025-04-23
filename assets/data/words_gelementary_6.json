@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "0501",
+    "word": "equator",
+    "hints": {
+      "hint1": "An imaginary line around Earth's middle.",
+      "hint2": "U O A Q E T R"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0502",
+    "word": "hemisphere",
+    "hints": {
+      "hint1": "Half of the Earth, north or south of the equator.",
+      "hint2": "E I E P H H M R E S"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0503",
+    "word": "exponent",
+    "hints": {
+      "hint1": "The power to which a number is raised.",
+      "hint2": "X N O E P T E N"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0504",
+    "word": "integer",
+    "hints": {
+      "hint1": "A whole number with no fractional part.",
+      "hint2": "E N T E I R G"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0505",
+    "word": "prime",
+    "hints": {
+      "hint1": "A number divisible only by 1 and itself.",
+      "hint2": "P M E R I"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0506",
+    "word": "composite",
+    "hints": {
+      "hint1": "A number with more than two factors.",
+      "hint2": "T I O P E M O S C"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0507",
+    "word": "numerator",
+    "hints": {
+      "hint1": "The top part of a fraction.",
+      "hint2": "E T M A R R O U N"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0508",
+    "word": "denominator",
+    "hints": {
+      "hint1": "The bottom part of a fraction.",
+      "hint2": "A N M O O I T R D N E"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0509",
+    "word": "ratio",
+    "hints": {
+      "hint1": "A comparison of two quantities.",
+      "hint2": "A O T I R"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0510",
+    "word": "proportion",
+    "hints": {
+      "hint1": "An equation stating two ratios are equal.",
+      "hint2": "R I N O O T P O R P"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0511",
+    "word": "percentage",
+    "hints": {
+      "hint1": "A part per hundred, shown with %.",
+      "hint2": "A P T N E E G E C R"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0512",
+    "word": "decimal",
+    "hints": {
+      "hint1": "A number with a point separating whole and fraction.",
+      "hint2": "D E C I M A L"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0513",
+    "word": "root",
+    "hints": {
+      "hint1": "A number which yields another when multiplied by itself.",
+      "hint2": "R O O T"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0514",
+    "word": "geometry",
+    "hints": {
+      "hint1": "The branch of math dealing with shapes.",
+      "hint2": "M O T E E Y G R"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0515",
+    "word": "algebra",
+    "hints": {
+      "hint1": "The branch of math using symbols to solve equations.",
+      "hint2": "E G R L A B A"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0516",
+    "word": "equation",
+    "hints": {
+      "hint1": "A mathematical statement that two expressions are equal.",
+      "hint2": "U A Q O E I N T"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0517",
+    "word": "inequality",
+    "hints": {
+      "hint1": "A statement showing one quantity is larger or smaller than another.",
+      "hint2": "I Q N Y E I A T L U"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0518",
+    "word": "coordinate",
+    "hints": {
+      "hint1": "A pair of values determining a point's position.",
+      "hint2": "O A R N I D O C T E"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0519",
+    "word": "origin",
+    "hints": {
+      "hint1": "The point (0,0) in a coordinate plane.",
+      "hint2": "I G N I R O"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0520",
+    "word": "axis",
+    "hints": {
+      "hint1": "A reference line on a graph.",
+      "hint2": "A X I S"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0521",
+    "word": "gradient",
+    "hints": {
+      "hint1": "The slope showing steepness of a line.",
+      "hint2": "G E T A D N I R"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0522",
+    "word": "symmetry",
+    "hints": {
+      "hint1": "Balance in shape or arrangement.",
+      "hint2": "T S Y E M M Y R"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0523",
+    "word": "polygon",
+    "hints": {
+      "hint1": "A closed shape with straight sides.",
+      "hint2": "O G N Y L O P"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0524",
+    "word": "parallelogram",
+    "hints": {
+      "hint1": "A quadrilateral with opposite sides parallel.",
+      "hint2": "L P A O A E R R A M L L G"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0525",
+    "word": "quadrilateral",
+    "hints": {
+      "hint1": "A polygon with four sides.",
+      "hint2": "A L D R Q U A A T L E R I"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0526",
+    "word": "vertex",
+    "hints": {
+      "hint1": "A corner point where two lines meet.",
+      "hint2": "X R V T E E"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0527",
+    "word": "osmosis",
+    "hints": {
+      "hint1": "Diffusion of water across a membrane.",
+      "hint2": "S I S M S O O"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0528",
+    "word": "diffusion",
+    "hints": {
+      "hint1": "Particles spreading from high to low concentration.",
+      "hint2": "O D F U N I S F I"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0529",
+    "word": "metabolism",
+    "hints": {
+      "hint1": "All chemical reactions within living organisms.",
+      "hint2": "A T B E M I L O M S"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0530",
+    "word": "mitosis",
+    "hints": {
+      "hint1": "Cell division producing two identical cells.",
+      "hint2": "S T I I O S M"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0531",
+    "word": "meiosis",
+    "hints": {
+      "hint1": "Cell division halving chromosome number.",
+      "hint2": "S S O M I E I"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0532",
+    "word": "catalyst",
+    "hints": {
+      "hint1": "A substance that speeds up a reaction.",
+      "hint2": "T A Y S A L C T"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0533",
+    "word": "conduction",
+    "hints": {
+      "hint1": "Heat transfer through direct contact.",
+      "hint2": "I T O C D N O U C N"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0534",
+    "word": "convection",
+    "hints": {
+      "hint1": "Heat transfer through fluid movement.",
+      "hint2": "T E I O N C C V O N"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0535",
+    "word": "radiation",
+    "hints": {
+      "hint1": "Energy transfer by electromagnetic waves.",
+      "hint2": "N D A T A O I R I"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0536",
+    "word": "velocity",
+    "hints": {
+      "hint1": "Speed with a specific direction.",
+      "hint2": "O E I C L V T Y"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0537",
+    "word": "acceleration",
+    "hints": {
+      "hint1": "Rate of change of velocity.",
+      "hint2": "N R E L C O C I E A A T"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0538",
+    "word": "gravity",
+    "hints": {
+      "hint1": "Force that attracts objects toward each other.",
+      "hint2": "V T Y A I R G"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0539",
+    "word": "inertia",
+    "hints": {
+      "hint1": "Resistance of an object to change in motion.",
+      "hint2": "I R I A T E N"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0540",
+    "word": "friction",
+    "hints": {
+      "hint1": "Force opposing motion between surfaces.",
+      "hint2": "F O T I C I R N"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0541",
+    "word": "momentum",
+    "hints": {
+      "hint1": "Mass times velocity of a moving body.",
+      "hint2": "T M N E M O U M"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0542",
+    "word": "density",
+    "hints": {
+      "hint1": "Mass per unit volume.",
+      "hint2": "D S Y T E I N"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0543",
+    "word": "mass",
+    "hints": {
+      "hint1": "Amount of matter in an object.",
+      "hint2": "S A M S"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0544",
+    "word": "volume",
+    "hints": {
+      "hint1": "Amount of space an object occupies.",
+      "hint2": "L E M V O U"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0545",
+    "word": "force",
+    "hints": {
+      "hint1": "Push or pull on an object.",
+      "hint2": "C F O E R"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0546",
+    "word": "thrust",
+    "hints": {
+      "hint1": "Forward force produced by an engine.",
+      "hint2": "R U H T T S"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0547",
+    "word": "torque",
+    "hints": {
+      "hint1": "Twisting force that causes rotation.",
+      "hint2": "E T O R Q U"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0548",
+    "word": "energy",
+    "hints": {
+      "hint1": "Capacity to do work or cause change.",
+      "hint2": "G N Y E E R"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0549",
+    "word": "power",
+    "hints": {
+      "hint1": "Rate of doing work or transferring energy.",
+      "hint2": "O E W P R"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0550",
+    "word": "work",
+    "hints": {
+      "hint1": "Force applied over a distance.",
+      "hint2": "W O R K"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0551",
+    "word": "metaphor",
+    "hints": {
+      "hint1": "A figure of speech comparing two unlike things.",
+      "hint2": "M P H E R O A T"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0552",
+    "word": "simile",
+    "hints": {
+      "hint1": "A figure of speech using 'like' or 'as'.",
+      "hint2": "S E L I M I"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0553",
+    "word": "personification",
+    "hints": {
+      "hint1": "Giving human traits to non-human things.",
+      "hint2": "N E I R I A N S O P T F O I C"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0554",
+    "word": "alliteration",
+    "hints": {
+      "hint1": "Repetition of initial consonant sounds.",
+      "hint2": "A N I L T L T A I E R O"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0555",
+    "word": "onomatopoeia",
+    "hints": {
+      "hint1": "Word that imitates a sound.",
+      "hint2": "N M E O O I T O A A O P"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0556",
+    "word": "hyperbole",
+    "hints": {
+      "hint1": "An exaggerated statement.",
+      "hint2": "O E H Y B P R E L"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0557",
+    "word": "antonym",
+    "hints": {
+      "hint1": "Word opposite in meaning to another.",
+      "hint2": "O M T N N A Y"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0558",
+    "word": "synonym",
+    "hints": {
+      "hint1": "Word with a similar meaning to another.",
+      "hint2": "S Y N N O Y M"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0559",
+    "word": "homonym",
+    "hints": {
+      "hint1": "Word spelled or pronounced like another but differing in meaning.",
+      "hint2": "M H Y M O N O"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0560",
+    "word": "prefix",
+    "hints": {
+      "hint1": "A letter or group added to the beginning of a word.",
+      "hint2": "I F X E R P"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0561",
+    "word": "suffix",
+    "hints": {
+      "hint1": "A letter or group added to the end of a word.",
+      "hint2": "S F U F I X"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0562",
+    "word": "root",
+    "hints": {
+      "hint1": "The base form of a word without any affixes.",
+      "hint2": "T R O O"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0563",
+    "word": "context",
+    "hints": {
+      "hint1": "The situation or information surrounding a word.",
+      "hint2": "N O X T C E T"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0564",
+    "word": "inference",
+    "hints": {
+      "hint1": "A conclusion drawn from evidence and reasoning.",
+      "hint2": "E I E N N C E F R"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0565",
+    "word": "monarchy",
+    "hints": {
+      "hint1": "A government ruled by a king or queen.",
+      "hint2": "N O H R M A C Y"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0566",
+    "word": "artifact",
+    "hints": {
+      "hint1": "An object made by humans from the past.",
+      "hint2": "I T F C R A T A"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0567",
+    "word": "civilization",
+    "hints": {
+      "hint1": "An advanced human society with its own culture.",
+      "hint2": "C I I N L V I I Z O A T"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0568",
+    "word": "empire",
+    "hints": {
+      "hint1": "A group of states under a single authority.",
+      "hint2": "E R I P M E"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0569",
+    "word": "ancient",
+    "hints": {
+      "hint1": "Belonging to a very early period in history.",
+      "hint2": "N C T A I E N"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0570",
+    "word": "aristocracy",
+    "hints": {
+      "hint1": "A class of people holding exceptional rank.",
+      "hint2": "I C R R A T S C Y A O"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0571",
+    "word": "feudalism",
+    "hints": {
+      "hint1": "Medieval social system of lords and vassals.",
+      "hint2": "F U I A E D M L S"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0572",
+    "word": "trade",
+    "hints": {
+      "hint1": "The act of buying, selling, or exchanging goods.",
+      "hint2": "E D A R T"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0573",
+    "word": "migration",
+    "hints": {
+      "hint1": "Movement of people from one place to another.",
+      "hint2": "M I G R A T I O N"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0574",
+    "word": "indigenous",
+    "hints": {
+      "hint1": "Originating naturally in a particular place.",
+      "hint2": "I N I E N G O S U D"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0575",
+    "word": "imperialism",
+    "hints": {
+      "hint1": "Policy of extending a country’s power by colonization.",
+      "hint2": "S I E M R A I P I L M"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0576",
+    "word": "capitalism",
+    "hints": {
+      "hint1": "Economic system based on private ownership.",
+      "hint2": "L A I M I S A C T P"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0577",
+    "word": "socialism",
+    "hints": {
+      "hint1": "Economic system where community owns resources.",
+      "hint2": "C I I O A S S L M"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0578",
+    "word": "communism",
+    "hints": {
+      "hint1": "Economic system for communal ownership of property.",
+      "hint2": "M M M U S N O I C"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0579",
+    "word": "nationalism",
+    "hints": {
+      "hint1": "Strong identification with one's nation.",
+      "hint2": "T L I I S N N M A O A"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0580",
+    "word": "diplomacy",
+    "hints": {
+      "hint1": "The practice of conducting negotiations between nations.",
+      "hint2": "L I C A D O P M Y"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0581",
+    "word": "peninsula",
+    "hints": {
+      "hint1": "Land surrounded by water on three sides.",
+      "hint2": "L I N S A E U N P"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0582",
+    "word": "isthmus",
+    "hints": {
+      "hint1": "Narrow strip of land connecting two larger land areas.",
+      "hint2": "S I U T H M S"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0583",
+    "word": "watershed",
+    "hints": {
+      "hint1": "Land area that channels rainfall to rivers.",
+      "hint2": "H W A R T E S E D"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0584",
+    "word": "rural",
+    "hints": {
+      "hint1": "Areas characteristic of the countryside.",
+      "hint2": "L R U A R"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0585",
+    "word": "urban",
+    "hints": {
+      "hint1": "Related to cities or towns.",
+      "hint2": "A N B U R"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0586",
+    "word": "reservoir",
+    "hints": {
+      "hint1": "A large natural or artificial lake.",
+      "hint2": "R E R I E O R S V"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0587",
+    "word": "aquifer",
+    "hints": {
+      "hint1": "An underground layer of water-bearing rock.",
+      "hint2": "Q A I R U F E"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0588",
+    "word": "fjord",
+    "hints": {
+      "hint1": "A long narrow inlet with steep sides.",
+      "hint2": "J O D F R"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0589",
+    "word": "autonomy",
+    "hints": {
+      "hint1": "The right to self-govern.",
+      "hint2": "O T O N Y U A M"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0590",
+    "word": "integrity",
+    "hints": {
+      "hint1": "Adherence to moral and ethical principles.",
+      "hint2": "I I T E G N Y T R"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0591",
+    "word": "equality",
+    "hints": {
+      "hint1": "The state of being equal.",
+      "hint2": "I T A U L Q E Y"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0592",
+    "word": "liberty",
+    "hints": {
+      "hint1": "Freedom from oppressive restrictions.",
+      "hint2": "T Y B I E L R"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0593",
+    "word": "diversity",
+    "hints": {
+      "hint1": "A range of different things or people.",
+      "hint2": "V I D S Y E I R T"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0594",
+    "word": "synergy",
+    "hints": {
+      "hint1": "Combined effect greater than separate effects.",
+      "hint2": "N Y Y E R G S"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0595",
+    "word": "perseverance",
+    "hints": {
+      "hint1": "Persistence in doing something despite difficulty.",
+      "hint2": "A S E E R N C E R P V E"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0596",
+    "word": "empathy",
+    "hints": {
+      "hint1": "The ability to understand others' feelings.",
+      "hint2": "M A E T H Y P"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0597",
+    "word": "innovation",
+    "hints": {
+      "hint1": "Introduction of something new.",
+      "hint2": "N O I I A V O T N N"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0598",
+    "word": "collaboration",
+    "hints": {
+      "hint1": "Working together to achieve a goal.",
+      "hint2": "O C O B A T R A O L I L N"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0599",
+    "word": "hypotenuse",
+    "hints": {
+      "hint1": "The longest side of a right triangle.",
+      "hint2": "P O Y S E U H T N E"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  },
+  {
+    "id": "0600",
+    "word": "congruent",
+    "hints": {
+      "hint1": "Having the same size and shape.",
+      "hint2": "E U R G T N O C N"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 6
+    }
+  }
+]

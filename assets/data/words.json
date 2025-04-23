@@ -1,365 +1,379 @@
 {
-    "wordList": [
-      {
-        "word": "cat",
-        "hints": {
-          "hint1": "A small furry animal that says meow.",
-          "hint2": "T C A"
-        },
-        "category": "animal",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 1
-        }
+  "wordList": [
+    {
+      "id": "cat_1",
+      "word": "cat",
+      "hints": {
+        "hint1": "A small furry animal that says meow.",
+        "hint2": "T C A"
       },
-      {
-        "word": "dog",
-        "hints": {
-          "hint1": "A common pet that barks.",
-          "hint2": "G D O"
-        },
-        "category": "animal",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 1
-        }
-      },
-      {
-        "word": "sun",
-        "hints": {
-          "hint1": "The star that rises in the east.",
-          "hint2": "N S U"
-        },
-        "category": "nature",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 1
-        }
-      },
-      {
-        "word": "ball",
-        "hints": {
-          "hint1": "You can throw or kick this round toy.",
-          "hint2": "L L B A"
-        },
-        "category": "toy",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 1
-        }
-      },
-      {
-        "word": "book",
-        "hints": {
-          "hint1": "You read this to learn or enjoy stories.",
-          "hint2": "O K B O"
-        },
-        "category": "object",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 1
-        }
-      },
-      {
-        "word": "tree",
-        "hints": {
-          "hint1": "A plant with a trunk and leaves.",
-          "hint2": "E R T E"
-        },
-        "category": "nature",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 2
-        }
-      },
-      {
-        "word": "fish",
-        "hints": {
-          "hint1": "An animal that lives in water.",
-          "hint2": "H F I S"
-        },
-        "category": "animal",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 2
-        }
-      },
-      {
-        "word": "rain",
-        "hints": {
-          "hint1": "Water drops falling from clouds.",
-          "hint2": "I N R A"
-        },
-        "category": "weather",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 2
-        }
-      },
-      {
-        "word": "chair",
-        "hints": {
-          "hint1": "You sit on this furniture.",
-          "hint2": "A H R C I"
-        },
-        "category": "furniture",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 2
-        }
-      },
-      {
-        "word": "table",
-        "hints": {
-          "hint1": "You eat breakfast on this furniture.",
-          "hint2": "B T E A L"
-        },
-        "category": "furniture",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 2
-        }
-      },
-      {
-        "word": "apple",
-        "hints": {
-          "hint1": "An apple a day keeps the doctor away.",
-          "hint2": "E L P P A"
-        },
-        "category": "fruit",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 3
-        }
-      },
-      {
-        "word": "house",
-        "hints": {
-          "hint1": "A building where people live.",
-          "hint2": "S E O H U"
-        },
-        "category": "building",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 3
-        }
-      },
-      {
-        "word": "school",
-        "hints": {
-          "hint1": "Where students go to learn.",
-          "hint2": "H O O L S C"
-        },
-        "category": "place",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 3
-        }
-      },
-      {
-        "word": "friend",
-        "hints": {
-          "hint1": "A person you like and trust.",
-          "hint2": "D N E F R I"
-        },
-        "category": "people",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 3
-        }
-      },
-      {
-        "word": "party",
-        "hints": {
-          "hint1": "A fun gathering to celebrate.",
-          "hint2": "Y P T A R"
-        },
-        "category": "event",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 3
-        }
-      },
-      {
-        "word": "banana",
-        "hints": {
-          "hint1": "A yellow fruit monkeys love.",
-          "hint2": "A N A B A N"
-        },
-        "category": "fruit",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 4
-        }
-      },
-      {
-        "word": "pencil",
-        "hints": {
-          "hint1": "You write or draw with this tool.",
-          "hint2": "C L N E I P"
-        },
-        "category": "object",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 4
-        }
-      },
-      {
-        "word": "teacher",
-        "hints": {
-          "hint1": "A person who teaches students.",
-          "hint2": "E R H E C T A"
-        },
-        "category": "person",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 4
-        }
-      },
-      {
-        "word": "family",
-        "hints": {
-          "hint1": "People who are related to you.",
-          "hint2": "Y L A M I F"
-        },
-        "category": "people",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 4
-        }
-      },
-      {
-        "word": "market",
-        "hints": {
-          "hint1": "A place where you buy food and goods.",
-          "hint2": "K R E T A M"
-        },
-        "category": "place",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 4
-        }
-      },
-      {
-        "word": "bicycle",
-        "hints": {
-          "hint1": "A two‑wheeled vehicle you pedal.",
-          "hint2": "E C L Y B C I"
-        },
-        "category": "vehicle",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 5
-        }
-      },
-      {
-        "word": "library",
-        "hints": {
-          "hint1": "A place full of books.",
-          "hint2": "A R L I B R Y"
-        },
-        "category": "place",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 5
-        }
-      },
-      {
-        "word": "orange",
-        "hints": {
-          "hint1": "A citrus fruit that shares its name with a color.",
-          "hint2": "G O E R A N"
-        },
-        "category": "fruit",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 5
-        }
-      },
-      {
-        "word": "moment",
-        "hints": {
-          "hint1": "A very brief period of time.",
-          "hint2": "M N T M E O"
-        },
-        "category": "time",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 5
-        }
-      },
-      {
-        "word": "picture",
-        "hints": {
-          "hint1": "A drawing or photograph.",
-          "hint2": "R T E U C I P"
-        },
-        "category": "object",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 5
-        }
-      },
-      {
-        "word": "science",
-        "hints": {
-          "hint1": "Study of the natural world through observation.",
-          "hint2": "E C S E N C I"
-        },
-        "category": "subject",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 6
-        }
-      },
-      {
-        "word": "history",
-        "hints": {
-          "hint1": "Study of past events.",
-          "hint2": "Y T O H R I S"
-        },
-        "category": "subject",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 6
-        }
-      },
-      {
-        "word": "computer",
-        "hints": {
-          "hint1": "An electronic device for processing data.",
-          "hint2": "R U P T E C O M"
-        },
-        "category": "object",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 6
-        }
-      },
-      {
-        "word": "medicine",
-        "hints": {
-          "hint1": "Substance used to treat illness.",
-          "hint2": "E I N C D M I E"
-        },
-        "category": "subject",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 6
-        }
-      },
-      {
-        "word": "culture",
-        "hints": {
-          "hint1": "Activities and ideas of a particular society.",
-          "hint2": "U C E T U R L"
-        },
-        "category": "subject",
-        "education": {
-          "schoolLevel": "elementary",
-          "grade": 6
-        }
+      "category": "animal",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 1
       }
-    ]
-  }
-  
+    },
+    {
+      "id": "dog_1",
+      "word": "dog",
+      "hints": {
+        "hint1": "A common pet that barks.",
+        "hint2": "G D O"
+      },
+      "category": "animal",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 1
+      }
+    },
+    {
+      "word": "sun",
+      "hints": {
+        "hint1": "The star that rises in the east.",
+        "hint2": "N S U"
+      },
+      "category": "nature",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 1
+      }
+    },
+    {
+      "word": "ball",
+      "hints": {
+        "hint1": "You can throw or kick this round toy.",
+        "hint2": "L L B A"
+      },
+      "category": "toy",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 1
+      }
+    },
+    {
+      "word": "book",
+      "hints": {
+        "hint1": "You read this to learn or enjoy stories.",
+        "hint2": "O K B O"
+      },
+      "category": "object",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 1
+      }
+    },
+    {
+      "word": "tree",
+      "hints": {
+        "hint1": "A plant with a trunk and leaves.",
+        "hint2": "E R T E"
+      },
+      "category": "nature",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 2
+      }
+    },
+    {
+      "word": "fish",
+      "hints": {
+        "hint1": "An animal that lives in water.",
+        "hint2": "H F I S"
+      },
+      "category": "animal",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 2
+      }
+    },
+    {
+      "word": "rain",
+      "hints": {
+        "hint1": "Water drops falling from clouds.",
+        "hint2": "I N R A"
+      },
+      "category": "weather",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 2
+      }
+    },
+    {
+      "word": "chair",
+      "hints": {
+        "hint1": "You sit on this furniture.",
+        "hint2": "A H R C I"
+      },
+      "category": "furniture",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 2
+      }
+    },
+    {
+      "word": "table",
+      "hints": {
+        "hint1": "You eat breakfast on this furniture.",
+        "hint2": "B T E A L"
+      },
+      "category": "furniture",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 2
+      }
+    },
+    {
+      "word": "apple",
+      "hints": {
+        "hint1": "An apple a day keeps the doctor away.",
+        "hint2": "E L P P A"
+      },
+      "category": "fruit",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 3
+      }
+    },
+    {
+      "word": "house",
+      "hints": {
+        "hint1": "A building where people live.",
+        "hint2": "S E O H U"
+      },
+      "category": "building",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 3
+      }
+    },
+    {
+      "word": "school",
+      "hints": {
+        "hint1": "Where students go to learn.",
+        "hint2": "H O O L S C"
+      },
+      "category": "place",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 3
+      }
+    },
+    {
+      "word": "friend",
+      "hints": {
+        "hint1": "A person you like and trust.",
+        "hint2": "D N E F R I"
+      },
+      "category": "people",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 3
+      }
+    },
+    {
+      "word": "party",
+      "hints": {
+        "hint1": "A fun gathering to celebrate.",
+        "hint2": "Y P T A R"
+      },
+      "category": "event",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 3
+      }
+    },
+    {
+      "word": "banana",
+      "hints": {
+        "hint1": "A yellow fruit monkeys love.",
+        "hint2": "A N A B A N"
+      },
+      "category": "fruit",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 4
+      }
+    },
+    {
+      "word": "pencil",
+      "hints": {
+        "hint1": "You write or draw with this tool.",
+        "hint2": "C L N E I P"
+      },
+      "category": "object",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 4
+      }
+    },
+    {
+      "word": "teacher",
+      "hints": {
+        "hint1": "A person who teaches students.",
+        "hint2": "E R H E C T A"
+      },
+      "category": "person",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 4
+      }
+    },
+    {
+      "word": "family",
+      "hints": {
+        "hint1": "People who are related to you.",
+        "hint2": "Y L A M I F"
+      },
+      "category": "people",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 4
+      }
+    },
+    {
+      "word": "market",
+      "hints": {
+        "hint1": "A place where you buy food and goods.",
+        "hint2": "K R E T A M"
+      },
+      "category": "place",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 4
+      }
+    },
+    {
+      "word": "bicycle",
+      "hints": {
+        "hint1": "A two‑wheeled vehicle you pedal.",
+        "hint2": "E C L Y B C I"
+      },
+      "category": "vehicle",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 5
+      }
+    },
+    {
+      "word": "library",
+      "hints": {
+        "hint1": "A place full of books.",
+        "hint2": "A R L I B R Y"
+      },
+      "category": "place",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 5
+      }
+    },
+    {
+      "word": "orange",
+      "hints": {
+        "hint1": "A citrus fruit that shares its name with a color.",
+        "hint2": "G O E R A N"
+      },
+      "category": "fruit",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 5
+      }
+    },
+    {
+      "word": "moment",
+      "hints": {
+        "hint1": "A very brief period of time.",
+        "hint2": "M N T M E O"
+      },
+      "category": "time",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 5
+      }
+    },
+    {
+      "word": "picture",
+      "hints": {
+        "hint1": "A drawing or photograph.",
+        "hint2": "R T E U C I P"
+      },
+      "category": "object",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 5
+      }
+    },
+    {
+      "word": "science",
+      "hints": {
+        "hint1": "Study of the natural world through observation.",
+        "hint2": "E C S E N C I"
+      },
+      "category": "subject",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 6
+      }
+    },
+    {
+      "word": "history",
+      "hints": {
+        "hint1": "Study of past events.",
+        "hint2": "Y T O H R I S"
+      },
+      "category": "subject",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 6
+      }
+    },
+    {
+      "word": "computer",
+      "hints": {
+        "hint1": "An electronic device for processing data.",
+        "hint2": "R U P T E C O M"
+      },
+      "category": "object",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 6
+      }
+    },
+    {
+      "word": "medicine",
+      "hints": {
+        "hint1": "Substance used to treat illness.",
+        "hint2": "E I N C D M I E"
+      },
+      "category": "subject",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 6
+      }
+    },
+    {
+      "word": "culture",
+      "hints": {
+        "hint1": "Activities and ideas of a particular society.",
+        "hint2": "U C E T U R L"
+      },
+      "category": "subject",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 6
+      }
+    },
+    {
+      "id": "0555",
+      "word": "onomatopoeia",
+      "hints": {
+        "hint1": "Word that imitates a sound.",
+        "hint2": "N M E O O I T O A A O P"
+      },
+      "category": "language",
+      "education": {
+        "schoolLevel": "elementary",
+        "grade": 6
+      }
+    }
+  ]
+}

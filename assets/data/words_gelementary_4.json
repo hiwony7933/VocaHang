@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "0301",
+    "word": "octopus",
+    "hints": {
+      "hint1": "An eight-armed sea creature",
+      "hint2": "U C O P O T S"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0302",
+    "word": "porcupine",
+    "hints": {
+      "hint1": "A spiky rodent",
+      "hint2": "P E N O C R I P U"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0303",
+    "word": "armadillo",
+    "hints": {
+      "hint1": "An armored mammal",
+      "hint2": "D A R A L L M O I"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0304",
+    "word": "hedgehog",
+    "hints": {
+      "hint1": "A small spiny mammal",
+      "hint2": "H O D E H G G E"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0305",
+    "word": "otter",
+    "hints": {
+      "hint1": "A playful river mammal",
+      "hint2": "R E T T O"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0306",
+    "word": "platypus",
+    "hints": {
+      "hint1": "A duck-billed mammal",
+      "hint2": "L A U S P P T Y"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0307",
+    "word": "lobster",
+    "hints": {
+      "hint1": "A large clawed sea creature",
+      "hint2": "T R S E B O L"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0308",
+    "word": "jellyfish",
+    "hints": {
+      "hint1": "A stingy gelatinous sea animal",
+      "hint2": "I F L L S Y E H J"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0309",
+    "word": "salmon",
+    "hints": {
+      "hint1": "A migratory fish",
+      "hint2": "A S O M L N"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0310",
+    "word": "stingray",
+    "hints": {
+      "hint1": "A flat cartilaginous fish",
+      "hint2": "S Y R T G I N A"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0311",
+    "word": "pineapple",
+    "hints": {
+      "hint1": "A tropical spiky fruit",
+      "hint2": "I N P E A E L P P"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0312",
+    "word": "blueberry",
+    "hints": {
+      "hint1": "A small blue berry",
+      "hint2": "L R B Y E E U B R"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0313",
+    "word": "raspberry",
+    "hints": {
+      "hint1": "A red seedy berry",
+      "hint2": "E A S R Y R R P B"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0314",
+    "word": "cranberry",
+    "hints": {
+      "hint1": "A tart red berry",
+      "hint2": "R C Y N R B A E R"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0315",
+    "word": "peach",
+    "hints": {
+      "hint1": "A fuzzy sweet fruit",
+      "hint2": "H C A E P"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0316",
+    "word": "mango",
+    "hints": {
+      "hint1": "A juicy tropical fruit",
+      "hint2": "M A O N G"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0317",
+    "word": "apricot",
+    "hints": {
+      "hint1": "A soft orange fruit",
+      "hint2": "P T A R I C O"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0318",
+    "word": "almond",
+    "hints": {
+      "hint1": "A crunchy tree nut",
+      "hint2": "O M L A N D"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0319",
+    "word": "walnut",
+    "hints": {
+      "hint1": "A wrinkled nut",
+      "hint2": "L A U N T W"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0320",
+    "word": "popcorn",
+    "hints": {
+      "hint1": "A popped corn snack",
+      "hint2": "C O P P R O N"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0321",
+    "word": "tsunami",
+    "hints": {
+      "hint1": "A giant ocean wave",
+      "hint2": "T A M I N S U"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0322",
+    "word": "eclipse",
+    "hints": {
+      "hint1": "When one body blocks another",
+      "hint2": "E S I C E P L"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0323",
+    "word": "lagoon",
+    "hints": {
+      "hint1": "A shallow coastal waterbody",
+      "hint2": "G A N O O L"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0324",
+    "word": "delta",
+    "hints": {
+      "hint1": "River mouth landform",
+      "hint2": "A L T E D"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0325",
+    "word": "archipelago",
+    "hints": {
+      "hint1": "A group of islands",
+      "hint2": "R P I G C E A A H L O"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0326",
+    "word": "reef",
+    "hints": {
+      "hint1": "A coral rock formation",
+      "hint2": "E E R F"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0327",
+    "word": "pond",
+    "hints": {
+      "hint1": "A small still water body",
+      "hint2": "P D O N"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0328",
+    "word": "oasis",
+    "hints": {
+      "hint1": "A desert water spot",
+      "hint2": "O A S S I"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0329",
+    "word": "climate",
+    "hints": {
+      "hint1": "Long-term weather patterns",
+      "hint2": "C L T I A M E"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0330",
+    "word": "atmosphere",
+    "hints": {
+      "hint1": "Layer of gases around Earth",
+      "hint2": "R A O E P T M H E S"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0331",
+    "word": "pressure",
+    "hints": {
+      "hint1": "Force per unit area",
+      "hint2": "E R S U S E R P"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0332",
+    "word": "thermometer",
+    "hints": {
+      "hint1": "Device that measures temperature",
+      "hint2": "T E R H O M R T E E M"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0333",
+    "word": "skateboard",
+    "hints": {
+      "hint1": "A platform on wheels",
+      "hint2": "R K A D A B E O T S"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0334",
+    "word": "tram",
+    "hints": {
+      "hint1": "A rail vehicle in city",
+      "hint2": "R T A M"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0335",
+    "word": "rickshaw",
+    "hints": {
+      "hint1": "A two-wheeled passenger cart",
+      "hint2": "S W K H A R I C"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0336",
+    "word": "hovercraft",
+    "hints": {
+      "hint1": "A vehicle on cushion of air",
+      "hint2": "O H E R F A T R V C"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0337",
+    "word": "carriage",
+    "hints": {
+      "hint1": "A horse-drawn vehicle",
+      "hint2": "G C R A I R E A"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0338",
+    "word": "glasses",
+    "hints": {
+      "hint1": "Lenses mounted in frames",
+      "hint2": "G E L A S S S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0339",
+    "word": "sandals",
+    "hints": {
+      "hint1": "Open-toed footwear",
+      "hint2": "S S A L A N D"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0340",
+    "word": "cardigan",
+    "hints": {
+      "hint1": "A buttoned knit sweater",
+      "hint2": "D I R A N A G C"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0341",
+    "word": "goggles",
+    "hints": {
+      "hint1": "Protective eye wear",
+      "hint2": "G G O G L E S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0342",
+    "word": "necklace",
+    "hints": {
+      "hint1": "Jewelry worn around neck",
+      "hint2": "E E K A L N C C"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0343",
+    "word": "bracelet",
+    "hints": {
+      "hint1": "Jewelry worn on wrist",
+      "hint2": "A C T R L B E E"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0344",
+    "word": "microscope",
+    "hints": {
+      "hint1": "Instrument to see tiny things",
+      "hint2": "O P O M E I R C S C"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0345",
+    "word": "telescope",
+    "hints": {
+      "hint1": "Tool to view distant objects",
+      "hint2": "L T C P S E E O E"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0346",
+    "word": "compass",
+    "hints": {
+      "hint1": "Navigation direction tool",
+      "hint2": "S C P A O M S"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0347",
+    "word": "calculator",
+    "hints": {
+      "hint1": "Device for math operations",
+      "hint2": "A L C O R A T L U C"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0348",
+    "word": "dictionary",
+    "hints": {
+      "hint1": "Book of word definitions",
+      "hint2": "O A I T R C I Y N D"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0349",
+    "word": "encyclopedia",
+    "hints": {
+      "hint1": "Comprehensive reference work",
+      "hint2": "C O E C D I P N E L Y A"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0350",
+    "word": "journal",
+    "hints": {
+      "hint1": "Personal daily record",
+      "hint2": "L R U N O J A"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0351",
+    "word": "plateau",
+    "hints": {
+      "hint1": "Elevated flat land",
+      "hint2": "A P E L A U T"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0352",
+    "word": "savanna",
+    "hints": {
+      "hint1": "Grassland with scattered trees",
+      "hint2": "N N A A V A S"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0353",
+    "word": "jungle",
+    "hints": {
+      "hint1": "Dense tropical forest",
+      "hint2": "E N U J G L"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0354",
+    "word": "harbor",
+    "hints": {
+      "hint1": "Sheltered port area",
+      "hint2": "H A R O R B"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0355",
+    "word": "capital",
+    "hints": {
+      "hint1": "Seat of government",
+      "hint2": "C A P I T A L"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0356",
+    "word": "continent",
+    "hints": {
+      "hint1": "Large landmass",
+      "hint2": "N I T T N O C N E"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0357",
+    "word": "country",
+    "hints": {
+      "hint1": "Nation with its own government",
+      "hint2": "U T R O C N Y"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0358",
+    "word": "imagination",
+    "hints": {
+      "hint1": "Ability to create ideas",
+      "hint2": "O I A G I N I T A N M"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0359",
+    "word": "responsibility",
+    "hints": {
+      "hint1": "Duty to take care",
+      "hint2": "S E N R P I T I Y I O B L S"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0360",
+    "word": "justice",
+    "hints": {
+      "hint1": "Fairness in treatment",
+      "hint2": "T C S U I E J"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0361",
+    "word": "courage",
+    "hints": {
+      "hint1": "Bravery in facing fear",
+      "hint2": "R O C U A G E"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0362",
+    "word": "freedom",
+    "hints": {
+      "hint1": "Right to act freely",
+      "hint2": "O F R D E E M"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0363",
+    "word": "culture",
+    "hints": {
+      "hint1": "Customs of a group",
+      "hint2": "U T R L U C E"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0364",
+    "word": "environment",
+    "hints": {
+      "hint1": "Surroundings and conditions",
+      "hint2": "M V N O N I E E R T N"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0365",
+    "word": "pollution",
+    "hints": {
+      "hint1": "Harmful environmental changes",
+      "hint2": "T I P O O U L N L"
+    },
+    "category": "abstract",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0366",
+    "word": "investigate",
+    "hints": {
+      "hint1": "To examine carefully",
+      "hint2": "I N T A I T V E S G E"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0367",
+    "word": "discover",
+    "hints": {
+      "hint1": "To find something new",
+      "hint2": "D I E V S R O C"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0368",
+    "word": "describe",
+    "hints": {
+      "hint1": "To explain in words",
+      "hint2": "R B E I S C E D"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0369",
+    "word": "compare",
+    "hints": {
+      "hint1": "To note similarities and differences",
+      "hint2": "O R P C M E A"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0370",
+    "word": "predict",
+    "hints": {
+      "hint1": "To say what will happen",
+      "hint2": "I T P R E C D"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0371",
+    "word": "experiment",
+    "hints": {
+      "hint1": "A scientific test",
+      "hint2": "E X R M E E P N T I"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0372",
+    "word": "calculate",
+    "hints": {
+      "hint1": "To compute a result",
+      "hint2": "T U C L L A E A C"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0373",
+    "word": "summarize",
+    "hints": {
+      "hint1": "To give a brief overview",
+      "hint2": "U M E M S I Z A R"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0374",
+    "word": "grammar",
+    "hints": {
+      "hint1": "Rules of language structure",
+      "hint2": "G M R A R M A"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0375",
+    "word": "vocabulary",
+    "hints": {
+      "hint1": "Set of known words",
+      "hint2": "O A R V Y B L A U C"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0376",
+    "word": "punctuation",
+    "hints": {
+      "hint1": "Marks that structure writing",
+      "hint2": "A T O T I C N U U N P"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0377",
+    "word": "literature",
+    "hints": {
+      "hint1": "Written artistic works",
+      "hint2": "L R I T E T R E A U"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0378",
+    "word": "biology",
+    "hints": {
+      "hint1": "Study of living organisms",
+      "hint2": "B L O O G I Y"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0379",
+    "word": "mathematics",
+    "hints": {
+      "hint1": "Study of numbers and shapes",
+      "hint2": "A M A C T H E S T M I"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0380",
+    "word": "physics",
+    "hints": {
+      "hint1": "Study of matter and energy",
+      "hint2": "S C I S Y H P"
+    },
+    "category": "subject",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0381",
+    "word": "nervous",
+    "hints": {
+      "hint1": "Feeling anxious or worried",
+      "hint2": "O V U R S E N"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0382",
+    "word": "curious",
+    "hints": {
+      "hint1": "Eager to learn or know",
+      "hint2": "R U S O C I U"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0383",
+    "word": "confident",
+    "hints": {
+      "hint1": "Sure of oneself",
+      "hint2": "F C O N E I D N T"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0384",
+    "word": "frightened",
+    "hints": {
+      "hint1": "Feeling very scared",
+      "hint2": "I G N H R E E F D T"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0385",
+    "word": "surprised",
+    "hints": {
+      "hint1": "Feeling amazed unexpectedly",
+      "hint2": "E S S R R P U I D"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0386",
+    "word": "proud",
+    "hints": {
+      "hint1": "Feeling deep satisfaction",
+      "hint2": "D O R P U"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0387",
+    "word": "relaxed",
+    "hints": {
+      "hint1": "Free from tension",
+      "hint2": "R E L A X E D"
+    },
+    "category": "emotion",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0388",
+    "word": "scientist",
+    "hints": {
+      "hint1": "A person who does science",
+      "hint2": "C S I T N E I S T"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0389",
+    "word": "explorer",
+    "hints": {
+      "hint1": "A person who travels to discover",
+      "hint2": "E X R E R O P L"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0390",
+    "word": "inventor",
+    "hints": {
+      "hint1": "A person who creates inventions",
+      "hint2": "O R E N N T V I"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0391",
+    "word": "musician",
+    "hints": {
+      "hint1": "A person who makes music",
+      "hint2": "C S I M I N U A"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0392",
+    "word": "surgeon",
+    "hints": {
+      "hint1": "A doctor who operates",
+      "hint2": "N G R U S O E"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0393",
+    "word": "lawyer",
+    "hints": {
+      "hint1": "A legal case expert",
+      "hint2": "Y R E A L W"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0394",
+    "word": "athlete",
+    "hints": {
+      "hint1": "A person skilled in sports",
+      "hint2": "T T E L A H E"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0395",
+    "word": "skeleton",
+    "hints": {
+      "hint1": "Framework of bones",
+      "hint2": "S K T E L O E N"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0396",
+    "word": "muscle",
+    "hints": {
+      "hint1": "Tissue that moves bones",
+      "hint2": "M E L U C S"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0397",
+    "word": "organ",
+    "hints": {
+      "hint1": "Body structure with function",
+      "hint2": "O N R G A"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0398",
+    "word": "heart",
+    "hints": {
+      "hint1": "Organ that pumps blood",
+      "hint2": "T R H A E"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0399",
+    "word": "brain",
+    "hints": {
+      "hint1": "Organ for thinking",
+      "hint2": "A R I B N"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  },
+  {
+    "id": "0400",
+    "word": "lungs",
+    "hints": {
+      "hint1": "Organs for breathing",
+      "hint2": "L U N G S"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 4
+    }
+  }
+]

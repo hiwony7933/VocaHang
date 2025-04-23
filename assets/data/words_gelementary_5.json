@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "0401",
+    "word": "chimpanzee",
+    "hints": {
+      "hint1": "A primate closely related to humans",
+      "hint2": "E C H I M P A N E Z"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0402",
+    "word": "buffalo",
+    "hints": {
+      "hint1": "A large wild bovine",
+      "hint2": "B F L A U F O"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0403",
+    "word": "porpoise",
+    "hints": {
+      "hint1": "A small toothed whale",
+      "hint2": "S P P O I O R E"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0404",
+    "word": "armadillo",
+    "hints": {
+      "hint1": "An armored insectivore",
+      "hint2": "O L D A L M R I A"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0405",
+    "word": "chimp",
+    "hints": {
+      "hint1": "Abbreviation for chimpanzee",
+      "hint2": "I H C P M"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0406",
+    "word": "gazelle",
+    "hints": {
+      "hint1": "A swift antelope species",
+      "hint2": "Z E L A G E L"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0407",
+    "word": "mongoose",
+    "hints": {
+      "hint1": "A small predator of snakes",
+      "hint2": "E S O O G N O M"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0408",
+    "word": "pelican",
+    "hints": {
+      "hint1": "A large fish-eating bird",
+      "hint2": "P E N L A C I"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0409",
+    "word": "salamander",
+    "hints": {
+      "hint1": "An amphibian with moist skin",
+      "hint2": "N S A A D L E M A R"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0410",
+    "word": "starfish",
+    "hints": {
+      "hint1": "A marine echinoderm",
+      "hint2": "S R H I T A F S"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0411",
+    "word": "quarantine",
+    "hints": {
+      "hint1": "Isolation to prevent disease",
+      "hint2": "T A N E U I A R Q N"
+    },
+    "category": "health",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0412",
+    "word": "vaccination",
+    "hints": {
+      "hint1": "Injection to build immunity",
+      "hint2": "V A O A I T N C C I N"
+    },
+    "category": "health",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0413",
+    "word": "microwave",
+    "hints": {
+      "hint1": "Device that heats food quickly",
+      "hint2": "W M R E O V I A C"
+    },
+    "category": "appliance",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0414",
+    "word": "refrigerator",
+    "hints": {
+      "hint1": "Appliance that keeps food cold",
+      "hint2": "R G F R R I E E R A O T"
+    },
+    "category": "appliance",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0415",
+    "word": "pendulum",
+    "hints": {
+      "hint1": "Weight that swings back and forth",
+      "hint2": "U U N D E L P M"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0416",
+    "word": "photosynthesis",
+    "hints": {
+      "hint1": "Process plants make food",
+      "hint2": "H T P Y S H T O O S I S N E"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0417",
+    "word": "evaporation",
+    "hints": {
+      "hint1": "Liquid turning into vapor",
+      "hint2": "P A N V T O A I E R O"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0418",
+    "word": "condensation",
+    "hints": {
+      "hint1": "Gas turning into liquid",
+      "hint2": "I D O T N E O N A S C N"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0419",
+    "word": "erosion",
+    "hints": {
+      "hint1": "Wearing away of land",
+      "hint2": "S E O R N I O"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0420",
+    "word": "plateau",
+    "hints": {
+      "hint1": "Raised flat land",
+      "hint2": "A A U E T L P"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0421",
+    "word": "archipelago",
+    "hints": {
+      "hint1": "Chain of islands",
+      "hint2": "R H E G C O A L A P I"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0422",
+    "word": "latitude",
+    "hints": {
+      "hint1": "Distance north or south of equator",
+      "hint2": "U L A I E D T T"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0423",
+    "word": "longitude",
+    "hints": {
+      "hint1": "Distance east or west of prime meridian",
+      "hint2": "N G D E O U I L T"
+    },
+    "category": "geography",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0424",
+    "word": "democracy",
+    "hints": {
+      "hint1": "Government by the people",
+      "hint2": "M E C R Y C A O D"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0425",
+    "word": "constitution",
+    "hints": {
+      "hint1": "Fundamental law of a nation",
+      "hint2": "N O U O T C N I T I S T"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0426",
+    "word": "economics",
+    "hints": {
+      "hint1": "Study of production and consumption",
+      "hint2": "O E M C S N C O I"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0427",
+    "word": "anthropology",
+    "hints": {
+      "hint1": "Study of human societies",
+      "hint2": "G O A T O N L H O P R Y"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0428",
+    "word": "psychology",
+    "hints": {
+      "hint1": "Study of the mind",
+      "hint2": "S Y L Y H O C P G O"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0429",
+    "word": "philosophy",
+    "hints": {
+      "hint1": "Study of fundamental questions",
+      "hint2": "O I H O P P H L S Y"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0430",
+    "word": "metamorphosis",
+    "hints": {
+      "hint1": "Process of transformation",
+      "hint2": "O M P O R S S A H I T E M"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0431",
+    "word": "photosynthesis",
+    "hints": {
+      "hint1": "Plant food-making process",
+      "hint2": "Y T E S N O S T H S O H P I"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0432",
+    "word": "oxidation",
+    "hints": {
+      "hint1": "Chemical reaction with oxygen",
+      "hint2": "I O D I A X N O T"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0433",
+    "word": "mitochondria",
+    "hints": {
+      "hint1": "Powerhouse of the cell",
+      "hint2": "H I D O M R I N A O C T"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0434",
+    "word": "photosynthesis",
+    "hints": {
+      "hint1": "Conversion of light to energy",
+      "hint2": "P H Y H E I S T N O S T O S"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0435",
+    "word": "respiration",
+    "hints": {
+      "hint1": "Process of breathing",
+      "hint2": "R T A I P R E N O S I"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0436",
+    "word": "vocabulary",
+    "hints": {
+      "hint1": "All words known in a language",
+      "hint2": "U A V A O L C R B Y"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0437",
+    "word": "grammar",
+    "hints": {
+      "hint1": "Rules of language",
+      "hint2": "M G M A R R A"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0438",
+    "word": "syntax",
+    "hints": {
+      "hint1": "Arrangement of words",
+      "hint2": "S X Y A N T"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0439",
+    "word": "literature",
+    "hints": {
+      "hint1": "Written artistic works",
+      "hint2": "R I E L U T E A T R"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0440",
+    "word": "manuscript",
+    "hints": {
+      "hint1": "Handwritten document",
+      "hint2": "M A N U S C R I P T"
+    },
+    "category": "language",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0441",
+    "word": "hexagon",
+    "hints": {
+      "hint1": "Six-sided polygon",
+      "hint2": "G X E H A O N"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0442",
+    "word": "octagon",
+    "hints": {
+      "hint1": "Eight-sided polygon",
+      "hint2": "O N A O G C T"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0443",
+    "word": "parallelogram",
+    "hints": {
+      "hint1": "Opposite sides parallel quadrilateral",
+      "hint2": "P M A A L R G R O L A E L"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0444",
+    "word": "circumference",
+    "hints": {
+      "hint1": "Distance around a circle",
+      "hint2": "E R N U F E C M C R C E I"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0445",
+    "word": "equation",
+    "hints": {
+      "hint1": "A mathematical statement with equals",
+      "hint2": "N E Q I T O U A"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0446",
+    "word": "fraction",
+    "hints": {
+      "hint1": "Part of a whole number",
+      "hint2": "I T C A N R O F"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0447",
+    "word": "variable",
+    "hints": {
+      "hint1": "A symbol representing value",
+      "hint2": "I E A B L V R A"
+    },
+    "category": "math",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0448",
+    "word": "algorithm",
+    "hints": {
+      "hint1": "Step-by-step procedure",
+      "hint2": "A O I H M R T L G"
+    },
+    "category": "computing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0449",
+    "word": "debugging",
+    "hints": {
+      "hint1": "Finding and fixing errors",
+      "hint2": "N G I U G G B E D"
+    },
+    "category": "computing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0450",
+    "word": "encryption",
+    "hints": {
+      "hint1": "Securing data by coding",
+      "hint2": "R C N T P I N O E Y"
+    },
+    "category": "computing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0451",
+    "word": "democracy",
+    "hints": {
+      "hint1": "Rule by the majority",
+      "hint2": "C D E O C Y M R A"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0452",
+    "word": "federation",
+    "hints": {
+      "hint1": "Union of states",
+      "hint2": "A O I F T N E D E R"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0453",
+    "word": "legislature",
+    "hints": {
+      "hint1": "Law-making body",
+      "hint2": "L T E R E I S U L G A"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0454",
+    "word": "jurisdiction",
+    "hints": {
+      "hint1": "Authority of a court",
+      "hint2": "I C N I R I O S U D T J"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0455",
+    "word": "amendment",
+    "hints": {
+      "hint1": "Formal change to a document",
+      "hint2": "M E A N E M D T N"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0456",
+    "word": "renaissance",
+    "hints": {
+      "hint1": "Revival of art and culture",
+      "hint2": "S E E A C S A N R I N"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0457",
+    "word": "medieval",
+    "hints": {
+      "hint1": "Relating to the Middle Ages",
+      "hint2": "A I M E L E D V"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0458",
+    "word": "industrialization",
+    "hints": {
+      "hint1": "Development of industries",
+      "hint2": "I I N S L Z T A T D I N R A U I O"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0459",
+    "word": "revolution",
+    "hints": {
+      "hint1": "Sudden change in power",
+      "hint2": "I R O E U L V O T N"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0460",
+    "word": "colonization",
+    "hints": {
+      "hint1": "Establishing control over foreign land",
+      "hint2": "N Z T O A L O O N I C I"
+    },
+    "category": "history",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0461",
+    "word": "biodiversity",
+    "hints": {
+      "hint1": "Variety of life in an ecosystem",
+      "hint2": "I T S V O I R I E B Y D"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0462",
+    "word": "ecosystem",
+    "hints": {
+      "hint1": "Community of living organisms",
+      "hint2": "S S O E Y E M C T"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0463",
+    "word": "photosynthesis",
+    "hints": {
+      "hint1": "Energy production in plants",
+      "hint2": "S P S O N H E S O T Y T I H"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0464",
+    "word": "genetics",
+    "hints": {
+      "hint1": "Study of heredity",
+      "hint2": "E G I E T N S C"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0465",
+    "word": "evolution",
+    "hints": {
+      "hint1": "Gradual development of species",
+      "hint2": "N O V O T L E I U"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0466",
+    "word": "magnetism",
+    "hints": {
+      "hint1": "Force of magnetic fields",
+      "hint2": "E M N M T A G I S"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0467",
+    "word": "thermodynamics",
+    "hints": {
+      "hint1": "Study of heat and energy",
+      "hint2": "E D T M N R S C I H A Y O M"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0468",
+    "word": "demographics",
+    "hints": {
+      "hint1": "Study of population statistics",
+      "hint2": "O E C D I M P H S G A R"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0469",
+    "word": "urbanization",
+    "hints": {
+      "hint1": "Movement to cities",
+      "hint2": "A U I T R O I B N Z N A"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0470",
+    "word": "globalization",
+    "hints": {
+      "hint1": "Integration worldwide",
+      "hint2": "A A G I O L Z N I B L T O"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0471",
+    "word": "sustainability",
+    "hints": {
+      "hint1": "Meeting needs without depletion",
+      "hint2": "Y A L N B T T S A I I I U S"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0472",
+    "word": "conservation",
+    "hints": {
+      "hint1": "Protection of natural resources",
+      "hint2": "N O O I R C A E S V T N"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0473",
+    "word": "biodiversity",
+    "hints": {
+      "hint1": "Variety of plant and animal life",
+      "hint2": "V I I S I R B E O D Y T"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0474",
+    "word": "pollution",
+    "hints": {
+      "hint1": "Contamination of environment",
+      "hint2": "P O T L U L N I O"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0475",
+    "word": "renewable",
+    "hints": {
+      "hint1": "Can be naturally replenished",
+      "hint2": "W R L A E B N E E"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0476",
+    "word": "ecosystem",
+    "hints": {
+      "hint1": "Community of organisms and environment",
+      "hint2": "S O E T Y M C S E"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0477",
+    "word": "legislation",
+    "hints": {
+      "hint1": "Law enacted by a government",
+      "hint2": "T S N I L A O E G I L"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0478",
+    "word": "jurisdiction",
+    "hints": {
+      "hint1": "Authority to govern",
+      "hint2": "C S T U J N I R I D I O"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0479",
+    "word": "amendment",
+    "hints": {
+      "hint1": "Formal revision of a document",
+      "hint2": "E N M E A N T D M"
+    },
+    "category": "socialStudies",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0480",
+    "word": "isotope",
+    "hints": {
+      "hint1": "Atoms with same protons, diff neutrons",
+      "hint2": "I P T S O E O"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0481",
+    "word": "molecule",
+    "hints": {
+      "hint1": "Group of bonded atoms",
+      "hint2": "L E O U C L E M"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0482",
+    "word": "cellular",
+    "hints": {
+      "hint1": "Relating to cells",
+      "hint2": "U C E L A L L R"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0483",
+    "word": "photosynthesis",
+    "hints": {
+      "hint1": "Process plants produce energy",
+      "hint2": "S T P E H O S T H Y S N I O"
+    },
+    "category": "science",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0484",
+    "word": "circulatory",
+    "hints": {
+      "hint1": "Relating to blood circulation",
+      "hint2": "C I T O Y L R C A U R"
+    },
+    "category": "biology",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0485",
+    "word": "respiratory",
+    "hints": {
+      "hint1": "Relating to breathing",
+      "hint2": "S E I T Y O R P R R A"
+    },
+    "category": "biology",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0486",
+    "word": "digestive",
+    "hints": {
+      "hint1": "Relating to digestion",
+      "hint2": "I D I S T G E V E"
+    },
+    "category": "biology",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0487",
+    "word": "nervous",
+    "hints": {
+      "hint1": "Relating to nerves",
+      "hint2": "N V U S E O R"
+    },
+    "category": "biology",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0488",
+    "word": "skeletal",
+    "hints": {
+      "hint1": "Relating to skeleton",
+      "hint2": "A E S T L E K L"
+    },
+    "category": "biology",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0489",
+    "word": "enzyme",
+    "hints": {
+      "hint1": "Protein that speeds reactions",
+      "hint2": "E Y E N M Z"
+    },
+    "category": "biology",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0490",
+    "word": "carbohydrate",
+    "hints": {
+      "hint1": "Sugar or starch molecule",
+      "hint2": "E C D Y R T A R H B O A"
+    },
+    "category": "nutrition",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0491",
+    "word": "protein",
+    "hints": {
+      "hint1": "Macronutrient for growth",
+      "hint2": "P N R O T E I"
+    },
+    "category": "nutrition",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0492",
+    "word": "vitamin",
+    "hints": {
+      "hint1": "Essential micronutrient",
+      "hint2": "I I M V T A N"
+    },
+    "category": "nutrition",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0493",
+    "word": "mineral",
+    "hints": {
+      "hint1": "Inorganic nutrient",
+      "hint2": "M I N L E R A"
+    },
+    "category": "nutrition",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0494",
+    "word": "calorie",
+    "hints": {
+      "hint1": "Unit of energy in food",
+      "hint2": "C O I E L A R"
+    },
+    "category": "nutrition",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0495",
+    "word": "ecosystem",
+    "hints": {
+      "hint1": "Interaction of organisms and environment",
+      "hint2": "S E M T S E O Y C"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0496",
+    "word": "biome",
+    "hints": {
+      "hint1": "Major ecological community",
+      "hint2": "M B I O E"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0497",
+    "word": "tundra",
+    "hints": {
+      "hint1": "Cold treeless region",
+      "hint2": "D N U A R T"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0498",
+    "word": "savanna",
+    "hints": {
+      "hint1": "Tropical grassland",
+      "hint2": "A N S V A A N"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0499",
+    "word": "rainforest",
+    "hints": {
+      "hint1": "Dense tropical woods",
+      "hint2": "R E T O F N S I A R"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  },
+  {
+    "id": "0500",
+    "word": "wetland",
+    "hints": {
+      "hint1": "Land saturated with water",
+      "hint2": "E L D N A T W"
+    },
+    "category": "environment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 5
+    }
+  }
+]

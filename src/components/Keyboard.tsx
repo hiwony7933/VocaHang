@@ -1,71 +1,119 @@
 // src/components/Keyboard.tsx
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import { Colors } from "../constants/theme";
 
 interface KeyboardProps {
   onPressLetter: (letter: string) => void;
-  disabledLetters: string[]; // 이미 눌렀거나 사용 불가한 글자 목록
-  disabled?: boolean; // 애니메이션 등으로 전체 비활성화할 때
+  layout: "alphabet" | "qwerty";
 }
 
 const ALPHABET = Array.from({ length: 26 }, (_, i) =>
   String.fromCharCode(65 + i)
 );
 
-export function Keyboard({
-  onPressLetter,
-  disabledLetters,
-  disabled = false,
-}: KeyboardProps) {
-  return (
-    <View style={styles.container}>
-      {ALPHABET.map((letter) => {
-        const isDisabled = disabled || disabledLetters.includes(letter);
-        return (
-          <Pressable
-            key={letter}
-            onPress={() => !isDisabled && onPressLetter(letter)}
-            style={({ pressed }) => [
-              styles.key,
-              isDisabled
-                ? styles.keyDisabled
-                : pressed
-                ? styles.keyPressed
-                : styles.keyEnabled,
-            ]}
-            disabled={isDisabled}
-            android_ripple={{ color: Colors.primaryDark }}
-            // 접근성 속성 추가
-            accessibilityRole="button"
-            accessibilityLabel={`키 ${letter}${
-              isDisabled ? " (사용 불가)" : ""
-            }`}
-          >
-            <Text
-              style={[styles.keyText, isDisabled && styles.keyTextDisabled]}
+const QWERTY_ROWS = [
+  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+  ["Z", "X", "C", "V", "B", "N", "M"],
+];
+
+export function Keyboard({ onPressLetter, layout }: KeyboardProps) {
+  const screenWidth = Dimensions.get("window").width;
+  const isSmallScreen = screenWidth < 380;
+
+  // 키 크기 계산
+  const keySize = isSmallScreen ? 32 : 32;
+  const keyMargin = 2;
+  const keyFontSize = isSmallScreen ? 16 : 18;
+
+  const renderKeys = () => {
+    if (layout === "alphabet") {
+      return (
+        <View style={styles.row}>
+          {ALPHABET.map((letter) => (
+            <Pressable
+              key={letter}
+              onPress={() => onPressLetter(letter)}
+              style={({ pressed }) => [
+                styles.key,
+                pressed ? styles.keyPressed : styles.keyEnabled,
+                { width: keySize, height: keySize * 1.2, margin: keyMargin },
+              ]}
+              android_ripple={{ color: Colors.primaryDark }}
+              accessibilityRole="button"
+              accessibilityLabel={`키 ${letter}`}
             >
-              {letter}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
+              <Text style={[styles.keyText, { fontSize: keyFontSize }]}>
+                {letter}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.qwertyContainer}>
+        {QWERTY_ROWS.map((row, rowIndex) => (
+          <View
+            key={rowIndex}
+            style={[
+              styles.qwertyRow,
+              rowIndex === 1 && { paddingHorizontal: keySize * 0.25 },
+              rowIndex === 2 && { paddingHorizontal: keySize * 0.75 },
+            ]}
+          >
+            {row.map((letter) => (
+              <Pressable
+                key={letter}
+                onPress={() => onPressLetter(letter)}
+                style={({ pressed }) => [
+                  styles.key,
+                  pressed ? styles.keyPressed : styles.keyEnabled,
+                  { width: keySize, height: keySize * 1.2, margin: keyMargin },
+                ]}
+                android_ripple={{ color: Colors.primaryDark }}
+                accessibilityRole="button"
+                accessibilityLabel={`키 ${letter}`}
+              >
+                <Text style={[styles.keyText, { fontSize: keyFontSize }]}>
+                  {letter}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        ))}
+      </View>
+    );
+  };
+
+  return <View style={styles.container}>{renderKeys()}</View>;
 }
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
+    marginVertical: 8,
+    width: "100%",
+  },
+  row: {
     flexDirection: "row",
-    flexWrap: "wrap", // 화면 너비에 맞춰 자동 줄바꿈
-    justifyContent: "center", // 가운데 정렬
-    marginVertical: 16,
+    justifyContent: "center",
+    marginBottom: 4,
+    flexWrap: "wrap",
+  },
+  qwertyContainer: {
+    width: "100%",
+    paddingHorizontal: 4,
+  },
+  qwertyRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 4,
   },
   key: {
-    width: 36,
-    height: 44,
-    margin: 6, // 상하좌우 균일한 간격
-    borderRadius: 4,
+    borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -75,15 +123,8 @@ const styles = StyleSheet.create({
   keyPressed: {
     backgroundColor: Colors.primaryDark,
   },
-  keyDisabled: {
-    backgroundColor: Colors.disabled,
-  },
   keyText: {
-    fontSize: 16,
     fontWeight: "600",
     color: "#FFFFFF",
-  },
-  keyTextDisabled: {
-    color: Colors.textDisabled,
   },
 });

@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "0001",
+    "word": "cat",
+    "hints": {
+      "hint1": "A small furry animal",
+      "hint2": "T A C"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0002",
+    "word": "dog",
+    "hints": {
+      "hint1": "A common pet that barks",
+      "hint2": "G O D"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0003",
+    "word": "sun",
+    "hints": {
+      "hint1": "The bright daytime star",
+      "hint2": "N U S"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0004",
+    "word": "moon",
+    "hints": {
+      "hint1": "Earth’s nighttime companion",
+      "hint2": "N O O M"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0005",
+    "word": "star",
+    "hints": {
+      "hint1": "A twinkling night object",
+      "hint2": "R A T S"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0006",
+    "word": "tree",
+    "hints": {
+      "hint1": "A tall plant with a trunk",
+      "hint2": "E E R T"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0007",
+    "word": "flower",
+    "hints": {
+      "hint1": "A colorful plant bloom",
+      "hint2": "R E W O L F"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0008",
+    "word": "grass",
+    "hints": {
+      "hint1": "Green ground cover",
+      "hint2": "S S A R G"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0009",
+    "word": "leaf",
+    "hints": {
+      "hint1": "Part of a plant that’s green",
+      "hint2": "F A E L"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0010",
+    "word": "rock",
+    "hints": {
+      "hint1": "A hard natural stone",
+      "hint2": "K C O R"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0011",
+    "word": "fish",
+    "hints": {
+      "hint1": "An animal that swims",
+      "hint2": "H S I F"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0012",
+    "word": "bird",
+    "hints": {
+      "hint1": "A feathered creature",
+      "hint2": "D R I B"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0013",
+    "word": "cow",
+    "hints": {
+      "hint1": "A farm animal that moos",
+      "hint2": "W O C"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0014",
+    "word": "pig",
+    "hints": {
+      "hint1": "A farm animal that oinks",
+      "hint2": "G I P"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0015",
+    "word": "duck",
+    "hints": {
+      "hint1": "A water bird that quacks",
+      "hint2": "K C U D"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0016",
+    "word": "frog",
+    "hints": {
+      "hint1": "A hopping amphibian",
+      "hint2": "G O R F"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0017",
+    "word": "ant",
+    "hints": {
+      "hint1": "A tiny insect in lines",
+      "hint2": "T N A"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0018",
+    "word": "bee",
+    "hints": {
+      "hint1": "A yellow-black stinger",
+      "hint2": "E E B"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0019",
+    "word": "bug",
+    "hints": {
+      "hint1": "A small creepy insect",
+      "hint2": "G U B"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0020",
+    "word": "horse",
+    "hints": {
+      "hint1": "A large riding animal",
+      "hint2": "E S R O H"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0021",
+    "word": "apple",
+    "hints": {
+      "hint1": "A crunchy red or green fruit",
+      "hint2": "E L P P A"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0022",
+    "word": "banana",
+    "hints": {
+      "hint1": "A long yellow fruit",
+      "hint2": "A N A N A B"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0023",
+    "word": "bread",
+    "hints": {
+      "hint1": "A baked flour staple",
+      "hint2": "D A E R B"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0024",
+    "word": "milk",
+    "hints": {
+      "hint1": "A white dairy drink",
+      "hint2": "K L I M"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0025",
+    "word": "egg",
+    "hints": {
+      "hint1": "A protein breakfast item",
+      "hint2": "G G E"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0026",
+    "word": "rice",
+    "hints": {
+      "hint1": "A small white grain",
+      "hint2": "E C I R"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0027",
+    "word": "cake",
+    "hints": {
+      "hint1": "A sweet baked dessert",
+      "hint2": "E K A C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0028",
+    "word": "cookie",
+    "hints": {
+      "hint1": "A small sweet biscuit",
+      "hint2": "E I K O O C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0029",
+    "word": "cheese",
+    "hints": {
+      "hint1": "A dairy solid snack",
+      "hint2": "E S E E H C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0030",
+    "word": "meat",
+    "hints": {
+      "hint1": "Animal protein food",
+      "hint2": "T A E M"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0031",
+    "word": "water",
+    "hints": {
+      "hint1": "A clear thirsty drink",
+      "hint2": "R E T A W"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0032",
+    "word": "juice",
+    "hints": {
+      "hint1": "A fruit liquid drink",
+      "hint2": "E C I U J"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0033",
+    "word": "rain",
+    "hints": {
+      "hint1": "Water falling from sky",
+      "hint2": "N I A R"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0034",
+    "word": "snow",
+    "hints": {
+      "hint1": "White frozen flakes",
+      "hint2": "W O N S"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0035",
+    "word": "cloud",
+    "hints": {
+      "hint1": "Fluffy sky formation",
+      "hint2": "D U O L C"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0036",
+    "word": "wind",
+    "hints": {
+      "hint1": "Moving air outdoors",
+      "hint2": "D N I W"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0037",
+    "word": "sky",
+    "hints": {
+      "hint1": "The blue overhead space",
+      "hint2": "Y K S"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0038",
+    "word": "boat",
+    "hints": {
+      "hint1": "A small water vessel",
+      "hint2": "T A O B"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0039",
+    "word": "car",
+    "hints": {
+      "hint1": "A road vehicle with wheels",
+      "hint2": "R A C"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0040",
+    "word": "bus",
+    "hints": {
+      "hint1": "A large passenger vehicle",
+      "hint2": "S U B"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0041",
+    "word": "train",
+    "hints": {
+      "hint1": "Railway transportation",
+      "hint2": "N I A R T"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0042",
+    "word": "ship",
+    "hints": {
+      "hint1": "A large sea vessel",
+      "hint2": "P I H S"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0043",
+    "word": "bike",
+    "hints": {
+      "hint1": "Two-wheeled vehicle you pedal",
+      "hint2": "E K I B"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0044",
+    "word": "bed",
+    "hints": {
+      "hint1": "Where you sleep at night",
+      "hint2": "D E B"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0045",
+    "word": "chair",
+    "hints": {
+      "hint1": "A seat with a back",
+      "hint2": "R I A H C"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0046",
+    "word": "table",
+    "hints": {
+      "hint1": "A flat-topped furniture",
+      "hint2": "E L B A T"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0047",
+    "word": "door",
+    "hints": {
+      "hint1": "An entryway barrier",
+      "hint2": "R O O D"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0048",
+    "word": "window",
+    "hints": {
+      "hint1": "A glass opening in wall",
+      "hint2": "W O D N I W"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0049",
+    "word": "box",
+    "hints": {
+      "hint1": "A square container",
+      "hint2": "X O B"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0050",
+    "word": "ball",
+    "hints": {
+      "hint1": "A round play object",
+      "hint2": "L L A B"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0051",
+    "word": "book",
+    "hints": {
+      "hint1": "Pages bound together",
+      "hint2": "K O O B"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0052",
+    "word": "pen",
+    "hints": {
+      "hint1": "A tool for writing ink",
+      "hint2": "N E P"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0053",
+    "word": "pencil",
+    "hints": {
+      "hint1": "A tool for drawing lines",
+      "hint2": "L I C N E P"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0054",
+    "word": "bag",
+    "hints": {
+      "hint1": "A container you carry",
+      "hint2": "G A B"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0055",
+    "word": "hat",
+    "hints": {
+      "hint1": "Head covering accessory",
+      "hint2": "T A H"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0056",
+    "word": "shoe",
+    "hints": {
+      "hint1": "Footwear item",
+      "hint2": "E O H S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0057",
+    "word": "sock",
+    "hints": {
+      "hint1": "Soft foot covering",
+      "hint2": "K C O S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0058",
+    "word": "shirt",
+    "hints": {
+      "hint1": "Upper-body garment",
+      "hint2": "T R I H S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0059",
+    "word": "pants",
+    "hints": {
+      "hint1": "Leg-covering garment",
+      "hint2": "S T N A P"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0060",
+    "word": "coat",
+    "hints": {
+      "hint1": "Outerwear for cold",
+      "hint2": "T A O C"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0061",
+    "word": "dress",
+    "hints": {
+      "hint1": "One-piece garment",
+      "hint2": "S S E R D"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0062",
+    "word": "skirt",
+    "hints": {
+      "hint1": "Lower-body garment",
+      "hint2": "T R I K S"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0063",
+    "word": "tie",
+    "hints": {
+      "hint1": "Neckwear accessory",
+      "hint2": "E I T"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0064",
+    "word": "hug",
+    "hints": {
+      "hint1": "To hold someone close",
+      "hint2": "G U H"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0065",
+    "word": "kiss",
+    "hints": {
+      "hint1": "A gentle touch with lips",
+      "hint2": "S S I K"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0066",
+    "word": "run",
+    "hints": {
+      "hint1": "To move fast on feet",
+      "hint2": "N U R"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0067",
+    "word": "jump",
+    "hints": {
+      "hint1": "To spring off ground",
+      "hint2": "P M U J"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0068",
+    "word": "swim",
+    "hints": {
+      "hint1": "To move in water",
+      "hint2": "M I W S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0069",
+    "word": "walk",
+    "hints": {
+      "hint1": "To move by putting one foot in front",
+      "hint2": "K L A W"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0070",
+    "word": "sit",
+    "hints": {
+      "hint1": "To rest on your bottom",
+      "hint2": "T I S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0071",
+    "word": "stand",
+    "hints": {
+      "hint1": "To be on your feet",
+      "hint2": "D N A T S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0072",
+    "word": "eat",
+    "hints": {
+      "hint1": "To put food in mouth",
+      "hint2": "T A E"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0073",
+    "word": "drink",
+    "hints": {
+      "hint1": "To swallow a liquid",
+      "hint2": "K N I R D"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0074",
+    "word": "read",
+    "hints": {
+      "hint1": "To look at words",
+      "hint2": "D A E R"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0075",
+    "word": "write",
+    "hints": {
+      "hint1": "To form letters with pen",
+      "hint2": "E T I R W"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0076",
+    "word": "sleep",
+    "hints": {
+      "hint1": "To rest with eyes closed",
+      "hint2": "P E E L S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0077",
+    "word": "laugh",
+    "hints": {
+      "hint1": "To make joyful sound",
+      "hint2": "H G U A L"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0078",
+    "word": "cry",
+    "hints": {
+      "hint1": "To shed tears",
+      "hint2": "Y R C"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0079",
+    "word": "look",
+    "hints": {
+      "hint1": "To direct your eyes",
+      "hint2": "K O O L"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0080",
+    "word": "listen",
+    "hints": {
+      "hint1": "To pay attention to sound",
+      "hint2": "N E T S I L"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0081",
+    "word": "smile",
+    "hints": {
+      "hint1": "To make happy mouth shape",
+      "hint2": "E L I M S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0082",
+    "word": "shout",
+    "hints": {
+      "hint1": "To speak very loudly",
+      "hint2": "T U O H S"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0083",
+    "word": "mom",
+    "hints": {
+      "hint1": "Your female parent",
+      "hint2": "M O M"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0084",
+    "word": "dad",
+    "hints": {
+      "hint1": "Your male parent",
+      "hint2": "D A D"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0085",
+    "word": "brother",
+    "hints": {
+      "hint1": "A male sibling",
+      "hint2": "R E H T O R B"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0086",
+    "word": "sister",
+    "hints": {
+      "hint1": "A female sibling",
+      "hint2": "R E T S I S"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0087",
+    "word": "grandma",
+    "hints": {
+      "hint1": "Your mother’s mother",
+      "hint2": "A D M A R G R A"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0088",
+    "word": "grandpa",
+    "hints": {
+      "hint1": "Your father’s father",
+      "hint2": "A P D N A R G"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0089",
+    "word": "baby",
+    "hints": {
+      "hint1": "A very young child",
+      "hint2": "Y B A B"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0090",
+    "word": "friend",
+    "hints": {
+      "hint1": "Someone you like a lot",
+      "hint2": "D N E I R F"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0091",
+    "word": "teacher",
+    "hints": {
+      "hint1": "Someone who teaches",
+      "hint2": "R E H C A E T"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0092",
+    "word": "doctor",
+    "hints": {
+      "hint1": "Someone who heals people",
+      "hint2": "R O T C O D"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0093",
+    "word": "nurse",
+    "hints": {
+      "hint1": "A helper in a hospital",
+      "hint2": "E S R U N"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0094",
+    "word": "policeman",
+    "hints": {
+      "hint1": "Someone who keeps order",
+      "hint2": "N A M E C I L O P"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0095",
+    "word": "firefighter",
+    "hints": {
+      "hint1": "Person who fights fires",
+      "hint2": "R E T H G I F E F I R"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0096",
+    "word": "farmer",
+    "hints": {
+      "hint1": "Person who grows crops",
+      "hint2": "R E M R A F"
+    },
+    "category": "profession",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0097",
+    "word": "student",
+    "hints": {
+      "hint1": "A learner in school",
+      "hint2": "T N E D U T S"
+    },
+    "category": "people",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0098",
+    "word": "candy",
+    "hints": {
+      "hint1": "A sweet sugary treat",
+      "hint2": "Y D N A C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0099",
+    "word": "pizza",
+    "hints": {
+      "hint1": "A cheesy round food",
+      "hint2": "A Z Z I P"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  },
+  {
+    "id": "0100",
+    "word": "movie",
+    "hints": {
+      "hint1": "Moving-picture story",
+      "hint2": "E I V O M"
+    },
+    "category": "entertainment",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 1
+    }
+  }
+]

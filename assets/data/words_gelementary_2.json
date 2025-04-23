@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "0101",
+    "word": "lion",
+    "hints": {
+      "hint1": "A big wild cat",
+      "hint2": "O I N L"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0102",
+    "word": "tiger",
+    "hints": {
+      "hint1": "A striped large cat",
+      "hint2": "E I G R T"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0103",
+    "word": "elephant",
+    "hints": {
+      "hint1": "A large gray mammal",
+      "hint2": "T E L A H P N E"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0104",
+    "word": "monkey",
+    "hints": {
+      "hint1": "A playful tree animal",
+      "hint2": "N O K Y M E"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0105",
+    "word": "zebra",
+    "hints": {
+      "hint1": "A striped black and white horse",
+      "hint2": "A R B E Z"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0106",
+    "word": "giraffe",
+    "hints": {
+      "hint1": "A tall long-necked animal",
+      "hint2": "G I F R A E F"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0107",
+    "word": "whale",
+    "hints": {
+      "hint1": "A huge ocean mammal",
+      "hint2": "A L H E W"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0108",
+    "word": "dolphin",
+    "hints": {
+      "hint1": "A smart sea mammal",
+      "hint2": "L O P I N H D"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0109",
+    "word": "bear",
+    "hints": {
+      "hint1": "A big furry forest animal",
+      "hint2": "E A B R"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0110",
+    "word": "rabbit",
+    "hints": {
+      "hint1": "A small hopping animal",
+      "hint2": "R B T I B A"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0111",
+    "word": "turtle",
+    "hints": {
+      "hint1": "A slow shelled reptile",
+      "hint2": "E T L R U T"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0112",
+    "word": "kangaroo",
+    "hints": {
+      "hint1": "A jumping pouch mammal",
+      "hint2": "A R O K G A O N"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0113",
+    "word": "panda",
+    "hints": {
+      "hint1": "A black-and-white bear",
+      "hint2": "D N A P A"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0114",
+    "word": "shark",
+    "hints": {
+      "hint1": "A large sea fish",
+      "hint2": "K A H S R"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0115",
+    "word": "spider",
+    "hints": {
+      "hint1": "An eight-legged insect-like",
+      "hint2": "R S E P I D"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0116",
+    "word": "butterfly",
+    "hints": {
+      "hint1": "A colorful flying insect",
+      "hint2": "B R T Y L F U T E"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0117",
+    "word": "snail",
+    "hints": {
+      "hint1": "A slow shell creature",
+      "hint2": "S N A L I"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0118",
+    "word": "crocodile",
+    "hints": {
+      "hint1": "A large river reptile",
+      "hint2": "D I R C C O L E O"
+    },
+    "category": "animal",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0119",
+    "word": "strawberry",
+    "hints": {
+      "hint1": "A red juicy berry",
+      "hint2": "R B T A E R S R Y W"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0120",
+    "word": "orange",
+    "hints": {
+      "hint1": "A citrus round fruit",
+      "hint2": "G E N A R O"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0121",
+    "word": "grapes",
+    "hints": {
+      "hint1": "Small purple or green fruits",
+      "hint2": "G R P S A E"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0122",
+    "word": "lemon",
+    "hints": {
+      "hint1": "A sour yellow fruit",
+      "hint2": "L E M O N"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0123",
+    "word": "melon",
+    "hints": {
+      "hint1": "A sweet green fruit",
+      "hint2": "O E N L M"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0124",
+    "word": "carrot",
+    "hints": {
+      "hint1": "A crunchy orange vegetable",
+      "hint2": "T R R A O C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0125",
+    "word": "tomato",
+    "hints": {
+      "hint1": "A red juicy vegetable",
+      "hint2": "A M O O T T"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0126",
+    "word": "potato",
+    "hints": {
+      "hint1": "A starchy brown vegetable",
+      "hint2": "P O T A T O"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0127",
+    "word": "broccoli",
+    "hints": {
+      "hint1": "A green tree-like veg",
+      "hint2": "L C O O I R C B"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0128",
+    "word": "lettuce",
+    "hints": {
+      "hint1": "A leafy green veg",
+      "hint2": "T C E E U T L"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0129",
+    "word": "sandwich",
+    "hints": {
+      "hint1": "Bread with filling inside",
+      "hint2": "A D H S N W I C"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0130",
+    "word": "icecream",
+    "hints": {
+      "hint1": "A cold sweet dessert",
+      "hint2": "M I A C R E C E"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0131",
+    "word": "yogurt",
+    "hints": {
+      "hint1": "A creamy dairy snack",
+      "hint2": "U R Y T O G"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0132",
+    "word": "cereal",
+    "hints": {
+      "hint1": "Breakfast grain flakes",
+      "hint2": "E R E A C L"
+    },
+    "category": "food",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0133",
+    "word": "mountain",
+    "hints": {
+      "hint1": "A high rocky land",
+      "hint2": "N I A T N U O M"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0134",
+    "word": "river",
+    "hints": {
+      "hint1": "A flowing waterway",
+      "hint2": "R I V E R"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0135",
+    "word": "forest",
+    "hints": {
+      "hint1": "A large area of trees",
+      "hint2": "E F R O S T"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0136",
+    "word": "desert",
+    "hints": {
+      "hint1": "A dry sandy area",
+      "hint2": "S R T E E D"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0137",
+    "word": "ocean",
+    "hints": {
+      "hint1": "A vast saltwater sea",
+      "hint2": "O C E A N"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0138",
+    "word": "beach",
+    "hints": {
+      "hint1": "Sandy shore by water",
+      "hint2": "H C A E B"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0139",
+    "word": "island",
+    "hints": {
+      "hint1": "Land surrounded by water",
+      "hint2": "D S I A N L"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0140",
+    "word": "valley",
+    "hints": {
+      "hint1": "Low land between hills",
+      "hint2": "Y L V A L E"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0141",
+    "word": "waterfall",
+    "hints": {
+      "hint1": "Water falling off cliff",
+      "hint2": "A L A E T L R W F"
+    },
+    "category": "nature",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0142",
+    "word": "thunder",
+    "hints": {
+      "hint1": "A loud storm sound",
+      "hint2": "N U E T R D H"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0143",
+    "word": "lightning",
+    "hints": {
+      "hint1": "A flash in storms",
+      "hint2": "G N L N I I G H T"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0144",
+    "word": "rainbow",
+    "hints": {
+      "hint1": "Color arc after rain",
+      "hint2": "I N B A O R W"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0145",
+    "word": "fog",
+    "hints": {
+      "hint1": "Thick mist in air",
+      "hint2": "G O F"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0146",
+    "word": "storm",
+    "hints": {
+      "hint1": "Strong wind and rain",
+      "hint2": "S T M R O"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0147",
+    "word": "hail",
+    "hints": {
+      "hint1": "Ice pellets from sky",
+      "hint2": "A L I H"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0148",
+    "word": "tornado",
+    "hints": {
+      "hint1": "A rotating wind funnel",
+      "hint2": "A N R O O T D"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0149",
+    "word": "hurricane",
+    "hints": {
+      "hint1": "A powerful tropical storm",
+      "hint2": "H R A C I U N R E"
+    },
+    "category": "weather",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0150",
+    "word": "airplane",
+    "hints": {
+      "hint1": "A flying transport",
+      "hint2": "R I P E L A A N"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0151",
+    "word": "helicopter",
+    "hints": {
+      "hint1": "A rotor-wing aircraft",
+      "hint2": "I L O E E C H R T P"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0152",
+    "word": "taxi",
+    "hints": {
+      "hint1": "A hired car ride",
+      "hint2": "X T A I"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0153",
+    "word": "truck",
+    "hints": {
+      "hint1": "A large goods vehicle",
+      "hint2": "U C T K R"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0154",
+    "word": "scooter",
+    "hints": {
+      "hint1": "A small two-wheel ride",
+      "hint2": "O S T C R O E"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0155",
+    "word": "motorcycle",
+    "hints": {
+      "hint1": "A two-wheel motor bike",
+      "hint2": "T C Y O E C O M L R"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0156",
+    "word": "submarine",
+    "hints": {
+      "hint1": "A vessel under water",
+      "hint2": "U S M A R B E N I"
+    },
+    "category": "transport",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0157",
+    "word": "gloves",
+    "hints": {
+      "hint1": "Hand-warming wear",
+      "hint2": "S V G E L O"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0158",
+    "word": "scarf",
+    "hints": {
+      "hint1": "A warm neck wrap",
+      "hint2": "A F C S R"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0159",
+    "word": "belt",
+    "hints": {
+      "hint1": "Waist holding strap",
+      "hint2": "E B L T"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0160",
+    "word": "boots",
+    "hints": {
+      "hint1": "Sturdy foot covering",
+      "hint2": "B S O T O"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0161",
+    "word": "sweater",
+    "hints": {
+      "hint1": "A warm knit top",
+      "hint2": "S W A E T R E"
+    },
+    "category": "clothing",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0162",
+    "word": "head",
+    "hints": {
+      "hint1": "Top of your body",
+      "hint2": "A E D H"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0163",
+    "word": "hand",
+    "hints": {
+      "hint1": "End of your arm",
+      "hint2": "H A D N"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0164",
+    "word": "foot",
+    "hints": {
+      "hint1": "End of your leg",
+      "hint2": "F O O T"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0165",
+    "word": "arm",
+    "hints": {
+      "hint1": "Between shoulder and hand",
+      "hint2": "A M R"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0166",
+    "word": "leg",
+    "hints": {
+      "hint1": "Between hip and foot",
+      "hint2": "G E L"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0167",
+    "word": "eye",
+    "hints": {
+      "hint1": "Organ for seeing",
+      "hint2": "E Y E"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0168",
+    "word": "ear",
+    "hints": {
+      "hint1": "Organ for hearing",
+      "hint2": "R A E"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0169",
+    "word": "nose",
+    "hints": {
+      "hint1": "Organ for smelling",
+      "hint2": "S O N E"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0170",
+    "word": "mouth",
+    "hints": {
+      "hint1": "Organ for talking",
+      "hint2": "T H M O U"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0171",
+    "word": "hair",
+    "hints": {
+      "hint1": "Strands on your head",
+      "hint2": "R I A H"
+    },
+    "category": "body",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0172",
+    "word": "desk",
+    "hints": {
+      "hint1": "A work table at school",
+      "hint2": "K S E D"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0173",
+    "word": "blackboard",
+    "hints": {
+      "hint1": "Chalk writing surface",
+      "hint2": "O A L B B A C R K D"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0174",
+    "word": "chalk",
+    "hints": {
+      "hint1": "Used to write on board",
+      "hint2": "K L A H C"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0175",
+    "word": "eraser",
+    "hints": {
+      "hint1": "Removes pencil marks",
+      "hint2": "A S E E R R"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0176",
+    "word": "notebook",
+    "hints": {
+      "hint1": "Pages bound for notes",
+      "hint2": "T N O O O K E B"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0177",
+    "word": "ruler",
+    "hints": {
+      "hint1": "Tool to measure length",
+      "hint2": "U R E L R"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0178",
+    "word": "scissors",
+    "hints": {
+      "hint1": "Tool to cut paper",
+      "hint2": "O S S R S S C I"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0179",
+    "word": "glue",
+    "hints": {
+      "hint1": "Sticky paste for paper",
+      "hint2": "G E L U"
+    },
+    "category": "object",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0180",
+    "word": "library",
+    "hints": {
+      "hint1": "Place with many books",
+      "hint2": "R R B A I L Y"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0181",
+    "word": "classroom",
+    "hints": {
+      "hint1": "Room where lessons happen",
+      "hint2": "S L R M O C S O A"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0182",
+    "word": "playground",
+    "hints": {
+      "hint1": "Outdoor play area",
+      "hint2": "O R L D P N Y U A G"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0183",
+    "word": "gym",
+    "hints": {
+      "hint1": "Indoor exercise hall",
+      "hint2": "G Y M"
+    },
+    "category": "place",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0184",
+    "word": "red",
+    "hints": {
+      "hint1": "The color of fire",
+      "hint2": "D E R"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0185",
+    "word": "blue",
+    "hints": {
+      "hint1": "The color of sky",
+      "hint2": "B L E U"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0186",
+    "word": "green",
+    "hints": {
+      "hint1": "The color of grass",
+      "hint2": "R G E N E"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0187",
+    "word": "yellow",
+    "hints": {
+      "hint1": "The color of the sun",
+      "hint2": "L E W Y O L"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0188",
+    "word": "black",
+    "hints": {
+      "hint1": "The darkest color",
+      "hint2": "C A L B K"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0189",
+    "word": "white",
+    "hints": {
+      "hint1": "The lightest color",
+      "hint2": "W E T H I"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0190",
+    "word": "pink",
+    "hints": {
+      "hint1": "A light red hue",
+      "hint2": "K N I P"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0191",
+    "word": "purple",
+    "hints": {
+      "hint1": "A mix of red and blue",
+      "hint2": "P U R P L E"
+    },
+    "category": "color",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0192",
+    "word": "climb",
+    "hints": {
+      "hint1": "To go up steps or hill",
+      "hint2": "L C I M B"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0193",
+    "word": "draw",
+    "hints": {
+      "hint1": "To make a picture",
+      "hint2": "D R A W"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0194",
+    "word": "paint",
+    "hints": {
+      "hint1": "To cover with color",
+      "hint2": "P A N T I"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0195",
+    "word": "sing",
+    "hints": {
+      "hint1": "To make musical voice",
+      "hint2": "I S G N"
+    },
+    "category": "action",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0196",
+    "word": "circle",
+    "hints": {
+      "hint1": "A round two-dimensional shape",
+      "hint2": "C I R E C L"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0197",
+    "word": "square",
+    "hints": {
+      "hint1": "Four equal sides shape",
+      "hint2": "E R S Q U A"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0198",
+    "word": "triangle",
+    "hints": {
+      "hint1": "Three-sided shape",
+      "hint2": "G R T L N A I E"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0199",
+    "word": "rectangle",
+    "hints": {
+      "hint1": "Four-sided shape with opposite sides equal",
+      "hint2": "E L G N A T C E R"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  },
+  {
+    "id": "0200",
+    "word": "oval",
+    "hints": {
+      "hint1": "An egg-like shape",
+      "hint2": "O V A L"
+    },
+    "category": "shape",
+    "education": {
+      "schoolLevel": "elementary",
+      "grade": 2
+    }
+  }
+]
