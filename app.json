@@ -11,10 +11,7 @@
       "backgroundColor": "#F5F7FA"
     },
     "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/logo.png",
-      "staticDirectory": "./web-build"
+      "favicon": "./assets/images/logo.png"
     },
     "android": {
       "package": "com.yourcompany.vocaman",
