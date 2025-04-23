@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Colors } from "../constants/theme";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/images/logo.png";
 import { useGame, GradeType } from "../components/GameProvider";
 import { LoadingScreen } from "../components/LoadingScreen";
 
@@ -92,15 +92,15 @@ export const IntroScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: Colors.background,
-    backgroundColor: "#FAF3E6",
+    backgroundColor: Colors.background,
   },
   content: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: Colors.background,
+    // backgroundColor: Colors.background,
+    backgroundColor: "#FAF3E6",
   },
   logo: {
     width: 300,

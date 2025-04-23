@@ -6,6 +6,12 @@ module.exports = {
   ...defaultConfig,
   resolver: {
     ...defaultConfig.resolver,
-    assetExts: [...defaultConfig.resolver.assetExts, "png"],
+    assetExts: [
+      ...defaultConfig.resolver.assetExts,
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+    ],
   },
 };

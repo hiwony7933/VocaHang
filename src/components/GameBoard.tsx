@@ -123,18 +123,19 @@ const styles = StyleSheet.create({
   wordContainer: {
     flexDirection: "row",
     marginBottom: 20,
+    marginTop: 20,
   },
   letterContainer: {
     alignItems: "center",
     marginHorizontal: 2,
   },
   letter: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
     color: Colors.text,
   },
   underline: {
-    width: 30,
+    width: 26,
     height: 2,
     backgroundColor: Colors.text,
     marginTop: 5,

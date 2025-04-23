@@ -1,9 +1,18 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    // … 나머지 옵션 …
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "assets/*"]
+    },
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "jsx": "react-native",
+    "types": ["react-native", "jest"],
+    "allowJs": true,
+    "skipLibCheck": true
   },
-  "include": ["src", "App.tsx", "assets/data","index.ts"]
+  "include": ["**/*.ts", "**/*.tsx", "assets/**/*"],
+  "exclude": ["node_modules"]
 }

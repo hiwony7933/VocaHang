@@ -316,7 +316,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     const availableWords = wordList.filter(
-      (word) => !solvedWordIds.includes(word.id)
+      (word) => word.id && !solvedWordIds.includes(word.id)
     );
 
     if (availableWords.length === 0) {
@@ -324,8 +324,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       const halfLength = Math.floor(solvedWordIds.length / 2);
       const oldestSolvedWords = solvedWordIds.slice(0, halfLength);
       setSolvedWordIds(solvedWordIds.slice(halfLength));
-      const resetWords = wordList.filter((word) =>
-        oldestSolvedWords.includes(word.id)
+      const resetWords = wordList.filter(
+        (word) => word.id && oldestSolvedWords.includes(word.id)
       );
       if (resetWords.length > 0) {
         const randomWord =
@@ -390,7 +390,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const markWordAsSolved = () => {
     if (currentWord && currentWord.id) {
-      setSolvedWordIds((prev) => [...prev, currentWord.id]);
+      setSolvedWordIds((prev) => [...prev, currentWord.id as string]);
       setWins((prev) => prev + 1);
       setCurrentStreak((prev) => prev + 1);
       setBestStreak((prev) => Math.max(prev, currentStreak + 1));
