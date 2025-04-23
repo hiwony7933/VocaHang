@@ -15,7 +15,7 @@ import {
   BookIcon,
   StatsIcon,
   SettingsIcon,
-  HeartIcon,
+  // HeartIcon,
 } from "./icons";
 
 interface GNBProps {
