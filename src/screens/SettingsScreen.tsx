@@ -11,7 +11,6 @@ import { useGame, GradeType } from "../components/GameProvider";
 import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import Constants from "expo-constants";
 
 type RootStackParamList = {
   VocaMan: undefined;
@@ -86,15 +85,6 @@ export const SettingsScreen = () => {
                 </Text>
               </TouchableOpacity>
             ))}
-          </View>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>앱 정보</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>
-              버전: {Constants.expoConfig?.version}
-            </Text>
           </View>
         </View>
 
