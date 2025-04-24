@@ -2,7 +2,7 @@
   "expo": {
     "name": "VocaMan",
     "slug": "vocaman",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "splash": {
@@ -17,8 +17,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "$EAS_PROJECT_ID"
+        "projectId": "362c144d-4fb8-4faf-805f-db10f74c5452"
       }
-    }
+    },
+    "owner": "joowonlee"
   }
 }

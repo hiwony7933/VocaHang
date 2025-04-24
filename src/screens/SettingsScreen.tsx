@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Colors } from "../constants/theme";
 import { useGame, GradeType } from "../components/GameProvider";
 import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import Constants from "expo-constants";
 
 type RootStackParamList = {
   VocaMan: undefined;
@@ -40,7 +47,7 @@ export const SettingsScreen = () => {
   return (
     <View style={styles.container}>
       <Header onMenuPress={() => setIsGNBVisible(true)} />
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>키보드 레이아웃</Text>
           <View style={styles.settingItem}>
@@ -82,13 +89,22 @@ export const SettingsScreen = () => {
           </View>
         </View>
 
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>앱 정보</Text>
+          <View style={styles.settingItem}>
+            <Text style={styles.settingText}>
+              버전: {Constants.expoConfig?.version}
+            </Text>
+          </View>
+        </View>
+
         <TouchableOpacity
           style={styles.backToGameButton}
           onPress={() => navigation.navigate("VocaMan")}
         >
           <Text style={styles.backToGameText}>게임으로 돌아가기</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
       <GNB
         visible={isGNBVisible}
         onClose={() => setIsGNBVisible(false)}

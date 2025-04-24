@@ -1,0 +1,171 @@
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors } from "../constants/theme";
+import Constants from "expo-constants";
+import { Header } from "../components/Header";
+import { GNB } from "../components/GNB";
+import { useNavigation } from "@react-navigation/native";
+
+const AppInfoScreen = () => {
+  const [isGNBVisible, setIsGNBVisible] = useState(false);
+  const navigation = useNavigation();
+
+  const releaseNotes = [
+    {
+      version: "1.0.1",
+      date: "2025.04",
+      notes: [
+        "VocaMan 앱 안정성 개선",
+        "게임 플레이 경험 개선",
+        "키보드 레이아웃 전환 시 발생하던 버그 수정",
+        "일부 기기에서 발생하던 화면 깜빡임 현상 수정",
+      ],
+    },
+    {
+      version: "1.0.0",
+      date: "2025.04",
+      notes: [
+        "VocaMan 앱 최초 출시",
+        "초등학교 1~6학년 영단어 학습 게임 기능",
+        "QWERTY/ABC 키보드 레이아웃 지원",
+        "학년별 맞춤 단어장 제공",
+        "게임 진행 상황 저장 기능",
+      ],
+    },
+  ];
+
+  return (
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
+      <Header onMenuPress={() => setIsGNBVisible(true)} />
+      <ScrollView style={styles.content}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>버전 정보</Text>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>현재 버전</Text>
+            <Text style={styles.infoValue}>
+              {Constants.expoConfig?.version}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>개발자 정보</Text>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>개발자</Text>
+            <Text style={styles.infoValue}>VocaMan Team</Text>
+          </View>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>이메일</Text>
+            <Text style={styles.infoValue}>hiwony7933@gmail.com</Text>
+          </View>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>릴리즈 노트</Text>
+          {releaseNotes.map((release, index) => (
+            <View key={index} style={styles.releaseNote}>
+              <View style={styles.releaseHeader}>
+                <Text style={styles.releaseVersion}>v{release.version}</Text>
+                <Text style={styles.releaseDate}>({release.date})</Text>
+              </View>
+              <View style={styles.releaseNotes}>
+                {release.notes.map((note, noteIndex) => (
+                  <View key={noteIndex} style={styles.noteItem}>
+                    <Text style={styles.bullet}>•</Text>
+                    <Text style={styles.releaseNoteText}>{note}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+      <GNB
+        visible={isGNBVisible}
+        onClose={() => setIsGNBVisible(false)}
+        onNavigate={(screen) => {
+          navigation.navigate(screen as never);
+          setIsGNBVisible(false);
+        }}
+      />
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 16,
+    color: Colors.text,
+  },
+  infoItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  infoLabel: {
+    fontSize: 16,
+    color: Colors.text,
+  },
+  infoValue: {
+    fontSize: 16,
+    color: Colors.textSecondary,
+  },
+  releaseNote: {
+    marginBottom: 24,
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  releaseHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  releaseVersion: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: Colors.primary,
+    marginRight: 8,
+  },
+  releaseDate: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+  releaseNotes: {
+    paddingLeft: 8,
+  },
+  noteItem: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 8,
+  },
+  bullet: {
+    fontSize: 16,
+    color: Colors.text,
+    marginRight: 8,
+  },
+  releaseNoteText: {
+    fontSize: 14,
+    color: Colors.text,
+    flex: 1,
+  },
+});
+
+export default AppInfoScreen;

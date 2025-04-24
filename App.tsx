@@ -15,6 +15,7 @@ import { DashboardScreen } from "./src/screens/DashboardScreen";
 import { SettingsScreen } from "./src/screens/SettingsScreen";
 import { SupportScreen } from "./src/screens/SupportScreen";
 import { TutorialScreen } from "./src/screens/TutorialScreen";
+import AppInfoScreen from "./src/screens/AppInfoScreen";
 
 // Android에서 LayoutAnimation 활성화
 if (
@@ -46,6 +47,7 @@ function NavigationWrapper() {
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Support" component={SupportScreen} />
         <Stack.Screen name="Tutorial" component={TutorialScreen} />
+        <Stack.Screen name="AppInfo" component={AppInfoScreen} />
       </Stack.Navigator>
       <GNB
         visible={isGNBVisible}

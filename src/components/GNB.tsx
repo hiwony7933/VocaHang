@@ -16,6 +16,7 @@ import {
   BookIcon,
   StatsIcon,
   SettingsIcon,
+  InfoIcon,
   // HeartIcon,
 } from "./icons";
 
@@ -69,6 +70,11 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
       name: "설정",
       icon: SettingsIcon,
       screen: "Settings",
+    },
+    {
+      name: "앱 정보",
+      icon: InfoIcon,
+      screen: "AppInfo",
     },
     // {
     //   name: "후원하기",

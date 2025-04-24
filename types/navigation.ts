@@ -1,1 +1,7 @@
-export type RootStackParamList = { Intro: undefined; VocaMan: undefined; Dashboard: undefined; Settings: undefined; Support: undefined; Tutorial: undefined; };
+export type RootStackParamList = {
+  VocaMan: undefined;
+  Settings: undefined;
+  Support: undefined;
+  Dashboard: undefined;
+  AppInfo: undefined;
+};
