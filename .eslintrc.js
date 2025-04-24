@@ -12,8 +12,16 @@ module.exports = {
     extraFileExtensions: [".html"],
   },
   plugins: ["@typescript-eslint"],
-  ignorePatterns: ["*.html", "node_modules/", "dist/"],
+  ignorePatterns: [
+    "*.html",
+    "node_modules/",
+    "dist/",
+    ".eslintrc.js",
+    "jest.config.js",
+    "metro.config.js",
+  ],
   rules: {
     "no-console": "off",
+    "@typescript-eslint/no-require-imports": "off",
   },
 };
