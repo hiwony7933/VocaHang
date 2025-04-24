@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { GameProvider, useGame } from "../components/GameProvider";
 import { GameBoard } from "../components/GameBoard";
 import { GameModal } from "../components/GameModal";
@@ -19,7 +20,7 @@ const VocaManContent = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <Header onMenuPress={() => setIsGNBVisible(true)} />
       <GameBoard />
       <GameModal />
@@ -31,7 +32,7 @@ const VocaManContent = () => {
           setIsGNBVisible(false);
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

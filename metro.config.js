@@ -1,17 +1,12 @@
 const { getDefaultConfig } = require("@expo/metro-config");
 
-const defaultConfig = getDefaultConfig(__dirname);
+const config = getDefaultConfig(__dirname);
 
-module.exports = {
-  ...defaultConfig,
-  resolver: {
-    ...defaultConfig.resolver,
-    assetExts: [
-      ...defaultConfig.resolver.assetExts,
-      "png",
-      "jpg",
-      "jpeg",
-      "gif",
-    ],
-  },
-};
+config.resolver.sourceExts = ["jsx", "js", "ts", "tsx", "json"];
+config.transformer.unstable_allowRequireContext = true;
+
+// Disable Hermes for web platform
+config.transformer.unstable_transformProfile =
+  process.env.PLATFORM === "web" ? undefined : "hermes-stable";
+
+module.exports = config;

@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { SafeAreaView, StyleSheet, Platform, UIManager } from "react-native";
+import { StyleSheet, Platform, UIManager } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "./src/constants/theme";
 import { GNB } from "./src/components/GNB";
 import { GameProvider } from "./src/components/GameProvider";
@@ -30,7 +31,7 @@ function NavigationWrapper() {
   const [isGNBVisible, setIsGNBVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <Stack.Navigator
         id={undefined}
         initialRouteName="Intro"
@@ -61,11 +62,13 @@ function NavigationWrapper() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <GameProvider>
-        <NavigationWrapper />
-      </GameProvider>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <GameProvider>
+          <NavigationWrapper />
+        </GameProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

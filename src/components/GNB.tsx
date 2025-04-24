@@ -9,6 +9,7 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import {
   GameIcon,
@@ -83,42 +84,45 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
       animationType="none"
       onRequestClose={onClose}
     >
-      <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
-        <TouchableOpacity
-          style={styles.overlayTouchable}
-          activeOpacity={1}
-          onPress={onClose}
-        />
-        <Animated.View
-          style={[
-            styles.container,
-            {
-              opacity: fadeAnim,
-              height: height,
-              width: menuWidth,
-              right: 0,
-            },
-          ]}
-        >
-          <View style={styles.menuContainer}>
-            {menuItems.map((item) => (
-              <TouchableOpacity
-                key={item.screen}
-                style={styles.menuItem}
-                onPress={() => {
-                  onNavigate(item.screen);
-                  onClose();
-                }}
-              >
-                <item.icon size={24} color={Colors.text} />
-                <View style={styles.menuTextContainer}>
-                  <Text style={styles.menuText}>{item.name}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+      <SafeAreaView style={styles.overlay} edges={["top", "left", "right"]}>
+        <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
+          <TouchableOpacity
+            style={styles.overlayTouchable}
+            activeOpacity={1}
+            onPress={onClose}
+          />
+          <Animated.View
+            style={[
+              styles.container,
+              {
+                opacity: fadeAnim,
+                height: height,
+                width: menuWidth,
+                right: 0,
+              },
+              Platform.OS === "web" && styles.containerWeb,
+            ]}
+          >
+            <View style={styles.menuContainer}>
+              {menuItems.map((item) => (
+                <TouchableOpacity
+                  key={item.screen}
+                  style={styles.menuItem}
+                  onPress={() => {
+                    onNavigate(item.screen);
+                    onClose();
+                  }}
+                >
+                  <item.icon size={24} color={Colors.text} />
+                  <View style={styles.menuTextContainer}>
+                    <Text style={styles.menuText}>{item.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
+      </SafeAreaView>
     </Modal>
   );
 };
@@ -164,5 +168,9 @@ const styles = StyleSheet.create({
   menuText: {
     fontSize: 16,
     color: Colors.text,
+  },
+  containerWeb: {
+    maxWidth: 360,
+    margin: "auto",
   },
 });

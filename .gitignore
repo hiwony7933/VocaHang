@@ -34,3 +34,19 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Service account key
+config/google-service-account-key.json
+
+# Android
+android/app/google-services.json
+android/app/app-ads.txt
+android/app/*.keystore
+android/app/*.jks
+android/app/*.p12
+android/app/*.key
+
+# Environment variables
+.env
+.env.*
+!.env.example

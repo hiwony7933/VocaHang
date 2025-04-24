@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
@@ -10,7 +11,7 @@ export const DashboardScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <Header onMenuPress={() => setIsGNBVisible(true)} />
       <View style={styles.content}>
         <Text style={styles.title}>통계</Text>
@@ -24,7 +25,7 @@ export const DashboardScreen = () => {
           setIsGNBVisible(false);
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

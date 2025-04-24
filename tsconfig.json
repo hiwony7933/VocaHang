@@ -11,8 +11,9 @@
     "jsx": "react-native",
     "types": ["react-native", "jest"],
     "allowJs": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["ES2015", "DOM"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "assets/**/*"],
+  "include": ["**/*.ts", "**/*.tsx", "assets/**/*", "types/**/*"],
   "exclude": ["node_modules"]
 }

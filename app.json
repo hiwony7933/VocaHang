@@ -6,8 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
       "backgroundColor": "#F5F7FA"
     },
     "web": {
@@ -15,18 +13,12 @@
     },
     "android": {
       "package": "com.hiwony.vocaman",
-      "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icon.png",
-        "backgroundColor": "#F5F7FA"
-      },
       "permissions": []
     },
     "extra": {
       "eas": {
-        "projectId": "362c144d-4fb8-4faf-805f-db10f74c5452"
+        "projectId": "$EAS_PROJECT_ID"
       }
-    },
-    "owner": "joowonlee"
+    }
   }
 }

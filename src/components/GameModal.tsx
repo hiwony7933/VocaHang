@@ -6,7 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
+  Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useGame } from "./GameProvider";
 import { Colors } from "../constants/theme";
 
@@ -42,28 +44,37 @@ export const GameModal: React.FC = () => {
       animationType="fade"
       onRequestClose={() => setShowModal(false)}
     >
-      <View style={styles.modalOverlay}>
-        <Animated.View
-          style={[styles.modalContent, { transform: [{ scale: modalScale }] }]}
-        >
-          <Text style={styles.modalTitle}>
-            {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
-          </Text>
-          <Text style={styles.modalAnswer}>Answer: {currentWord.word}</Text>
-          <TouchableOpacity
-            style={styles.modalButton}
-            onPress={() => {
-              setShowModal(false);
-              setTimeout(() => {
-                handleNext();
-              }, 200);
-            }}
-            accessibilityRole="button"
+      <SafeAreaView
+        style={styles.modalOverlay}
+        edges={["top", "left", "right"]}
+      >
+        <View style={styles.modalOverlay}>
+          <Animated.View
+            style={[
+              styles.modalContent,
+              { transform: [{ scale: modalScale }] },
+              Platform.OS === "web" && styles.modalContentWeb,
+            ]}
           >
-            <Text style={styles.modalButtonText}>Next</Text>
-          </TouchableOpacity>
-        </Animated.View>
-      </View>
+            <Text style={styles.modalTitle}>
+              {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
+            </Text>
+            <Text style={styles.modalAnswer}>Answer: {currentWord.word}</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                setShowModal(false);
+                setTimeout(() => {
+                  handleNext();
+                }, 200);
+              }}
+              accessibilityRole="button"
+            >
+              <Text style={styles.modalButtonText}>Next</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+      </SafeAreaView>
     </Modal>
   );
 };
@@ -102,5 +113,9 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: "#fff",
     fontSize: 16,
+  },
+  modalContentWeb: {
+    maxWidth: 400,
+    margin: "auto",
   },
 });

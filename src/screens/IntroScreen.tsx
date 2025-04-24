@@ -7,19 +7,12 @@ import {
   Image,
   Modal,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import logo from "../../assets/images/logo.png";
 import { useGame, GradeType } from "../components/GameProvider";
 import { LoadingScreen } from "../components/LoadingScreen";
-
-type RootStackParamList = {
-  Intro: undefined;
-  VocaMan: undefined;
-  Settings: undefined;
-  Stats: undefined;
-  Support: undefined;
-};
+import { RootStackParamList } from "../../types/navigation";
 
 type NavigationProps = NavigationProp<RootStackParamList>;
 
@@ -53,12 +46,18 @@ export const IntroScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <View style={styles.content}>
-        <Image source={logo} style={styles.logo} resizeMode="contain" />
-        <Text style={styles.subtitle}>영어 단어를 재미있게 외우자!</Text>
+        <Image
+          source={require("../../assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.subtitle}>
+          영어 단어를 맞춰보세요!{"\n"}재미있는 게임으로 영어 실력을 키워보세요.
+        </Text>
         <TouchableOpacity style={styles.startButton} onPress={handleStartGame}>
-          <Text style={styles.startButtonText}>게임 시작하기</Text>
+          <Text style={styles.startButtonText}>시작하기</Text>
         </TouchableOpacity>
       </View>
 
@@ -85,22 +84,20 @@ export const IntroScreen = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: "#FAF3E6",
   },
   content: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    // backgroundColor: Colors.background,
-    backgroundColor: "#FAF3E6",
   },
   logo: {
     width: 300,
