@@ -2,7 +2,7 @@
   "expo": {
     "name": "VocaMan",
     "slug": "vocaman",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "splash": {
@@ -13,13 +13,18 @@
     },
     "android": {
       "package": "com.hiwony.vocaman",
-      "permissions": []
+      "versionCode": 4,
+      "permissions": [],
+      "jsEngine": "hermes"
     },
     "extra": {
       "eas": {
         "projectId": "362c144d-4fb8-4faf-805f-db10f74c5452"
       }
     },
-    "owner": "joowonlee"
+    "owner": "joowonlee",
+    "ios": {
+      "bundleIdentifier": "com.hiwony.vocaman"
+    }
   }
 }

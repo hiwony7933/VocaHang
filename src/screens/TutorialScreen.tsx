@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
@@ -16,7 +17,7 @@ export const TutorialScreen: React.FC = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.wrapper}>
+    <SafeAreaView style={styles.wrapper} edges={["top", "left", "right"]}>
       <Header onMenuPress={() => setIsGNBVisible(true)} />
       <ScrollView style={styles.container}>
         <Text style={styles.title}>게임 방법</Text>
@@ -107,7 +108,7 @@ export const TutorialScreen: React.FC = () => {
           setIsGNBVisible(false);
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

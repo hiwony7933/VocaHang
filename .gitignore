@@ -16,6 +16,8 @@ expo-env.d.ts
 *.p12
 *.key
 *.mobileprovision
+android/
+ios/
 
 # Metro
 .metro-health-check*
@@ -35,11 +37,17 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Firebase config files
+config/ios/GoogleService-Info.plist
+config/android/google-services.json
+android/app/google-services.json
+android/app/GoogleService-Info.plist
+ios/*/GoogleService-Info.plist
+
 # Service account key
 config/google-service-account-key.json
 
 # Android
-android/app/google-services.json
 android/app/app-ads.txt
 android/app/*.keystore
 android/app/*.jks
@@ -50,3 +58,7 @@ android/app/*.key
 .env
 .env.*
 !.env.example
+
+# IDE
+.idea/
+.vscode/

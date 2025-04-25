@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { useGame, GradeType } from "../components/GameProvider";
 import { Header } from "../components/Header";
@@ -44,7 +45,7 @@ export const SettingsScreen = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <Header onMenuPress={() => setIsGNBVisible(true)} />
       <ScrollView style={styles.content}>
         <View style={styles.section}>
@@ -103,7 +104,7 @@ export const SettingsScreen = () => {
           setIsGNBVisible(false);
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
