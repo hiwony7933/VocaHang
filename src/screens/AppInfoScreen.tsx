@@ -13,6 +13,16 @@ const AppInfoScreen = () => {
 
   const releaseNotes = [
     {
+      version: "1.0.5",
+      date: "2025.04",
+      notes: [
+        "사운드 시스템 개선",
+        "게임 효과음 추가",
+        "앱 성능 최적화",
+        "사운드 재생 딜레이 감소",
+      ],
+    },
+    {
       version: "1.0.4",
       date: "2025.04",
       notes: [
