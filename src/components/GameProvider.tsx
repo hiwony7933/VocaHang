@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
 
 // 학년별 데이터 import
 import type { WordType } from "../types/word";
@@ -9,6 +10,12 @@ import words3 from "../../assets/data/words_gelementary_3.json";
 import words4 from "../../assets/data/words_gelementary_4.json";
 import words5 from "../../assets/data/words_gelementary_5.json";
 import words6 from "../../assets/data/words_gelementary_6.json";
+
+// 사운드 파일 import
+import wrongSound from "../../assets/sounds/jia_fail_shot_1.m4a";
+import correctSound from "../../assets/sounds/jiho_good_shot_1.m4a";
+import completeSuccessSound from "../../assets/sounds/jiho_jia_complete_1.m4a";
+import completeFailSound from "../../assets/sounds/jia_fail_2.m4a";
 
 export type GradeType = 1 | 2 | 3 | 4 | 5 | 6 | "all";
 
@@ -53,6 +60,12 @@ const gradeToWordList: Record<number, { wordList: WordType[] }> = {
   5: { wordList: words5 as unknown as WordType[] },
   6: { wordList: words6 as unknown as WordType[] },
 };
+
+// 사운드 객체를 저장할 변수들
+let wrongSoundObject: Audio.Sound | null = null;
+let correctSoundObject: Audio.Sound | null = null;
+let completeSuccessSoundObject: Audio.Sound | null = null;
+let completeFailSoundObject: Audio.Sound | null = null;
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -360,36 +373,112 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     pickNewWord();
   };
 
-  const handlePressLetter = async (letter: string) => {
-    // 게임이 끝난 상태면 입력 무시
-    if (gameStatus !== "playing") {
-      return;
+  // 사운드 파일 미리 로드
+  const preloadSounds = async () => {
+    try {
+      console.log("Preloading sounds...");
+      const { sound: wrong } = await Audio.Sound.createAsync(wrongSound);
+      const { sound: correct } = await Audio.Sound.createAsync(correctSound);
+      const { sound: success } = await Audio.Sound.createAsync(
+        completeSuccessSound
+      );
+      const { sound: fail } = await Audio.Sound.createAsync(completeFailSound);
+
+      wrongSoundObject = wrong;
+      correctSoundObject = correct;
+      completeSuccessSoundObject = success;
+      completeFailSoundObject = fail;
+
+      console.log("Sounds preloaded successfully");
+    } catch (error) {
+      console.error("Error preloading sounds:", error);
     }
+  };
+
+  // 컴포넌트 언마운트 시 사운드 객체 해제
+  const unloadSounds = async () => {
+    try {
+      if (wrongSoundObject) await wrongSoundObject.unloadAsync();
+      if (correctSoundObject) await correctSoundObject.unloadAsync();
+      if (completeSuccessSoundObject)
+        await completeSuccessSoundObject.unloadAsync();
+      if (completeFailSoundObject) await completeFailSoundObject.unloadAsync();
+
+      wrongSoundObject = null;
+      correctSoundObject = null;
+      completeSuccessSoundObject = null;
+      completeFailSoundObject = null;
+    } catch (error) {
+      console.error("Error unloading sounds:", error);
+    }
+  };
+
+  // 사운드 재생 함수 수정
+  const playSound = async (
+    soundType: "wrong" | "correct" | "success" | "fail"
+  ) => {
+    try {
+      let soundObject = null;
+      switch (soundType) {
+        case "wrong":
+          soundObject = wrongSoundObject;
+          break;
+        case "correct":
+          soundObject = correctSoundObject;
+          break;
+        case "success":
+          soundObject = completeSuccessSoundObject;
+          break;
+        case "fail":
+          soundObject = completeFailSoundObject;
+          break;
+      }
+
+      if (soundObject) {
+        await soundObject.setPositionAsync(0); // 재생 위치 초기화
+        await soundObject.playAsync();
+      }
+    } catch (error) {
+      console.error("Error playing sound:", error);
+    }
+  };
+
+  // 컴포넌트 마운트/언마운트 시 사운드 로드/해제
+  useEffect(() => {
+    preloadSounds();
+    return () => {
+      unloadSounds();
+    };
+  }, []);
+
+  const handlePressLetter = async (letter: string) => {
+    if (gameStatus !== "playing") return;
 
     const currentTime = Date.now();
-    if (currentTime - lastInputTime < INPUT_DELAY) {
-      return; // 입력 딜레이 시간이 지나지 않았으면 무시
-    }
+    if (currentTime - lastInputTime < INPUT_DELAY) return;
     setLastInputTime(currentTime);
 
-    // 현재 단어의 currentIndex 위치에 있는 글자와 입력된 글자가 일치하는지 확인
     const correctLetter = currentWord.word.toUpperCase()[currentIndex];
 
     if (letter === correctLetter) {
       setCurrentIndex((prev) => prev + 1);
       if (currentIndex + 1 === currentWord.word.length) {
-        // 승리 처리를 약간 지연
-        setGameStatus("won"); // 즉시 상태 변경하여 입력 막기
+        setGameStatus("won");
+        await playSound("success");
         await new Promise((resolve) => setTimeout(resolve, MODAL_DELAY));
         markWordAsSolved();
+      } else {
+        await playSound("correct");
       }
     } else {
       setWrongGuesses((prev) => [...prev, letter]);
       if (wrongGuesses.length + 1 >= 6) {
-        // 패배 처리를 약간 지연
-        setGameStatus("lost"); // 즉시 상태 변경하여 입력 막기
+        setGameStatus("lost");
+        await playSound("fail");
         await new Promise((resolve) => setTimeout(resolve, MODAL_DELAY));
         incrementLosses();
+      } else if (currentIndex + 1 < currentWord.word.length) {
+        await playSound("wrong");
       }
     }
   };

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import {
   Modal,
-  View,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -48,32 +47,30 @@ export const GameModal: React.FC = () => {
         style={styles.modalOverlay}
         edges={["top", "left", "right"]}
       >
-        <View style={styles.modalOverlay}>
-          <Animated.View
-            style={[
-              styles.modalContent,
-              { transform: [{ scale: modalScale }] },
-              Platform.OS === "web" && styles.modalContentWeb,
-            ]}
+        <Animated.View
+          style={[
+            styles.modalContent,
+            { transform: [{ scale: modalScale }] },
+            Platform.OS === "web" && styles.modalContentWeb,
+          ]}
+        >
+          <Text style={styles.modalTitle}>
+            {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
+          </Text>
+          <Text style={styles.modalAnswer}>Answer: {currentWord.word}</Text>
+          <TouchableOpacity
+            style={styles.modalButton}
+            onPress={() => {
+              setShowModal(false);
+              setTimeout(() => {
+                handleNext();
+              }, 200);
+            }}
+            accessibilityRole="button"
           >
-            <Text style={styles.modalTitle}>
-              {gameStatus === "won" ? "🎉 You Win!" : "😢 You Lose"}
-            </Text>
-            <Text style={styles.modalAnswer}>Answer: {currentWord.word}</Text>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => {
-                setShowModal(false);
-                setTimeout(() => {
-                  handleNext();
-                }, 200);
-              }}
-              accessibilityRole="button"
-            >
-              <Text style={styles.modalButtonText}>Next</Text>
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
+            <Text style={styles.modalButtonText}>Next</Text>
+          </TouchableOpacity>
+        </Animated.View>
       </SafeAreaView>
     </Modal>
   );
