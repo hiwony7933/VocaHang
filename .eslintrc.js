@@ -8,8 +8,8 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: "./tsconfig.json",
-    extraFileExtensions: [".html"],
+    project: ["./tsconfig.json"],
+    createDefaultProgram: true,
   },
   plugins: ["@typescript-eslint"],
   ignorePatterns: [
@@ -20,9 +20,18 @@ module.exports = {
     "jest.config.js",
     "metro.config.js",
     "app.config.js",
+    "**/*.d.ts",
   ],
   rules: {
     "no-console": "off",
     "@typescript-eslint/no-require-imports": "off",
   },
+  overrides: [
+    {
+      files: ["*.d.ts"],
+      rules: {
+        "@typescript-eslint/no-explicit-any": "off",
+      },
+    },
+  ],
 };

@@ -14,6 +14,14 @@
     "skipLibCheck": true,
     "lib": ["ES2015", "DOM", "es2016"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "assets/**/*", "types/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*",
+    "assets/**/*",
+    "*.ts",
+    "*.tsx",
+    "*.js",
+    "*.jsx",
+    "**/*.d.ts"
+  ],
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js"]
 }
