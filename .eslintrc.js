@@ -19,6 +19,7 @@ module.exports = {
     ".eslintrc.js",
     "jest.config.js",
     "metro.config.js",
+    "app.config.js",
   ],
   rules: {
     "no-console": "off",

@@ -13,6 +13,15 @@ const AppInfoScreen = () => {
 
   const releaseNotes = [
     {
+      version: "1.0.4",
+      date: "2025.04",
+      notes: [
+        "화면 전환 애니메이션 개선",
+        "앱 성능 최적화",
+        "버전 관리 시스템 개선",
+      ],
+    },
+    {
       version: "1.0.3",
       date: "2025.04",
       notes: ["화면 전환 애니메이션 개선", "앱 성능 최적화"],
