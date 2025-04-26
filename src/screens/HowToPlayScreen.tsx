@@ -12,7 +12,7 @@ import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
 import { useNavigation } from "@react-navigation/native";
 
-export const TutorialScreen: React.FC = () => {
+export const HowToPlayScreen: React.FC = () => {
   const [isGNBVisible, setIsGNBVisible] = useState(false);
   const navigation = useNavigation();
 

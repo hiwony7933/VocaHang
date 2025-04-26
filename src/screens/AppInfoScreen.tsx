@@ -13,6 +13,15 @@ const AppInfoScreen = () => {
 
   const releaseNotes = [
     {
+      version: "1.0.6",
+      date: "미정",
+      notes: [
+        "설정 화면: 초등학생 학년 변경 기능 추가",
+        "설정 화면: 통계 시스템 메뉴 순서 변경",
+        // TODO: 추후 실제 1.0.6 업데이트 내용 반영
+      ],
+    },
+    {
       version: "1.0.5",
       date: "2025.04",
       notes: [

@@ -57,9 +57,9 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
       screen: "VocaMan",
     },
     {
-      name: "튜토리얼",
+      name: "게임방법",
       icon: BookIcon,
-      screen: "Tutorial",
+      screen: "HowToPlay",
     },
     {
       name: "통계",
