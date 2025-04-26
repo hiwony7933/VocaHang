@@ -48,6 +48,8 @@ interface GameContextType {
   currentGrade: GradeType;
   setCurrentGrade: (grade: GradeType) => Promise<void>;
   isLoading: boolean;
+  showHowToPlayOnStart: boolean;
+  setShowHowToPlayOnStart: (show: boolean) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -95,6 +97,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const [wordList, setWordList] = useState<WordType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [lastInputTime, setLastInputTime] = useState(0);
+  const [showHowToPlayOnStart, setShowHowToPlayState] = useState(true);
   const INPUT_DELAY = 300; // 입력 딜레이 (ms)
   const MODAL_DELAY = 500; // 모달 표시 딜레이 (ms)
 
@@ -234,97 +237,116 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  useEffect(() => {
-    const initializeGame = async () => {
-      try {
-        setIsLoading(true);
-        console.log("Initializing game...");
-
-        // 저장된 키보드 레이아웃 불러오기
-        const savedLayout = await AsyncStorage.getItem("keyboardLayout");
-        if (savedLayout === "alphabet" || savedLayout === "qwerty") {
-          setKeyboardLayout(savedLayout);
-        }
-
-        // 데이터 사전 로드
-        console.log("Pre-loading word data...");
-        for (let grade = 1; grade <= 6; grade++) {
-          const words = gradeToWordList[grade]?.wordList || [];
-          console.log(`Pre-loaded grade ${grade} words:`, words.length);
-          if (words.length === 0) {
-            console.error(`No words available for grade ${grade}`);
-          }
-        }
-
-        const savedGrade = await AsyncStorage.getItem("currentGrade");
-        let grade: GradeType = 1; // 기본값을 1학년으로 설정
-
-        if (savedGrade) {
-          if (savedGrade === "all") {
-            grade = "all";
-          } else {
-            const parsedGrade = parseInt(savedGrade);
-            if (!isNaN(parsedGrade) && parsedGrade >= 1 && parsedGrade <= 6) {
-              grade = parsedGrade as GradeType;
-            }
-          }
-        }
-
-        console.log("Loading initial grade:", grade);
-        const initialWordList = await loadWordList(grade);
-
-        if (initialWordList && initialWordList.length > 0) {
-          const randomWord =
-            initialWordList[Math.floor(Math.random() * initialWordList.length)];
-          console.log("Setting initial word:", randomWord.word);
-
-          setCurrentGrade(grade);
-          setWordList(initialWordList);
-          setCurrentWord(randomWord);
-          setCurrentHints(randomWord.hints);
-        } else {
-          console.error("Failed to load initial word list");
-        }
-
-        await loadGameState();
-      } catch (error) {
-        console.error("Error initializing game:", error);
-      } finally {
-        setIsLoading(false);
+  const initializeGame = async () => {
+    setIsLoading(true);
+    try {
+      await loadGameState(); // 게임 상태 로드
+      // 저장된 키보드 레이아웃 불러오기
+      const savedLayout = await AsyncStorage.getItem("keyboardLayout");
+      if (savedLayout === "alphabet" || savedLayout === "qwerty") {
+        setKeyboardLayout(savedLayout);
       }
-    };
 
-    initializeGame();
-  }, []);
+      // 데이터 사전 로드
+      console.log("Pre-loading word data...");
+      for (let grade = 1; grade <= 6; grade++) {
+        const words = gradeToWordList[grade]?.wordList || [];
+        console.log(`Pre-loaded grade ${grade} words:`, words.length);
+        if (words.length === 0) {
+          console.error(`No words available for grade ${grade}`);
+        }
+      }
+
+      const savedGrade = await AsyncStorage.getItem("currentGrade");
+      let grade: GradeType = 1; // 기본값을 1학년으로 설정
+
+      if (savedGrade) {
+        if (savedGrade === "all") {
+          grade = "all";
+        } else {
+          const parsedGrade = parseInt(savedGrade);
+          if (!isNaN(parsedGrade) && parsedGrade >= 1 && parsedGrade <= 6) {
+            grade = parsedGrade as GradeType;
+          }
+        }
+      }
+
+      console.log("Loading initial grade:", grade);
+      const initialWordList = await loadWordList(grade);
+
+      if (initialWordList && initialWordList.length > 0) {
+        const randomWord =
+          initialWordList[Math.floor(Math.random() * initialWordList.length)];
+        console.log("Setting initial word:", randomWord.word);
+
+        setCurrentGrade(grade);
+        setWordList(initialWordList);
+        setCurrentWord(randomWord);
+        setCurrentHints(randomWord.hints);
+      } else {
+        console.error("Failed to load initial word list");
+      }
+    } catch (error) {
+      console.error("Error initializing game:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const loadGameState = async () => {
     try {
-      const savedState = await AsyncStorage.getItem("gameState");
-      if (savedState) {
-        const state = JSON.parse(savedState);
-        setSolvedWordIds(state.solvedWordIds || []);
-        setWins(state.wins || 0);
-        setLosses(state.losses || 0);
-        setCurrentStreak(state.currentStreak || 0);
-        setBestStreak(state.bestStreak || 0);
+      const savedData = await AsyncStorage.getItem("gameState");
+      if (savedData) {
+        const {
+          solvedWordIds = [],
+          wins = 0,
+          losses = 0,
+          currentStreak = 0,
+          bestStreak = 0,
+          currentIndex = 0,
+          keyboardLayout = "qwerty",
+          currentGrade = 1,
+          showHowToPlayOnStart = true,
+        } = JSON.parse(savedData);
+
+        setSolvedWordIds(solvedWordIds);
+        setWins(wins);
+        setLosses(losses);
+        setCurrentStreak(currentStreak);
+        setBestStreak(bestStreak);
+        setCurrentIndex(currentIndex);
+        setKeyboardLayout(keyboardLayout);
+        setCurrentGrade(currentGrade);
+        setShowHowToPlayState(showHowToPlayOnStart);
+
+        // 현재 등급에 맞는 단어 목록 로드
+        const newWordList = await loadWordList(currentGrade);
+        if (newWordList && newWordList.length > 0) {
+          setWordList(newWordList);
+          pickNewWord();
+        }
       }
     } catch (error) {
-      console.error("Error loading game state:", error);
+      console.error("Failed to load game state:", error);
     }
   };
 
   const saveGameState = async () => {
     try {
-      const state = {
+      const gameState = {
         solvedWordIds,
         wins,
         losses,
         currentStreak,
         bestStreak,
+        currentIndex,
+        keyboardLayout,
+        currentGrade,
+        showHowToPlayOnStart,
       };
-      await AsyncStorage.setItem("gameState", JSON.stringify(state));
+      await AsyncStorage.setItem("gameState", JSON.stringify(gameState));
     } catch (error) {
-      console.error("Error saving game state:", error);
+      console.error("Failed to save game state:", error);
     }
   };
 
@@ -519,14 +541,14 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const toggleKeyboardLayout = async () => {
-    try {
-      const newLayout = keyboardLayout === "qwerty" ? "alphabet" : "qwerty";
-      setKeyboardLayout(newLayout);
-      await AsyncStorage.setItem("keyboardLayout", newLayout);
-      console.log("Keyboard layout changed to:", newLayout);
-    } catch (error) {
-      console.error("Error saving keyboard layout:", error);
-    }
+    const newLayout = keyboardLayout === "qwerty" ? "alphabet" : "qwerty";
+    setKeyboardLayout(newLayout);
+    await saveGameState();
+  };
+
+  const setShowHowToPlayOnStart = async (show: boolean) => {
+    setShowHowToPlayState(show);
+    await saveGameState();
   };
 
   const stats = {
@@ -537,6 +559,26 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const displayTries = 6 - wrongGuesses.length;
+
+  // 게임 상태 변경 시 저장
+  useEffect(() => {
+    saveGameState();
+  }, [
+    wins,
+    losses,
+    currentStreak,
+    bestStreak,
+    solvedWordIds,
+    currentIndex,
+    keyboardLayout,
+    currentGrade,
+    showHowToPlayOnStart,
+  ]);
+
+  // 최초 렌더링 시 게임 초기화
+  useEffect(() => {
+    initializeGame();
+  }, []);
 
   return (
     <GameContext.Provider
@@ -564,6 +606,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         currentGrade,
         setCurrentGrade: updateCurrentGrade,
         isLoading,
+        showHowToPlayOnStart,
+        setShowHowToPlayOnStart,
       }}
     >
       {children}

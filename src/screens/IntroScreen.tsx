@@ -9,16 +9,23 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useGame, GradeType } from "../components/GameProvider";
 import { LoadingScreen } from "../components/LoadingScreen";
-import { RootStackParamList } from "../../types/navigation";
 
-type NavigationProps = NavigationProp<RootStackParamList>;
+export type RootStackParamList = {
+  Intro: undefined;
+  VocaMan: undefined;
+  HowToPlay: undefined;
+  // 필요한 다른 스크린들...
+};
+
+type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export const IntroScreen = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { setCurrentGrade, isLoading } = useGame();
+  const { setCurrentGrade, isLoading, showHowToPlayOnStart } = useGame();
   const [isGradeModalVisible, setIsGradeModalVisible] = useState(false);
 
   const gradeOptions: { label: string; value: GradeType }[] = [
@@ -38,7 +45,11 @@ export const IntroScreen = () => {
   const handleSelectGrade = async (grade: GradeType) => {
     setIsGradeModalVisible(false);
     await setCurrentGrade(grade);
-    navigation.navigate("VocaMan");
+    if (showHowToPlayOnStart) {
+      navigation.navigate("HowToPlay");
+    } else {
+      navigation.navigate("VocaMan");
+    }
   };
 
   if (isLoading) {
