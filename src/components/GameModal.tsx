@@ -25,14 +25,15 @@ export const GameModal: React.FC = () => {
   useEffect(() => {
     if (showModal) {
       modalScale.setValue(0.8);
+      const useNativeDriver = Platform.OS !== "web";
       Animated.spring(modalScale, {
         toValue: 1,
         friction: 6,
         tension: 75,
-        useNativeDriver: true,
+        useNativeDriver: useNativeDriver,
       }).start();
     }
-  }, [showModal]);
+  }, [showModal, modalScale]);
 
   if (!currentWord) return null;
 

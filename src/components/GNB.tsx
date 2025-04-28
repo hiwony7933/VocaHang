@@ -35,20 +35,22 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
   const menuWidth = isWeb ? Math.min(360, width * 0.3) : width * 0.7;
 
   React.useEffect(() => {
+    // useNativeDriver는 네이티브에서만 지원 (opacity는 지원)
+    const useNativeDriver = Platform.OS !== "web";
     if (visible) {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 200,
-        useNativeDriver: true,
+        useNativeDriver: useNativeDriver,
       }).start();
     } else {
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 200,
-        useNativeDriver: true,
+        useNativeDriver: useNativeDriver,
       }).start();
     }
-  }, [visible]);
+  }, [visible, fadeAnim]); // fadeAnim도 의존성 배열에 추가
 
   const menuItems = [
     {
@@ -149,14 +151,22 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    // shadow* 속성 대신 boxShadow 사용 (웹 호환성)
+    // 네이티브 환경에서는 elevation 유지
+    ...(Platform.OS === "web"
+      ? {
+          boxShadow: "0px 2px 3.84px rgba(0, 0, 0, 0.25)",
+        }
+      : {
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+        }),
   },
   menuContainer: {
     padding: 16,

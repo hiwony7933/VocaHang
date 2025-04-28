@@ -25,7 +25,7 @@ type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export const IntroScreen = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { setCurrentGrade, isLoading, showHowToPlayOnStart } = useGame();
+  const { setCurrentGrade, isLoading } = useGame();
   const [isGradeModalVisible, setIsGradeModalVisible] = useState(false);
 
   const gradeOptions: { label: string; value: GradeType }[] = [
@@ -45,11 +45,7 @@ export const IntroScreen = () => {
   const handleSelectGrade = async (grade: GradeType) => {
     setIsGradeModalVisible(false);
     await setCurrentGrade(grade);
-    if (showHowToPlayOnStart) {
-      navigation.navigate("HowToPlay");
-    } else {
-      navigation.navigate("VocaMan");
-    }
+    navigation.navigate("HowToPlay");
   };
 
   if (isLoading) {

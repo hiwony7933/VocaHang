@@ -13,12 +13,22 @@ const AppInfoScreen = () => {
 
   const releaseNotes = [
     {
+      version: "1.0.7",
+      date: "2025.XX",
+      notes: [
+        "린트 설정 수정 (d.ts 파일 제외, tsconfig 업데이트)",
+        "Expo Doctor 권고 사항 수정 (@types/react-native 제거, yarn.lock 제거)",
+        "웹 환경 호환성 개선 (boxShadow 사용, useNativeDriver 조건부 적용)",
+        "사용하지 않는 파일 제거 (HangmanDrawing 및 관련 이미지)",
+        "게임방법 화면 토글 기능 제거 및 관련 로직 수정",
+      ],
+    },
+    {
       version: "1.0.6",
-      date: "미정",
+      date: "2025.XX",
       notes: [
         "설정 화면: 초등학생 학년 변경 기능 추가",
         "설정 화면: 통계 시스템 메뉴 순서 변경",
-        // TODO: 추후 실제 1.0.6 업데이트 내용 반영
       ],
     },
     {

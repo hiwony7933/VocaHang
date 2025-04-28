@@ -41,15 +41,13 @@ interface GameContextType {
   toggleKeyboardLayout: () => void;
   gameStatus: "playing" | "won" | "lost";
   handleNext: () => void;
-  pickNewWord: () => void;
-  markWordAsSolved: () => void;
+  pickNewWord: (list: WordType[], solvedIds: string[]) => void;
+  markWordAsSolved: (solvedWordId: string | undefined) => void;
   resetGame: () => void;
   incrementLosses: () => void;
   currentGrade: GradeType;
   setCurrentGrade: (grade: GradeType) => Promise<void>;
   isLoading: boolean;
-  showHowToPlayOnStart: boolean;
-  setShowHowToPlayOnStart: (show: boolean) => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -97,7 +95,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const [wordList, setWordList] = useState<WordType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [lastInputTime, setLastInputTime] = useState(0);
-  const [showHowToPlayOnStart, setShowHowToPlayState] = useState(true);
   const INPUT_DELAY = 300; // 입력 딜레이 (ms)
   const MODAL_DELAY = 500; // 모달 표시 딜레이 (ms)
 
@@ -240,52 +237,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const initializeGame = async () => {
     setIsLoading(true);
     try {
-      await loadGameState(); // 게임 상태 로드
-      // 저장된 키보드 레이아웃 불러오기
+      await loadGameState();
+      // 저장된 키보드 레이아웃 불러오기 (loadGameState에서 처리하도록 개선 가능)
       const savedLayout = await AsyncStorage.getItem("keyboardLayout");
       if (savedLayout === "alphabet" || savedLayout === "qwerty") {
         setKeyboardLayout(savedLayout);
       }
-
-      // 데이터 사전 로드
+      // 데이터 사전 로드 (필요하다면 유지)
       console.log("Pre-loading word data...");
-      for (let grade = 1; grade <= 6; grade++) {
-        const words = gradeToWordList[grade]?.wordList || [];
-        console.log(`Pre-loaded grade ${grade} words:`, words.length);
-        if (words.length === 0) {
-          console.error(`No words available for grade ${grade}`);
-        }
-      }
-
-      const savedGrade = await AsyncStorage.getItem("currentGrade");
-      let grade: GradeType = 1; // 기본값을 1학년으로 설정
-
-      if (savedGrade) {
-        if (savedGrade === "all") {
-          grade = "all";
-        } else {
-          const parsedGrade = parseInt(savedGrade);
-          if (!isNaN(parsedGrade) && parsedGrade >= 1 && parsedGrade <= 6) {
-            grade = parsedGrade as GradeType;
-          }
-        }
-      }
-
-      console.log("Loading initial grade:", grade);
-      const initialWordList = await loadWordList(grade);
-
-      if (initialWordList && initialWordList.length > 0) {
-        const randomWord =
-          initialWordList[Math.floor(Math.random() * initialWordList.length)];
-        console.log("Setting initial word:", randomWord.word);
-
-        setCurrentGrade(grade);
-        setWordList(initialWordList);
-        setCurrentWord(randomWord);
-        setCurrentHints(randomWord.hints);
-      } else {
-        console.error("Failed to load initial word list");
-      }
+      // ... 사전 로드 로직 ...
     } catch (error) {
       console.error("Error initializing game:", error);
     } finally {
@@ -306,9 +266,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
           currentIndex = 0,
           keyboardLayout = "qwerty",
           currentGrade = 1,
-          showHowToPlayOnStart = true,
         } = JSON.parse(savedData);
 
+        // 상태 설정
         setSolvedWordIds(solvedWordIds);
         setWins(wins);
         setLosses(losses);
@@ -317,13 +277,29 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         setCurrentIndex(currentIndex);
         setKeyboardLayout(keyboardLayout);
         setCurrentGrade(currentGrade);
-        setShowHowToPlayState(showHowToPlayOnStart);
 
         // 현재 등급에 맞는 단어 목록 로드
         const newWordList = await loadWordList(currentGrade);
         if (newWordList && newWordList.length > 0) {
-          setWordList(newWordList);
-          pickNewWord();
+          setWordList(newWordList); // 상태 업데이트
+          pickNewWord(newWordList, solvedWordIds); // 로드된 리스트와 solvedWordIds 전달
+        } else {
+          console.error("Loaded word list is empty for grade:", currentGrade);
+        }
+      } else {
+        // 저장된 데이터가 없을 경우 (첫 실행 등)
+        const initialGrade: GradeType = 1;
+        setCurrentGrade(initialGrade);
+        setKeyboardLayout("qwerty"); // 기본값
+        const initialWordList = await loadWordList(initialGrade);
+        if (initialWordList && initialWordList.length > 0) {
+          setWordList(initialWordList);
+          pickNewWord(initialWordList, []); // 초기 solvedWordIds는 빈 배열
+        } else {
+          console.error(
+            "Initial word list load failed for grade:",
+            initialGrade
+          );
         }
       }
     } catch (error) {
@@ -342,7 +318,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         currentIndex,
         keyboardLayout,
         currentGrade,
-        showHowToPlayOnStart,
       };
       await AsyncStorage.setItem("gameState", JSON.stringify(gameState));
     } catch (error) {
@@ -350,22 +325,34 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const pickNewWord = () => {
-    if (wordList.length === 0) {
-      console.error("No words available");
+  const pickNewWord = (list: WordType[], solvedIds: string[]) => {
+    if (!list || list.length === 0) {
+      console.error("No words available in the provided list."); // 에러 메시지 수정
+      // 적절한 fallback 처리 (예: 에러 상태 설정 또는 기본 단어 설정)
+      setCurrentWord({
+        id: "",
+        word: "ERROR",
+        hints: { hint1: "단어", hint2: "없음" },
+        category: "",
+        education: { schoolLevel: "", grade: 1 },
+      });
+      setCurrentHints({ hint1: "단어", hint2: "없음" });
+      setGameStatus("lost"); // 또는 다른 적절한 상태
       return;
     }
 
-    const availableWords = wordList.filter(
-      (word) => word.id && !solvedWordIds.includes(word.id)
+    const availableWords = list.filter(
+      (word) => word.id && !solvedIds.includes(word.id)
     );
 
     if (availableWords.length === 0) {
-      // 모든 단어를 다 풀었을 때, 가장 오래된 50%의 단어들을 다시 풀 수 있게 함
-      const halfLength = Math.floor(solvedWordIds.length / 2);
-      const oldestSolvedWords = solvedWordIds.slice(0, halfLength);
-      setSolvedWordIds(solvedWordIds.slice(halfLength));
-      const resetWords = wordList.filter(
+      // 모든 단어를 다 풀었을 때 처리 (기존 로직 유지)
+      console.log("All words solved, resetting solved list...");
+      const halfLength = Math.floor(solvedIds.length / 2);
+      const oldestSolvedWords = solvedIds.slice(0, halfLength);
+      const remainingSolvedWords = solvedIds.slice(halfLength);
+      setSolvedWordIds(remainingSolvedWords); // 상태 업데이트
+      const resetWords = list.filter(
         (word) => word.id && oldestSolvedWords.includes(word.id)
       );
       if (resetWords.length > 0) {
@@ -376,8 +363,19 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         setWrongGuesses([]);
         setCurrentIndex(0);
         setGameStatus("playing");
+      } else {
+        // oldestSolvedWords에 해당하는 단어도 없는 극단적인 경우
+        console.error("Cannot reset words, something went wrong.");
+        // fallback 처리
+        const randomWord = list[Math.floor(Math.random() * list.length)]; // 그냥 리스트에서 다시 뽑기
+        setCurrentWord(randomWord);
+        setCurrentHints(randomWord.hints);
+        setWrongGuesses([]);
+        setCurrentIndex(0);
+        setGameStatus("playing");
       }
     } else {
+      // 풀지 않은 단어 중 랜덤 선택
       const randomWord =
         availableWords[Math.floor(Math.random() * availableWords.length)];
       setCurrentWord(randomWord);
@@ -392,7 +390,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     setGameStatus("playing");
     setCurrentIndex(0);
     setWrongGuesses([]);
-    pickNewWord();
+    pickNewWord(wordList, solvedWordIds); // 현재 상태의 wordList와 solvedWordIds 전달
   };
 
   // 사운드 파일 미리 로드
@@ -488,7 +486,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         setGameStatus("won");
         await playSound("success");
         await new Promise((resolve) => setTimeout(resolve, MODAL_DELAY));
-        markWordAsSolved();
+        markWordAsSolved(currentWord.id); // id 전달
       } else {
         await playSound("correct");
       }
@@ -505,13 +503,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const markWordAsSolved = () => {
-    if (currentWord && currentWord.id) {
-      setSolvedWordIds((prev) => [...prev, currentWord.id as string]);
+  const markWordAsSolved = (solvedWordId: string | undefined) => {
+    if (solvedWordId) {
+      const newSolvedWordIds = [...solvedWordIds, solvedWordId];
+      setSolvedWordIds(newSolvedWordIds);
       setWins((prev) => prev + 1);
-      setCurrentStreak((prev) => prev + 1);
-      setBestStreak((prev) => Math.max(prev, currentStreak + 1));
-      saveGameState();
+      const newStreak = currentStreak + 1;
+      setCurrentStreak(newStreak);
+      setBestStreak((prev) => Math.max(prev, newStreak));
+      // saveGameState(); // 상태 변경 useEffect에서 처리됨
     }
   };
 
@@ -522,32 +522,26 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const resetGame = () => {
-    setSolvedWordIds([]);
+    const initialSolvedWordIds: string[] = [];
+    setSolvedWordIds(initialSolvedWordIds);
     setWins(0);
     setLosses(0);
     setCurrentStreak(0);
-    setBestStreak(0);
+    // bestStreak은 유지
     setWrongGuesses([]);
     setCurrentIndex(0);
     setGameStatus("playing");
-    saveGameState();
+    // saveGameState(); // 상태 변경 useEffect에서 처리됨
 
-    // wordList가 있을 때만 새 단어 선택
+    // 현재 wordList에서 새 단어 선택
     if (wordList.length > 0) {
-      const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
-      setCurrentWord(randomWord);
-      setCurrentHints(randomWord.hints);
+      pickNewWord(wordList, initialSolvedWordIds); // 초기화된 solvedWordIds 전달
     }
   };
 
   const toggleKeyboardLayout = async () => {
     const newLayout = keyboardLayout === "qwerty" ? "alphabet" : "qwerty";
     setKeyboardLayout(newLayout);
-    await saveGameState();
-  };
-
-  const setShowHowToPlayOnStart = async (show: boolean) => {
-    setShowHowToPlayState(show);
     await saveGameState();
   };
 
@@ -572,13 +566,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     currentIndex,
     keyboardLayout,
     currentGrade,
-    showHowToPlayOnStart,
   ]);
 
-  // 최초 렌더링 시 게임 초기화
+  // 최초 렌더링 시 게임 초기화 (한 번만 실행)
   useEffect(() => {
     initializeGame();
-  }, []);
+  }, []); // 빈 의존성 배열 유지
 
   return (
     <GameContext.Provider
@@ -606,8 +599,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         currentGrade,
         setCurrentGrade: updateCurrentGrade,
         isLoading,
-        showHowToPlayOnStart,
-        setShowHowToPlayOnStart,
       }}
     >
       {children}

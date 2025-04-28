@@ -5,19 +5,16 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
 import { useNavigation } from "@react-navigation/native";
-import { useGame } from "../components/GameProvider";
 
 export const HowToPlayScreen: React.FC = () => {
   const [isGNBVisible, setIsGNBVisible] = useState(false);
   const navigation = useNavigation();
-  const { showHowToPlayOnStart, setShowHowToPlayOnStart } = useGame();
 
   return (
     <SafeAreaView style={styles.wrapper} edges={["top", "left", "right"]}>
@@ -96,19 +93,6 @@ export const HowToPlayScreen: React.FC = () => {
           </Text>
         </View>
 
-        <View style={styles.toggleContainer}>
-          <Text style={styles.toggleLabel}>
-            다음에 시작할 때 이 화면 보여주기
-          </Text>
-          <Switch
-            trackColor={{ false: "#767577", true: Colors.primary }}
-            thumbColor={showHowToPlayOnStart ? Colors.primary : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={setShowHowToPlayOnStart}
-            value={showHowToPlayOnStart}
-          />
-        </View>
-
         <TouchableOpacity
           style={styles.backToGameButton}
           onPress={() => navigation.navigate("VocaMan" as never)}
@@ -179,19 +163,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-  },
-  toggleContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
-    marginTop: 16,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: Colors.border,
-  },
-  toggleLabel: {
-    fontSize: 16,
-    color: Colors.text,
   },
 });
