@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Navigation
+
+App navigation is managed using `@react-navigation/native-stack`.
+
+- The main **Stack Navigator** is configured in [App.tsx](mdc:App.tsx).
+- It defines all the primary screens of the application: `Intro`, `VocaMan`, `HowToPlay`, `Dashboard`, `Settings`, `AppInfo`, `Support`.
+- The `initialRouteName` is set to `Intro`.
+- A global navigation bar (side menu) component [src/components/GNB.tsx](mdc:src/components/GNB.tsx) is used, controlled via state in `App.tsx` and triggered by the [src/components/Header.tsx](mdc:src/components/Header.tsx).
+- Screen transitions are generally handled using the `navigation.navigate()` method obtained from the `useNavigation` hook.

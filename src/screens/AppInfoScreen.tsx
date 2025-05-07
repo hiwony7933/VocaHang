@@ -14,7 +14,7 @@ const AppInfoScreen = () => {
   const releaseNotes = [
     {
       version: "1.0.7",
-      date: "2025.XX",
+      date: "2025.04",
       notes: [
         "린트 설정 수정 (d.ts 파일 제외, tsconfig 업데이트)",
         "Expo Doctor 권고 사항 수정 (@types/react-native 제거, yarn.lock 제거)",
@@ -25,7 +25,7 @@ const AppInfoScreen = () => {
     },
     {
       version: "1.0.6",
-      date: "2025.XX",
+      date: "2025.04",
       notes: [
         "설정 화면: 초등학생 학년 변경 기능 추가",
         "설정 화면: 통계 시스템 메뉴 순서 변경",

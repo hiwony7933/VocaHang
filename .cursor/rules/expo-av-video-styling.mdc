@@ -1,0 +1,34 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# `expo-av` Video 컴포넌트 스타일링 가이드 (웹 및 `IntroScreen.tsx` 중심)
+
+이 문서는 `expo-av`의 `Video` 컴포넌트를 스타일링할 때, 특히 웹 환경 및 `[src/screens/IntroScreen.tsx](mdc:src/screens/IntroScreen.tsx)` 파일에서의 사용 사례를 중심으로 중요한 점들을 설명합니다.
+
+## 주요 스타일링 Props
+
+1.  **`style` Prop**:
+    *   React Native의 `<Video>` 컴포넌트에 적용된 `style` prop은 웹으로 렌더링될 때, 실제 HTML `<video>` 태그를 감싸는 부모 `div` 컨테이너에 주로 적용됩니다.
+    *   이 prop을 사용하여 비디오 플레이어 전체의 레이아웃, 크기 (예: `width`, `aspectRatio`), 여백 등을 설정할 수 있습니다.
+
+2.  **`videoStyle` Prop**:
+    *   이 prop은 내부 HTML `<video>` 요소 자체에 직접 스타일을 전달할 때 사용합니다.
+    *   웹 환경에서 비디오 *내용물*의 크기를 부모 컨테이너에 정확히 맞추고자 할 때 (예: `width: '100%', height: '100%'`) 유용합니다. `[src/screens/IntroScreen.tsx](mdc:src/screens/IntroScreen.tsx)`에서 이 방식을 사용했습니다.
+
+3.  **`resizeMode` Prop**:
+    *   `ResizeMode.CONTAIN`, `ResizeMode.COVER` 등의 값을 가집니다.
+    *   CSS의 `object-fit` 속성과 유사하게, 비디오 내용물이 `videoStyle` 또는 `style`로 정의된 영역 내에서 원본 비율을 유지하면서 어떻게 크기 조절되고 배치될지를 결정합니다.
+    *   `ResizeMode.CONTAIN`: 비디오 전체가 보이도록 내용물을 축소/확대합니다. 비율이 다르면 레터박스가 생길 수 있습니다.
+    *   `ResizeMode.COVER`: 영역을 완전히 덮도록 내용물을 축소/확대하며, 비율이 다르면 일부가 잘릴 수 있습니다.
+
+## `IntroScreen.tsx` 적용 사례
+
+`[src/screens/IntroScreen.tsx](mdc:src/screens/IntroScreen.tsx)` 파일에서는 다음 전략을 사용했습니다:
+
+*   외부 컨테이너(`div`)의 크기를 `style` prop (예: `width: '50%', aspectRatio: 16/9`)으로 지정했습니다.
+*   내부 비디오 내용물(HTML `<video>`)이 이 컨테이너를 완전히 채우도록 `videoStyle={{ width: '100%', height: '100%' }}`을 적용했습니다.
+*   비디오의 원본 비율을 유지하면서 컨테이너에 맞게 내용물이 표시되도록 `resizeMode={ResizeMode.CONTAIN}`을 사용했습니다.
+
+이 조합을 통해 개발자 도구에서 직접 내부 `<video>` 태그에 `width: 100%`를 적용했을 때와 동일한 시각적 결과를 코드 레벨에서 달성할 수 있었습니다.

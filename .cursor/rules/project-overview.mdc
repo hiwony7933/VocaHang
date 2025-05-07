@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Overview
+
+This is a React Native vocabulary learning game app named VocaHang, built using Expo and TypeScript.
+
+- **Main Entry Point**: [App.tsx](mdc:App.tsx) sets up the main navigation and providers.
+- **State Management**: Game logic and state are primarily managed within [src/components/GameProvider.tsx](mdc:src/components/GameProvider.tsx) using React Context.
+- **Navigation**: Handled by `@react-navigation/native-stack`, configured in [App.tsx](mdc:App.tsx).
+- **UI Components**: Reusable UI components are located in `src/components/`.
+- **Screens**: Different views of the app are defined in `src/screens/`.
+- **Styling**: Uses StyleSheet, with color constants defined in [src/constants/theme.ts](mdc:src/constants/theme.ts).
+- **Data**: Word lists are stored as JSON files in `assets/data/`.
+- **Build & Deployment**: Uses EAS CLI, configured in [eas.json](mdc:eas.json).
+- **Linting & Formatting**: Configured via [.eslintrc.js](mdc:.eslintrc.js) and Prettier (implicitly via eslint-config-prettier).
+- **TypeScript**: Configuration is in [tsconfig.json](mdc:tsconfig.json).

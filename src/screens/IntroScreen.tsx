@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Image,
-  Modal,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useGame, GradeType } from "../components/GameProvider";
 import { LoadingScreen } from "../components/LoadingScreen";
+import { Video, ResizeMode } from "expo-av";
 
 export type RootStackParamList = {
   Intro: undefined;
@@ -55,10 +49,15 @@ export const IntroScreen = () => {
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
       <View style={styles.content}>
-        <Image
-          source={require("../../assets/images/logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
+        <Video
+          source={require("../../assets/videos/intro.mp4")}
+          style={styles.videoPlayer}
+          videoStyle={{ width: "100%", height: "100%" }}
+          resizeMode={ResizeMode.CONTAIN}
+          shouldPlay
+          isLooping
+          isMuted
+          useNativeControls={false}
         />
         <Text style={styles.subtitle}>
           영어 단어를 맞춰보세요!{"\n"}재미있는 게임으로 영어 실력을 키워보세요.
@@ -109,6 +108,11 @@ const styles = StyleSheet.create({
   logo: {
     width: 300,
     height: 300,
+    marginBottom: 20,
+  },
+  videoPlayer: {
+    width: "50%",
+    aspectRatio: 16 / 9,
     marginBottom: 20,
   },
   subtitle: {

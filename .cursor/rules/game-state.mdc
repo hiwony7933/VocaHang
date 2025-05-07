@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# State Management (Game Logic)
+
+The core game logic and state are centralized in [src/components/GameProvider.tsx](mdc:src/components/GameProvider.tsx).
+
+- It uses the **React Context API** (`createContext`, `useContext`) to provide game state and actions to components.
+- **Key states managed**: `currentWord`, `solvedWordIds`, game statistics (`wins`, `losses`, `streak`), `keyboardLayout`, `gameStatus`, `currentGrade`, `wordList`.
+- **Core functions**: `loadWordList`, `pickNewWord`, `handlePressLetter`, `saveGameState`, `loadGameState`.
+- **Data Persistence**: Uses `AsyncStorage` (via `@react-native-async-storage/async-storage`) to save and load game state (stats, settings).
+- **Sound Effects**: Manages loading and playing sound effects using `expo-av`.
+
+When modifying game rules, player stats, or word handling, this provider is the primary file to check.
