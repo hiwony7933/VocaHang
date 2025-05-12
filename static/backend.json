@@ -1,0 +1,3278 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Vocaman Backend API",
+    "version": "1.0.0",
+    "description": "API for Vocaman, a vocabulary learning application. This document provides a detailed specification of all available endpoints, request/response formats, and authentication mechanisms."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Development server (update to actual deployment URL)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User authentication and session management"
+    },
+    {
+      "name": "Users",
+      "description": "User profile, settings, and relations management"
+    },
+    { "name": "Datasets", "description": "Vocabulary datasets management" },
+    {
+      "name": "Gameplay",
+      "description": "Endpoints related to game sessions and results"
+    },
+    {
+      "name": "Homework",
+      "description": "Homework assignment and progress tracking"
+    },
+    { "name": "Notifications", "description": "User notifications" },
+    {
+      "name": "Content",
+      "description": "Access to learning content like concepts, terms, and audio"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "description": "Error message" },
+          "error": {
+            "type": "string",
+            "description": "Optional error code or details",
+            "nullable": true
+          }
+        },
+        "required": ["message"]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "User ID"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User email"
+          },
+          "nickname": { "type": "string", "description": "User nickname" },
+          "provider": {
+            "type": "string",
+            "description": "Authentication provider (e.g., 'local', 'google')"
+          },
+          "provider_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "User ID from the provider"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "last_login_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Last login timestamp"
+          }
+        },
+        "example": {
+          "user_id": 1,
+          "email": "user@example.com",
+          "nickname": "TestUser",
+          "provider": "local",
+          "provider_id": null,
+          "created_at": "2023-01-01T12:00:00Z",
+          "last_login_at": "2023-01-10T10:30:00Z"
+        }
+      },
+      "UserSettings": {
+        "type": "object",
+        "description": "User-specific settings in JSON format. The actual structure can vary.",
+        "additionalProperties": true,
+        "example": {
+          "theme": "dark",
+          "preferred_language": "ko",
+          "notification_sound_enabled": true
+        }
+      },
+      "Relation": {
+        "type": "object",
+        "properties": {
+          "relation_id": { "type": "integer", "format": "int32" },
+          "requester_id": { "type": "integer", "format": "int32" },
+          "requester_nickname": { "type": "string" },
+          "addressee_id": { "type": "integer", "format": "int32" },
+          "addressee_nickname": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "accepted", "declined", "blocked"]
+          },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "relation_id": 15,
+          "requester_id": 1,
+          "requester_nickname": "UserA",
+          "addressee_id": 2,
+          "addressee_nickname": "UserB",
+          "status": "pending",
+          "created_at": "2023-03-01T10:00:00Z",
+          "updated_at": "2023-03-01T10:00:00Z"
+        }
+      },
+      "Dataset": {
+        "type": "object",
+        "properties": {
+          "dataset_id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "language_pair": { "type": "string", "example": "en-ko" },
+          "owner_id": { "type": "integer", "format": "int32" },
+          "is_public": { "type": "boolean", "default": false },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" },
+          "concept_count": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of concepts in the dataset",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "example": {
+          "dataset_id": 10,
+          "name": "Beginner English Words",
+          "description": "Common words for English learners.",
+          "language_pair": "en-ko",
+          "owner_id": 1,
+          "is_public": true,
+          "created_at": "2023-02-15T09:30:00Z",
+          "updated_at": "2023-02-20T11:00:00Z",
+          "concept_count": 50
+        }
+      },
+      "Concept": {
+        "type": "object",
+        "properties": {
+          "concept_id": { "type": "integer", "format": "int32" },
+          "text_representation": {
+            "type": "string",
+            "description": "A textual representation of the concept (e.g., a word in the target language)"
+          },
+          "concept_type": {
+            "type": "string",
+            "enum": ["word", "phrase", "sentence"],
+            "default": "word"
+          },
+          "language_code": { "type": "string", "example": "en" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "concept_id": 101,
+          "text_representation": "apple",
+          "concept_type": "word",
+          "language_code": "en",
+          "created_at": "2023-01-05T14:00:00Z",
+          "updated_at": "2023-01-05T14:00:00Z"
+        }
+      },
+      "Term": {
+        "type": "object",
+        "properties": {
+          "term_id": { "type": "integer", "format": "int32" },
+          "concept_id": { "type": "integer", "format": "int32" },
+          "language_code": { "type": "string", "example": "ko" },
+          "text": {
+            "type": "string",
+            "description": "The term itself (e.g., translation, definition)"
+          },
+          "term_type": {
+            "type": "string",
+            "enum": ["translation", "definition", "synonym"],
+            "default": "translation"
+          },
+          "audio_url": {
+            "type": "string",
+            "format": "url",
+            "nullable": true,
+            "description": "URL to the audio pronunciation"
+          },
+          "image_url": {
+            "type": "string",
+            "format": "url",
+            "nullable": true,
+            "description": "URL to an associated image"
+          },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "term_id": 201,
+          "concept_id": 101,
+          "language_code": "ko",
+          "text": "사과",
+          "term_type": "translation",
+          "audio_url": "http://localhost:3000/api/content/audio/apple_ko.mp3",
+          "image_url": null,
+          "created_at": "2023-01-05T14:05:00Z",
+          "updated_at": "2023-01-05T14:05:00Z"
+        }
+      },
+      "Hint": {
+        "type": "object",
+        "properties": {
+          "hint_id": { "type": "integer", "format": "int32" },
+          "term_id": { "type": "integer", "format": "int32" },
+          "hint_text": { "type": "string" },
+          "hint_type": {
+            "type": "string",
+            "enum": ["text", "image_url", "audio_url"],
+            "default": "text"
+          },
+          "created_at": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "hint_id": 301,
+          "term_id": 201,
+          "hint_text": "A round fruit, often red or green.",
+          "hint_type": "text",
+          "created_at": "2023-01-05T14:10:00Z"
+        }
+      },
+      "GameLog": {
+        "type": "object",
+        "properties": {
+          "log_id": { "type": "integer", "format": "int32" },
+          "user_id": { "type": "integer", "format": "int32" },
+          "session_id": { "type": "string", "format": "uuid" },
+          "dataset_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "concept_id": { "type": "integer", "format": "int32" },
+          "term_id_presented": { "type": "integer", "format": "int32" },
+          "user_answer": { "type": "string", "nullable": true },
+          "is_correct": { "type": "boolean" },
+          "response_time_ms": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "game_mode": { "type": "string", "nullable": true },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "log_id": 500,
+          "user_id": 1,
+          "session_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+          "dataset_id": 10,
+          "concept_id": 101,
+          "term_id_presented": 201,
+          "user_answer": "사과",
+          "is_correct": true,
+          "response_time_ms": 1200,
+          "game_mode": "flashcard_en_ko",
+          "timestamp": "2023-03-10T15:30:10Z"
+        }
+      },
+      "UserStat": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "integer", "format": "int32" },
+          "language_pair": { "type": "string", "example": "en-ko" },
+          "total_played": { "type": "integer", "format": "int32" },
+          "correct_answers": { "type": "integer", "format": "int32" },
+          "incorrect_answers": { "type": "integer", "format": "int32" },
+          "average_accuracy": { "type": "number", "format": "float" },
+          "last_played_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "example": {
+          "user_id": 1,
+          "language_pair": "en-ko",
+          "total_played": 150,
+          "correct_answers": 120,
+          "incorrect_answers": 30,
+          "average_accuracy": 0.8,
+          "last_played_at": "2023-03-10T16:00:00Z"
+        }
+      },
+      "Homework": {
+        "type": "object",
+        "properties": {
+          "homework_id": { "type": "integer", "format": "int32" },
+          "creator_id": { "type": "integer", "format": "int32" },
+          "title": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "dataset_id": { "type": "integer", "format": "int32" },
+          "due_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "homework_id": 25,
+          "creator_id": 5,
+          "title": "Weekly Vocabulary Quiz",
+          "description": "Review words from dataset #10.",
+          "dataset_id": 10,
+          "due_date": "2023-03-20T23:59:59Z",
+          "created_at": "2023-03-13T08:00:00Z",
+          "updated_at": "2023-03-13T08:00:00Z"
+        }
+      },
+      "HomeworkAssignment": {
+        "type": "object",
+        "properties": {
+          "assignment_id": { "type": "integer", "format": "int32" },
+          "homework_id": { "type": "integer", "format": "int32" },
+          "assignee_id": { "type": "integer", "format": "int32" },
+          "status": {
+            "type": "string",
+            "enum": ["assigned", "in_progress", "submitted", "completed"],
+            "default": "assigned"
+          },
+          "progress_percentage": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 0
+          },
+          "score": { "type": "integer", "format": "int32", "nullable": true },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "example": {
+          "assignment_id": 77,
+          "homework_id": 25,
+          "assignee_id": 1,
+          "status": "in_progress",
+          "progress_percentage": 50,
+          "score": null,
+          "submitted_at": null,
+          "completed_at": null
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "notification_id": { "type": "integer", "format": "int32" },
+          "user_id": { "type": "integer", "format": "int32" },
+          "type": {
+            "type": "string",
+            "description": "Type of notification (e.g., 'homework_assigned', 'relation_request')"
+          },
+          "message": { "type": "string" },
+          "related_entity_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "description": "ID of the related entity (e.g., homework_id, user_id)"
+          },
+          "is_read": { "type": "boolean", "default": false },
+          "created_at": { "type": "string", "format": "date-time" }
+        },
+        "example": {
+          "notification_id": 1001,
+          "user_id": 1,
+          "type": "homework_assigned",
+          "message": "You have a new homework: Weekly Vocabulary Quiz",
+          "related_entity_id": 25,
+          "is_read": false,
+          "created_at": "2023-03-13T08:05:00Z"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+      }
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "minLength": 6
+                  },
+                  "nickname": { "type": "string" }
+                },
+                "required": ["email", "password", "nickname"]
+              },
+              "examples": {
+                "newUserRegistration": {
+                  "summary": "Example for new user registration",
+                  "value": {
+                    "email": "testuser@example.com",
+                    "password": "password123",
+                    "nickname": "Test User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "userId": { "type": "integer" },
+                    "nickname": { "type": "string" }
+                  }
+                },
+                "examples": {
+                  "registrationSuccess": {
+                    "summary": "Successful registration response",
+                    "value": {
+                      "message": "User registered successfully",
+                      "userId": 1,
+                      "nickname": "Test User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing fields, invalid email, password too short) or email already exists.",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "emailExists": { "value": { "message": "Email already exists" } }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login an existing user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "format": "password" }
+                },
+                "required": ["email", "password"]
+              },
+              "examples": {
+                "userLogin": {
+                  "summary": "Example for user login",
+                  "value": {
+                    "email": "testuser@example.com",
+                    "password": "password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful, tokens and user info returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "accessToken": { "type": "string" },
+                    "refreshToken": { "type": "string" },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "userId": { "type": "integer" },
+                        "nickname": { "type": "string" },
+                        "email": { "type": "string", "format": "email" }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "loginSuccess": {
+                    "summary": "Successful login response",
+                    "value": {
+                      "message": "Login successful",
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2NzgzNzQwMDAsImV4cCI6MTY3ODM3NzYwMH0.mockAccessToken",
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2NzgzNzQwMDAsImV4cCI6MTY4MDk2NjAwMH0.mockRefreshToken",
+                      "user": {
+                        "userId": 1,
+                        "nickname": "Test User",
+                        "email": "testuser@example.com"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing fields)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Invalid credentials (e.g., wrong email or password)",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "invalidCredentials": {
+                "value": { "message": "Invalid email or password" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/refresh-token": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Refresh JWT access token using a refresh token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "description": "The refresh token received during login"
+                  }
+                },
+                "required": ["refreshToken"]
+              },
+              "examples": {
+                "refreshTokenRequest": {
+                  "summary": "Example for refreshing token",
+                  "value": {
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2NzgzNzQwMDAsImV4cCI6MTY4MDk2NjAwMH0.mockRefreshToken"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Access token refreshed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": { "type": "string" }
+                  }
+                },
+                "examples": {
+                  "tokenRefreshed": {
+                    "summary": "Successful token refresh response",
+                    "value": {
+                      "accessToken": "new_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2NzgzNzg0MDAsImV4cCI6MTY3ODM4MjAwMH0.newMockAccessToken"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or expired refresh token",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "invalidRefreshToken": {
+                "value": { "message": "Invalid or expired refresh token" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Logout user (server-side invalidation of refresh token if applicable)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "description": "Optional: client can send refresh token to be invalidated on the server if server stores them.",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "description": "The refresh token to invalidate (if server maintains a list)"
+                  }
+                }
+              },
+              "examples": {
+                "logoutRequest": {
+                  "summary": "Example for logout, possibly with refresh token invalidation",
+                  "value": {
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE2NzgzNzQwMDAsImV4cCI6MTY4MDk2NjAwMH0.mockRefreshToken"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } }
+                },
+                "examples": {
+                  "logoutSuccess": {
+                    "summary": "Successful logout response",
+                    "value": { "message": "Logged out successfully" }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Authenticate or register user with Google ID token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idToken": {
+                    "type": "string",
+                    "description": "Google ID Token obtained from client-side Google Sign-In"
+                  }
+                },
+                "required": ["idToken"]
+              },
+              "examples": {
+                "googleSignIn": {
+                  "summary": "Example for Google Sign-In",
+                  "value": {
+                    "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEyMzQ1Njc4OTAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiY2xpZW50X2lkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiY2xpZW50X2lkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTIzNDU2Nzg5MDEyMzQ1Njc4OTAiLCJoZCI6ImV4YW1wbGUuY29tIiwiZW1haWwiOiJ1c2VyQGdvb2dsZS5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0IiwibmFtZSI6Ikdvb2dsZSBVc2VyIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0FhYmNkZWZnPS0zczk2LWMiLCJnaXZlbl9uYW1lIjoiR29vZ2xlIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE2NzgzNzQwMDAsImV4cCI6MTY3ODM3NzYwMH0.mockGoogleIdTokenSignature"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Google login/registration successful, tokens and user info returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "accessToken": { "type": "string" },
+                    "refreshToken": { "type": "string" },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "userId": { "type": "integer" },
+                        "nickname": { "type": "string" },
+                        "email": { "type": "string", "format": "email" },
+                        "isNewUser": {
+                          "type": "boolean",
+                          "description": "Indicates if a new user account was created during this process"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "googleLoginSuccess": {
+                    "summary": "Successful Google login response",
+                    "value": {
+                      "message": "Google login successful",
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mockAccessToken",
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mockRefreshToken",
+                      "user": {
+                        "userId": 2,
+                        "nickname": "GoogleUser123",
+                        "email": "user.google@example.com",
+                        "isNewUser": false
+                      }
+                    }
+                  },
+                  "googleNewUserSuccess": {
+                    "summary": "Successful Google registration response (new user)",
+                    "value": {
+                      "message": "Google registration successful",
+                      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mockAccessToken",
+                      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mockRefreshToken",
+                      "user": {
+                        "userId": 3,
+                        "nickname": "NewGoogleUser",
+                        "email": "new.user.google@example.com",
+                        "isNewUser": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Google ID token (e.g., missing token, malformed)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Google token verification failed (e.g., invalid signature, expired token, wrong audience)",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "tokenVerificationFailed": {
+                "value": { "message": "Google token verification failed" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current authenticated user's profile information",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User profile data retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" },
+                "examples": {
+                  "userProfile": {
+                    "value": {
+                      "user_id": 1,
+                      "email": "currentuser@example.com",
+                      "nickname": "CurrentUser",
+                      "provider": "local",
+                      "created_at": "2023-01-01T00:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (e.g., token missing or invalid)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "User not found (should not happen if token is valid)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update current authenticated user's profile information",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nickname": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "description": "New nickname for the user"
+                  },
+                  "currentPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "Required if changing email or password (email/password change not fully implemented here, focusing on nickname)"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "minLength": 6,
+                    "description": "New password (only if changing password)"
+                  }
+                },
+                "example": {
+                  "updateNickname": { "nickname": "MyUpdatedNickname" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" },
+                "examples": {
+                  "profileUpdated": {
+                    "value": {
+                      "user_id": 1,
+                      "email": "currentuser@example.com",
+                      "nickname": "MyUpdatedNickname"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., nickname too short/long, password validation failed if provided)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/me/settings": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current authenticated user's application settings",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User settings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserSettings" },
+                "examples": {
+                  "userSettingsExample": {
+                    "value": {
+                      "theme": "dark",
+                      "language": "en",
+                      "notifications_enabled": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update current authenticated user's application settings",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserSettings" },
+              "examples": {
+                "updateThemeAndNotifications": {
+                  "summary": "Example for updating theme and notification settings",
+                  "value": {
+                    "theme": "light",
+                    "notifications_enabled": false,
+                    "preferred_tts_voice": "female_accent_uk"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settings updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserSettings" },
+                "examples": {
+                  "settingsUpdatedExample": {
+                    "value": {
+                      "theme": "light",
+                      "notifications_enabled": false,
+                      "preferred_tts_voice": "female_accent_uk"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., request body is not valid JSON)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/relations/request": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Send a relation (e.g., friend) request to another user",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "addresseeId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "User ID of the user to send the relation request to"
+                  }
+                },
+                "required": ["addresseeId"]
+              },
+              "examples": {
+                "sendRelationRequest": {
+                  "summary": "Example for sending a relation request",
+                  "value": { "addresseeId": 2 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Relation request sent successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Relation" },
+                "examples": {
+                  "requestSent": {
+                    "value": {
+                      "relation_id": 10,
+                      "requester_id": 1,
+                      "addressee_id": 2,
+                      "status": "pending"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., cannot request self, request already exists/pending)",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "alreadyExists": {
+                "value": {
+                  "message": "Relation request already pending or exists."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Addressee user not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/relations": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current user's relations (e.g., friends, pending requests)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter relations by status (e.g., pending, accepted). If not provided, returns all relations.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "accepted", "declined", "blocked"]
+            },
+            "example": "pending"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of user relations retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Relation" }
+                },
+                "examples": {
+                  "listOfRelations": {
+                    "summary": "Example list of relations",
+                    "value": [
+                      {
+                        "relation_id": 10,
+                        "requester_id": 1,
+                        "requester_nickname": "CurrentUser",
+                        "addressee_id": 2,
+                        "addressee_nickname": "FriendUser",
+                        "status": "accepted"
+                      },
+                      {
+                        "relation_id": 11,
+                        "requester_id": 3,
+                        "requester_nickname": "OtherUser",
+                        "addressee_id": 1,
+                        "addressee_nickname": "CurrentUser",
+                        "status": "pending"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/relations/{relationId}": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Handle a relation request (e.g., accept or decline)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "relationId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the relation to handle",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 11
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": ["accept", "decline"],
+                    "description": "Action to perform on the relation request (accept or decline)"
+                  }
+                },
+                "required": ["action"]
+              },
+              "examples": {
+                "acceptRequest": {
+                  "summary": "Example for accepting a relation request",
+                  "value": { "action": "accept" }
+                },
+                "declineRequest": {
+                  "summary": "Example for declining a relation request",
+                  "value": { "action": "decline" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Relation request handled successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Relation" },
+                "examples": {
+                  "requestAccepted": {
+                    "value": {
+                      "relation_id": 11,
+                      "requester_id": 3,
+                      "addressee_id": 1,
+                      "status": "accepted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid action or request is not in a state that can be handled (e.g., already accepted/declined)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the addressee of this pending request)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Relation not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/users/stats": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current authenticated user's game statistics for a specific language pair",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "languagePair",
+            "in": "query",
+            "description": "Language pair for which to retrieve statistics (e.g., 'en-ko')",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "en-ko"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User game statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserStat" },
+                "examples": {
+                  "userStatsExample": {
+                    "value": {
+                      "user_id": 1,
+                      "language_pair": "en-ko",
+                      "total_played": 100,
+                      "correct_answers": 80,
+                      "incorrect_answers": 20,
+                      "average_accuracy": 0.8,
+                      "last_played_at": "2023-03-15T10:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid languagePair query parameter",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "No statistics found for this user and language pair",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "noStatsFound": {
+                "value": {
+                  "message": "No statistics found for the specified language pair."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/datasets": {
+      "post": {
+        "tags": ["Datasets"],
+        "summary": "Create a new vocabulary dataset",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "description": "Name of the dataset"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Optional description for the dataset"
+                  },
+                  "language_pair": {
+                    "type": "string",
+                    "example": "en-ko",
+                    "description": "Language pair for the dataset, e.g., 'sourceLang-targetLang' (en-ko, es-fr)"
+                  },
+                  "is_public": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether the dataset is publicly accessible"
+                  }
+                },
+                "required": ["name", "language_pair"]
+              },
+              "examples": {
+                "newDatasetExample": {
+                  "summary": "Example for creating a new public dataset",
+                  "value": {
+                    "name": "My First English Words",
+                    "description": "A collection of basic English words for beginners.",
+                    "language_pair": "en-ko",
+                    "is_public": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset created successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dataset" },
+                "examples": {
+                  "datasetCreated": {
+                    "value": {
+                      "dataset_id": 1,
+                      "name": "My First English Words",
+                      "language_pair": "en-ko",
+                      "owner_id": 1,
+                      "is_public": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing name or language_pair)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Datasets"],
+        "summary": "Get a list of datasets (public, owned, or all accessible)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Filter datasets: 'my' for datasets owned by the user, 'public' for all public datasets. Defaults to showing datasets owned by user + public datasets if not specified or an unkown value is given.",
+            "required": false,
+            "schema": { "type": "string", "enum": ["my", "public", "all"] },
+            "example": "my"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination (1-indexed)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of datasets retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Dataset" }
+                },
+                "examples": {
+                  "listOfDatasets": {
+                    "summary": "Example list of datasets",
+                    "value": [
+                      {
+                        "dataset_id": 1,
+                        "name": "My English Words",
+                        "language_pair": "en-ko",
+                        "owner_id": 1,
+                        "is_public": false,
+                        "concept_count": 20
+                      },
+                      {
+                        "dataset_id": 2,
+                        "name": "Public Spanish Phrases",
+                        "language_pair": "es-en",
+                        "owner_id": 5,
+                        "is_public": true,
+                        "concept_count": 50
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/datasets/{datasetId}": {
+      "get": {
+        "tags": ["Datasets"],
+        "summary": "Get a specific dataset by its ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "datasetId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the dataset to retrieve",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dataset details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dataset" },
+                "examples": {
+                  "datasetDetails": {
+                    "value": {
+                      "dataset_id": 1,
+                      "name": "My English Words",
+                      "language_pair": "en-ko",
+                      "owner_id": 1,
+                      "is_public": false,
+                      "concept_count": 20
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (if dataset is private and not owned/shared with user)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user does not have access to this private dataset)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Datasets"],
+        "summary": "Update a specific dataset (owner only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "datasetId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the dataset to update",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "description": "New name for the dataset"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "New description for the dataset"
+                  },
+                  "is_public": {
+                    "type": "boolean",
+                    "description": "New visibility setting for the dataset"
+                  }
+                },
+                "minProperties": 1,
+                "example": {
+                  "updateNameAndVisibility": {
+                    "name": "Updated English Words Collection",
+                    "is_public": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dataset updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dataset" },
+                "examples": {
+                  "datasetUpdated": {
+                    "value": {
+                      "dataset_id": 1,
+                      "name": "Updated English Words Collection",
+                      "language_pair": "en-ko",
+                      "owner_id": 1,
+                      "is_public": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., no fields to update, name too long)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the owner of the dataset)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Datasets"],
+        "summary": "Delete a specific dataset (owner only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "datasetId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the dataset to delete",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dataset deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } }
+                },
+                "examples": {
+                  "datasetDeleted": {
+                    "value": { "message": "Dataset deleted successfully" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the owner of the dataset)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/datasets/{datasetId}/concepts": {
+      "post": {
+        "tags": ["Datasets"],
+        "summary": "Add an existing concept to a dataset (owner only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "datasetId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the dataset to add the concept to",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conceptId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of the existing concept to add"
+                  }
+                },
+                "required": ["conceptId"]
+              },
+              "examples": {
+                "addConceptToDataset": {
+                  "summary": "Example for adding an existing concept to a dataset",
+                  "value": { "conceptId": 101 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Concept added to dataset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "dataset_concept_id": {
+                      "type": "integer",
+                      "description": "ID of the mapping entry in DatasetConcepts table"
+                    }
+                  }
+                },
+                "examples": {
+                  "conceptAdded": {
+                    "summary": "Successful response after adding concept",
+                    "value": {
+                      "message": "Concept added to dataset successfully",
+                      "dataset_concept_id": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., concept already in dataset, conceptId missing)",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "alreadyAdded": {
+                "value": {
+                  "message": "Concept already exists in this dataset."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the owner of the dataset)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset or Concept not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/datasets/{datasetId}/concepts/{conceptId}": {
+      "delete": {
+        "tags": ["Datasets"],
+        "summary": "Remove a concept from a dataset (owner only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "datasetId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the dataset",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 1
+          },
+          {
+            "name": "conceptId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the concept to remove from the dataset",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 101
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Concept removed from dataset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } }
+                },
+                "examples": {
+                  "conceptRemoved": {
+                    "value": {
+                      "message": "Concept removed from dataset successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the owner of the dataset)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset, Concept, or the mapping between them not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/datasets/{datasetId}/custom-words": {
+      "post": {
+        "tags": ["Datasets"],
+        "summary": "Add a custom word (concept, term, and optionally hint) to a dataset (owner only)",
+        "description": "This endpoint facilitates adding a new word to a dataset. It will create a new Concept if one with the given text and language doesn't exist, then create a new Term (and Hint if provided) linked to this Concept, and finally link the Concept to the specified Dataset. This is a transactional operation.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "datasetId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the dataset to add the custom word to",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conceptText": {
+                    "type": "string",
+                    "description": "Text for the new concept (e.g., the word in the target/foreign language like 'apple')"
+                  },
+                  "conceptLanguageCode": {
+                    "type": "string",
+                    "example": "en",
+                    "description": "Language code for the concept text (e.g., 'en', 'es')"
+                  },
+                  "termText": {
+                    "type": "string",
+                    "description": "Text for the new term (e.g., the translation or definition in the native language like '사과')"
+                  },
+                  "termLanguageCode": {
+                    "type": "string",
+                    "example": "ko",
+                    "description": "Language code for the term text (e.g., 'ko', 'en')"
+                  },
+                  "hintText": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Optional hint text for the term"
+                  }
+                },
+                "required": [
+                  "conceptText",
+                  "conceptLanguageCode",
+                  "termText",
+                  "termLanguageCode"
+                ]
+              },
+              "examples": {
+                "addCustomWordWithHint": {
+                  "summary": "Example for adding a custom word with a hint",
+                  "value": {
+                    "conceptText": "book",
+                    "conceptLanguageCode": "en",
+                    "termText": "책",
+                    "termLanguageCode": "ko",
+                    "hintText": "Something you read, made of paper."
+                  }
+                },
+                "addCustomWordWithoutHint": {
+                  "summary": "Example for adding a custom word without a hint",
+                  "value": {
+                    "conceptText": "water",
+                    "conceptLanguageCode": "en",
+                    "termText": "물",
+                    "termLanguageCode": "ko"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Custom word (concept, term, hint) added and linked to dataset successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "conceptId": {
+                      "type": "integer",
+                      "description": "ID of the created or reused Concept"
+                    },
+                    "termId": {
+                      "type": "integer",
+                      "description": "ID of the created Term"
+                    },
+                    "hintId": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "ID of the created Hint, if provided"
+                    },
+                    "datasetConceptId": {
+                      "type": "integer",
+                      "description": "ID of the mapping entry in DatasetConcepts table"
+                    }
+                  }
+                },
+                "examples": {
+                  "customWordAdded": {
+                    "summary": "Successful response after adding custom word",
+                    "value": {
+                      "message": "Custom word added to dataset successfully",
+                      "conceptId": 105,
+                      "termId": 210,
+                      "hintId": 315,
+                      "datasetConceptId": 55
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing required fields)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the owner of the dataset)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error (e.g., database transaction failure)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/game/session": {
+      "post": {
+        "tags": ["Gameplay"],
+        "summary": "Start a new game session with words from a specific dataset",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "datasetId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of the dataset to start the game with"
+                  },
+                  "gameMode": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Optional game mode identifier (e.g., 'flashcard', 'quiz_multiple_choice')"
+                  }
+                },
+                "required": ["datasetId"]
+              },
+              "examples": {
+                "startFlashcardSession": {
+                  "summary": "Example for starting a flashcard game session",
+                  "value": { "datasetId": 1, "gameMode": "flashcard_en_ko" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Game session started successfully, returns a session ID and a list of words for the game",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "Unique ID for this game session"
+                    },
+                    "words": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "conceptId": { "type": "integer" },
+                          "conceptText": {
+                            "type": "string",
+                            "description": "The word/phrase in the target language"
+                          },
+                          "termId": { "type": "integer" },
+                          "termText": {
+                            "type": "string",
+                            "description": "The translation/definition in the native language"
+                          },
+                          "hintText": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Optional hint for the word"
+                          }
+                        }
+                      },
+                      "description": "List of words (concept-term pairs with hints) for the game session"
+                    }
+                  }
+                },
+                "examples": {
+                  "sessionStarted": {
+                    "summary": "Successful game session start response",
+                    "value": {
+                      "sessionId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+                      "words": [
+                        {
+                          "conceptId": 101,
+                          "conceptText": "apple",
+                          "termId": 201,
+                          "termText": "사과",
+                          "hintText": "A common fruit."
+                        },
+                        {
+                          "conceptId": 102,
+                          "conceptText": "book",
+                          "termId": 202,
+                          "termText": "책",
+                          "hintText": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing datasetId)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset not found, or dataset has no words, or user does not have access to the dataset (if private)",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "datasetEmpty": {
+                "value": {
+                  "message": "Dataset not found or contains no words."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/game/session/default": {
+      "post": {
+        "tags": ["Gameplay"],
+        "summary": "Start a new game session with a default dataset based on criteria like grade/level",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gradeLevel": {
+                    "type": "string",
+                    "description": "Identifier for the grade or level (e.g., 'elementary_1', 'intermediate_b1')"
+                  },
+                  "languagePair": {
+                    "type": "string",
+                    "example": "en-ko",
+                    "description": "The language pair for the default dataset (e.g., 'en-ko')"
+                  }
+                },
+                "required": ["gradeLevel", "languagePair"]
+              },
+              "examples": {
+                "startDefaultElementarySession": {
+                  "summary": "Example for starting a default session for elementary level",
+                  "value": {
+                    "gradeLevel": "elementary_grade_1",
+                    "languagePair": "en-ko"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Game session started successfully with words from a default dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionId": { "type": "string", "format": "uuid" },
+                    "words": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "conceptId": { "type": "integer" },
+                          "conceptText": { "type": "string" },
+                          "termId": { "type": "integer" },
+                          "termText": { "type": "string" },
+                          "hintText": { "type": "string", "nullable": true }
+                        }
+                      }
+                    },
+                    "datasetInfo": {
+                      "type": "object",
+                      "properties": {
+                        "datasetId": { "type": "integer" },
+                        "name": { "type": "string" }
+                      },
+                      "description": "Information about the default dataset that was used for this session."
+                    }
+                  }
+                },
+                "examples": {
+                  "defaultSessionStarted": {
+                    "summary": "Successful default game session start",
+                    "value": {
+                      "sessionId": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
+                      "words": [
+                        {
+                          "conceptId": 301,
+                          "conceptText": "cat",
+                          "termId": 401,
+                          "termText": "고양이",
+                          "hintText": "A common pet."
+                        },
+                        {
+                          "conceptId": 302,
+                          "conceptText": "dog",
+                          "termId": 402,
+                          "termText": "개",
+                          "hintText": null
+                        }
+                      ],
+                      "datasetInfo": {
+                        "datasetId": 15,
+                        "name": "Default English Elementary Grade 1 (EN-KO)"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing gradeLevel or languagePair)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "No default dataset found for the specified criteria, or the found dataset has no words.",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "noDefaultDataset": {
+                "value": {
+                  "message": "No default dataset found for the specified grade level and language pair."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/game/log": {
+      "post": {
+        "tags": ["Gameplay"],
+        "summary": "Log a game result (e.g., user's answer to a word, correctness)",
+        "description": "This endpoint is used to record the outcome of a single interaction (e.g., one word) within a game session. It also updates user statistics based on the result.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sessionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The ID of the current game session"
+                  },
+                  "datasetId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "nullable": true,
+                    "description": "ID of the dataset used in the game, if applicable (e.g., for non-default sessions)"
+                  },
+                  "conceptId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of the concept (word/phrase) that was presented"
+                  },
+                  "termIdPresented": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of the specific term (translation/definition) that was presented to the user for this concept"
+                  },
+                  "userAnswer": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The answer provided by the user (if applicable, e.g., for typed answers)"
+                  },
+                  "isCorrect": {
+                    "type": "boolean",
+                    "description": "Whether the user's answer was correct"
+                  },
+                  "responseTimeMs": {
+                    "type": "integer",
+                    "format": "int32",
+                    "nullable": true,
+                    "description": "Time taken by the user to respond, in milliseconds"
+                  },
+                  "gameMode": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The game mode during which this result was logged"
+                  }
+                },
+                "required": [
+                  "sessionId",
+                  "conceptId",
+                  "termIdPresented",
+                  "isCorrect"
+                ]
+              },
+              "examples": {
+                "logCorrectAnswerWithTime": {
+                  "summary": "Example of logging a correct answer with response time",
+                  "value": {
+                    "sessionId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+                    "datasetId": 1,
+                    "conceptId": 101,
+                    "termIdPresented": 201,
+                    "userAnswer": "사과",
+                    "isCorrect": true,
+                    "responseTimeMs": 1500,
+                    "gameMode": "flashcard_en_ko"
+                  }
+                },
+                "logIncorrectAnswer": {
+                  "summary": "Example of logging an incorrect answer",
+                  "value": {
+                    "sessionId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+                    "datasetId": 1,
+                    "conceptId": 102,
+                    "termIdPresented": 202,
+                    "userAnswer": "볼펜",
+                    "isCorrect": false,
+                    "gameMode": "quiz_typed_en_ko"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Game log created successfully, and user statistics updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "logId": {
+                      "type": "integer",
+                      "description": "ID of the created game log entry"
+                    }
+                  }
+                },
+                "examples": {
+                  "logCreated": {
+                    "summary": "Successful game log creation",
+                    "value": {
+                      "message": "Game result logged successfully",
+                      "logId": 789
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing required fields, invalid IDs)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error (e.g., database transaction failure)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/homework": {
+      "post": {
+        "tags": ["Homework"],
+        "summary": "Create and assign homework to one or more users (creator only)",
+        "description": "Allows a user (typically a teacher or mentor) to create a homework assignment based on a dataset and assign it to other users.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the homework"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Optional description for the homework"
+                  },
+                  "datasetId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "ID of the dataset to be used for this homework"
+                  },
+                  "assigneeIds": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int32" },
+                    "description": "Array of User IDs to whom this homework will be assigned. Assignees must have a 'student' or 'related' relationship with the creator, or the dataset must be public/accessible to them.",
+                    "minItems": 1
+                  },
+                  "dueDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Optional due date for the homework"
+                  }
+                },
+                "required": ["title", "datasetId", "assigneeIds"]
+              },
+              "examples": {
+                "assignHomeworkToMultipleUsers": {
+                  "summary": "Example for assigning homework to a list of users",
+                  "value": {
+                    "title": "Chapter 1 Vocabulary Practice",
+                    "description": "Complete all words from the 'Beginner English Chapter 1' dataset.",
+                    "datasetId": 5,
+                    "assigneeIds": [2, 3, 7],
+                    "dueDate": "2024-12-31T23:59:59Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Homework created and assigned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "homeworkId": {
+                      "type": "integer",
+                      "description": "ID of the created homework"
+                    },
+                    "assignmentCount": {
+                      "type": "integer",
+                      "description": "Number of users the homework was successfully assigned to"
+                    }
+                  }
+                },
+                "examples": {
+                  "homeworkAssigned": {
+                    "summary": "Successful homework assignment",
+                    "value": {
+                      "message": "Homework assigned successfully to 3 users.",
+                      "homeworkId": 12,
+                      "assignmentCount": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., missing title, empty assigneeIds, invalid datasetId)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (e.g., creator does not own the dataset or it's not public, or trying to assign to unrelated users without proper permissions)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Dataset not found, or one or more assignee users not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error (e.g., database transaction failure)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/homework/assigned": {
+      "get": {
+        "tags": ["Homework"],
+        "summary": "Get all homework assignments for the current authenticated user",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter assignments by status (e.g., 'assigned', 'in_progress', 'submitted', 'completed'). If not provided, returns all assigned homework.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["assigned", "in_progress", "submitted", "completed"]
+            },
+            "example": "in_progress"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of homework assigned to the current user, potentially filtered by status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "allOf": [
+                      { "$ref": "#/components/schemas/Homework" },
+                      { "$ref": "#/components/schemas/HomeworkAssignment" }
+                    ],
+                    "description": "Combines Homework details with the user's specific Assignment details."
+                  }
+                },
+                "examples": {
+                  "listOfAssignedHomework": {
+                    "summary": "Example list of homework assigned to the user",
+                    "value": [
+                      {
+                        "homework_id": 12,
+                        "creator_id": 5,
+                        "title": "Chapter 1 Vocab",
+                        "dataset_id": 5,
+                        "due_date": "2024-12-31T23:59:59Z",
+                        "assignment_id": 77,
+                        "assignee_id": 1,
+                        "status": "in_progress",
+                        "progress_percentage": 25
+                      },
+                      {
+                        "homework_id": 15,
+                        "creator_id": 5,
+                        "title": "Phrasal Verbs Test",
+                        "dataset_id": 8,
+                        "due_date": "2024-11-30T23:59:59Z",
+                        "assignment_id": 78,
+                        "assignee_id": 1,
+                        "status": "assigned",
+                        "progress_percentage": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/homework/created": {
+      "get": {
+        "tags": ["Homework"],
+        "summary": "Get all homework created by the current authenticated user",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of homework created by the user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Homework" }
+                },
+                "examples": {
+                  "listOfCreatedHomework": {
+                    "summary": "Example list of homework created by the user",
+                    "value": [
+                      {
+                        "homework_id": 12,
+                        "creator_id": 1,
+                        "title": "My Chapter 1 Vocab",
+                        "dataset_id": 5,
+                        "due_date": "2024-12-31T23:59:59Z"
+                      },
+                      {
+                        "homework_id": 18,
+                        "creator_id": 1,
+                        "title": "Advanced Listening Practice",
+                        "dataset_id": 10,
+                        "due_date": null
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/homework/{homeworkId}": {
+      "get": {
+        "tags": ["Homework"],
+        "summary": "Get details of a specific homework (accessible to creator or assignees)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "homeworkId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the homework to retrieve",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 12
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Homework details retrieved successfully. If the user is the creator, it includes all assignments. If an assignee, it includes their specific assignment details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/Homework" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "assignments": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/HomeworkAssignment"
+                          },
+                          "description": "List of all assignments for this homework (visible only to the homework creator)."
+                        },
+                        "myAssignment": {
+                          "$ref": "#/components/schemas/HomeworkAssignment",
+                          "description": "Details of the current user's assignment for this homework (visible only if the current user is an assignee)."
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "homeworkDetailsForCreator": {
+                    "summary": "Example homework details for the creator",
+                    "value": {
+                      "homework_id": 12,
+                      "creator_id": 1,
+                      "title": "Chapter 1 Vocab",
+                      "dataset_id": 5,
+                      "assignments": [
+                        {
+                          "assignment_id": 77,
+                          "homework_id": 12,
+                          "assignee_id": 2,
+                          "status": "in_progress",
+                          "progress_percentage": 50
+                        },
+                        {
+                          "assignment_id": 78,
+                          "homework_id": 12,
+                          "assignee_id": 3,
+                          "status": "submitted",
+                          "progress_percentage": 100,
+                          "score": 90
+                        }
+                      ]
+                    }
+                  },
+                  "homeworkDetailsForAssignee": {
+                    "summary": "Example homework details for an assignee",
+                    "value": {
+                      "homework_id": 12,
+                      "creator_id": 5,
+                      "title": "Chapter 1 Vocab",
+                      "dataset_id": 5,
+                      "myAssignment": {
+                        "assignment_id": 77,
+                        "homework_id": 12,
+                        "assignee_id": 1,
+                        "status": "in_progress",
+                        "progress_percentage": 25
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is neither the creator nor an assignee of this homework)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Homework not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Homework"],
+        "summary": "Update a homework's details (creator only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "homeworkId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the homework to update",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 12
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "New title for the homework"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "New description"
+                  },
+                  "datasetId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "New dataset ID (use with caution, may affect existing progress)"
+                  },
+                  "dueDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "New due date"
+                  }
+                },
+                "minProperties": 1,
+                "example": {
+                  "updateTitleAndDueDate": {
+                    "title": "Revised Chapter 1 Vocabulary Review",
+                    "dueDate": "2025-01-10T23:59:59Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Homework updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Homework" },
+                "examples": {
+                  "homeworkUpdated": {
+                    "value": {
+                      "homework_id": 12,
+                      "title": "Revised Chapter 1 Vocab",
+                      "dueDate": "2025-01-10T23:59:59Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., no fields to update)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the creator of this homework)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Homework not found, or referenced Dataset not found (if datasetId is being changed)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Homework"],
+        "summary": "Delete a homework and all its assignments (creator only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "homeworkId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the homework to delete",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 12
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Homework and its assignments deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } }
+                },
+                "examples": {
+                  "homeworkDeleted": {
+                    "value": { "message": "Homework deleted successfully" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not the creator of this homework)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Homework not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error (e.g., database transaction failure)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/homework/{homeworkId}/progress": {
+      "post": {
+        "tags": ["Homework"],
+        "summary": "Submit homework progress or mark as complete (assignee only)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "homeworkId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the homework for which progress is being submitted",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 12
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "progressPercentage": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "The user's current progress percentage (0-100)"
+                  },
+                  "isComplete": {
+                    "type": "boolean",
+                    "description": "Set to true if the user is submitting the homework as fully completed. This will likely also set progressPercentage to 100."
+                  },
+                  "answers": {
+                    "type": "array",
+                    "items": { "type": "object" },
+                    "nullable": true,
+                    "description": "Optional: Detailed answers or results for the homework. The structure of objects within this array would depend on the specific type of homework/questions."
+                  }
+                },
+                "required": ["progressPercentage", "isComplete"]
+              },
+              "examples": {
+                "submitPartialProgress": {
+                  "summary": "Example for submitting partial progress",
+                  "value": { "progressPercentage": 50, "isComplete": false }
+                },
+                "submitFullCompletion": {
+                  "summary": "Example for submitting full completion with answers",
+                  "value": {
+                    "progressPercentage": 100,
+                    "isComplete": true,
+                    "answers": [
+                      { "question_id": "q1", "user_answer": "A" },
+                      { "question_id": "q2", "user_answer": "C" }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Homework progress submitted/updated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HomeworkAssignment" },
+                "examples": {
+                  "progressUpdated": {
+                    "value": {
+                      "assignment_id": 77,
+                      "homework_id": 12,
+                      "assignee_id": 1,
+                      "status": "in_progress",
+                      "progress_percentage": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input (e.g., progressPercentage out of range)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is not an assignee of this homework, or homework is already submitted/past due and not allowing late submissions)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Homework or user's assignment for this homework not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Homework"],
+        "summary": "Get homework progress for a specific assignment (assignee or creator)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "homeworkId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the homework",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 12
+          },
+          {
+            "name": "assigneeId",
+            "in": "query",
+            "description": "User ID of the assignee whose progress is to be fetched. Required if the current user is the creator and wants to view a specific assignee's progress. If the current user is the assignee, this parameter is ignored, and their own progress is returned.",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Homework progress details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HomeworkAssignment" },
+                "examples": {
+                  "assigneeProgress": {
+                    "value": {
+                      "assignment_id": 77,
+                      "homework_id": 12,
+                      "assignee_id": 2,
+                      "status": "submitted",
+                      "progress_percentage": 100,
+                      "score": 85
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user is neither the assignee specified nor the creator of the homework)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Homework or assignment for the specified assigneeId not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Get current authenticated user's notifications",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "unreadOnly",
+            "in": "query",
+            "description": "If true, returns only unread notifications. Defaults to false (returns all notifications).",
+            "required": false,
+            "schema": { "type": "boolean", "default": false }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination (1-indexed)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of notifications per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of user notifications retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Notification" }
+                },
+                "examples": {
+                  "listOfNotifications": {
+                    "summary": "Example list of user notifications",
+                    "value": [
+                      {
+                        "notification_id": 101,
+                        "user_id": 1,
+                        "type": "homework_assigned",
+                        "message": "New homework 'Chapter 2 Review' assigned.",
+                        "related_entity_id": 13,
+                        "is_read": false,
+                        "created_at": "2023-03-20T10:00:00Z"
+                      },
+                      {
+                        "notification_id": 102,
+                        "user_id": 1,
+                        "type": "relation_accepted",
+                        "message": "User 'Friend24' accepted your friend request.",
+                        "related_entity_id": 24,
+                        "is_read": true,
+                        "created_at": "2023-03-19T15:30:00Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/notifications/{notificationId}/read": {
+      "patch": {
+        "tags": ["Notifications"],
+        "summary": "Mark a specific notification as read for the current user",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the notification to mark as read",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 101
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification successfully marked as read.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Notification" },
+                "examples": {
+                  "notificationMarkedRead": {
+                    "value": {
+                      "notification_id": 101,
+                      "user_id": 1,
+                      "type": "homework_assigned",
+                      "message": "New homework 'Chapter 2 Review' assigned.",
+                      "is_read": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "403": {
+            "description": "Forbidden (user does not own this notification or it's already marked as read)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Notification not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/content/concepts/{conceptId}": {
+      "get": {
+        "tags": ["Content"],
+        "summary": "Get details of a specific concept by its ID",
+        "description": "Concepts are generally considered public or accessible if part of a public/shared dataset or homework. Authentication might be required for certain restricted concepts.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "conceptId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the concept to retrieve",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 101
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Concept details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Concept" },
+                "examples": {
+                  "conceptDetails": {
+                    "value": {
+                      "concept_id": 101,
+                      "text_representation": "apple",
+                      "concept_type": "word",
+                      "language_code": "en"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (if concept access is restricted and token is invalid/missing)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Concept not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/content/terms/{termId}": {
+      "get": {
+        "tags": ["Content"],
+        "summary": "Get details of a specific term by its ID",
+        "description": "Terms are generally considered public or accessible if part of a public/shared dataset or homework. Authentication might be required for certain restricted terms.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "termId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the term to retrieve",
+            "schema": { "type": "integer", "format": "int32" },
+            "example": 201
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Term details retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Term" },
+                "examples": {
+                  "termDetails": {
+                    "value": {
+                      "term_id": 201,
+                      "concept_id": 101,
+                      "language_code": "ko",
+                      "text": "사과",
+                      "term_type": "translation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (if term access is restricted and token is invalid/missing)",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "404": {
+            "description": "Term not found",
+            "$ref": "#/components/schemas/ErrorResponse"
+          },
+          "500": {
+            "description": "Server error",
+            "$ref": "#/components/schemas/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/content/audio/{filename}": {
+      "get": {
+        "tags": ["Content"],
+        "summary": "Get an audio file by its filename",
+        "description": "Serves an audio file (e.g., pronunciation). The actual file serving is typically handled by a static file middleware (like express.static pointing to a 'public/audio' directory). This OpenAPI entry is primarily for documentation and discoverability of the audio resource path.",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "description": "Name of the audio file (e.g., 'apple_en_pronunciation.mp3')",
+            "schema": { "type": "string" },
+            "example": "apple_en_pronunciation.mp3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audio file content. The Content-Type header will indicate the audio format (e.g., audio/mpeg, audio/wav).",
+            "content": {
+              "audio/mpeg": {
+                "schema": { "type": "string", "format": "binary" }
+              },
+              "audio/wav": {
+                "schema": { "type": "string", "format": "binary" }
+              },
+              "*/*": { "schema": { "type": "string", "format": "binary" } }
+            }
+          },
+          "404": {
+            "description": "Audio file not found at the specified path.",
+            "$ref": "#/components/schemas/ErrorResponse",
+            "examples": {
+              "audioNotFound": {
+                "value": { "message": "Audio file not found." }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

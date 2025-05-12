@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   videoPlayer: {
-    width: "50%",
+    width: "100%",
     aspectRatio: 16 / 9,
     marginBottom: 20,
   },

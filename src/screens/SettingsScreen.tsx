@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Alert,
+  Modal,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
@@ -12,15 +14,10 @@ import { useGame, GradeType } from "../components/GameProvider";
 import { Header } from "../components/Header";
 import { GNB } from "../components/GNB";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useAuth } from "../contexts/AuthContext";
+import { RootStackParamList } from "../../App";
 
-type RootStackParamList = {
-  VocaMan: undefined;
-  Settings: undefined;
-  Support: undefined;
-  Dashboard: undefined;
-};
-
-type NavigationProps = NavigationProp<RootStackParamList>;
+type NavigationProps = NavigationProp<RootStackParamList, "Settings">;
 
 export const SettingsScreen = () => {
   const {
@@ -29,8 +26,12 @@ export const SettingsScreen = () => {
     currentGrade,
     setCurrentGrade,
   } = useGame();
+  const { signOut, isLoading: isAuthLoading, user } = useAuth();
   const [isGNBVisible, setIsGNBVisible] = useState(false);
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const navigation = useNavigation<NavigationProps>();
+
+  console.log("[SettingsScreen] Rendering. isAuthLoading:", isAuthLoading);
 
   const displayLayout = keyboardLayout === "qwerty" ? "QWERTY" : "ABC";
 
@@ -43,6 +44,34 @@ export const SettingsScreen = () => {
     { label: "초등학교 6학년", value: 6 },
     { label: "초등학교 전체", value: "all" },
   ];
+
+  const handleSignOutPress = () => {
+    console.log(
+      "[SettingsScreen] handleSignOutPress: Opening logout confirmation modal. isAuthLoading:",
+      isAuthLoading
+    );
+    if (!isAuthLoading) {
+      setIsLogoutModalVisible(true);
+    }
+  };
+
+  const confirmSignOut = async () => {
+    console.log("[SettingsScreen] confirmSignOut: Attempting signOut...");
+    setIsLogoutModalVisible(false);
+    try {
+      await signOut();
+      console.log("[SettingsScreen] signOut successful (from modal)");
+    } catch (error) {
+      console.error("[SettingsScreen] signOut failed (from modal):", error);
+      let message = "알 수 없는 오류가 발생했습니다.";
+      if (error instanceof Error) {
+        message = error.message;
+      } else if (typeof error === "string") {
+        message = error;
+      }
+      Alert.alert("로그아웃 실패", message);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
@@ -57,6 +86,7 @@ export const SettingsScreen = () => {
             <TouchableOpacity
               style={styles.toggleButton}
               onPress={toggleKeyboardLayout}
+              disabled={isAuthLoading}
             >
               <Text style={styles.toggleText}>변경</Text>
             </TouchableOpacity>
@@ -72,8 +102,10 @@ export const SettingsScreen = () => {
                 style={[
                   styles.gradeButton,
                   currentGrade === option.value && styles.gradeButtonSelected,
+                  isAuthLoading && styles.buttonDisabled,
                 ]}
-                onPress={() => setCurrentGrade(option.value)}
+                onPress={() => !isAuthLoading && setCurrentGrade(option.value)}
+                disabled={isAuthLoading}
               >
                 <Text
                   style={[
@@ -89,9 +121,29 @@ export const SettingsScreen = () => {
           </View>
         </View>
 
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>계정</Text>
+          <TouchableOpacity
+            style={[
+              styles.logoutButton,
+              isAuthLoading && styles.buttonDisabled,
+            ]}
+            onPress={handleSignOutPress}
+            disabled={isAuthLoading}
+          >
+            <Text style={styles.logoutButtonText}>
+              {isAuthLoading ? "로그아웃 중..." : "로그아웃"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
-          style={styles.backToGameButton}
-          onPress={() => navigation.navigate("VocaMan")}
+          style={[
+            styles.backToGameButton,
+            isAuthLoading && styles.buttonDisabled,
+          ]}
+          onPress={() => !isAuthLoading && navigation.navigate("VocaMan")}
+          disabled={isAuthLoading}
         >
           <Text style={styles.backToGameText}>게임으로 돌아가기</Text>
         </TouchableOpacity>
@@ -100,10 +152,46 @@ export const SettingsScreen = () => {
         visible={isGNBVisible}
         onClose={() => setIsGNBVisible(false)}
         onNavigate={(screen) => {
-          navigation.navigate(screen as never);
+          navigation.navigate(screen as keyof RootStackParamList);
           setIsGNBVisible(false);
         }}
       />
+
+      <Modal
+        visible={isLogoutModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsLogoutModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>로그아웃 확인</Text>
+            <Text style={styles.modalMessage}>
+              {`${user?.nickname || "사용자"}님, 정말 로그아웃 하시겠습니까?`}
+            </Text>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.cancelButton]}
+                onPress={() => setIsLogoutModalVisible(false)}
+              >
+                <Text style={[styles.modalButtonText, styles.cancelButtonText]}>
+                  취소
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.confirmButton]}
+                onPress={confirmSignOut}
+              >
+                <Text
+                  style={[styles.modalButtonText, styles.confirmButtonText]}
+                >
+                  로그아웃
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -173,11 +261,22 @@ const styles = StyleSheet.create({
     color: Colors.background,
     fontWeight: "bold",
   },
+  logoutButton: {
+    backgroundColor: Colors.danger,
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  logoutButtonText: {
+    color: Colors.background,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   backToGameButton: {
     backgroundColor: Colors.primary,
     paddingVertical: 16,
     borderRadius: 8,
-    marginTop: "auto",
+    marginTop: 16,
     marginBottom: 16,
   },
   backToGameText: {
@@ -185,5 +284,60 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  buttonDisabled: {
+    opacity: 0.5,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: Colors.background,
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: Colors.text,
+    marginBottom: 16,
+  },
+  modalMessage: {
+    fontSize: 16,
+    color: Colors.text,
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  modalButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    minWidth: 100,
+    alignItems: "center",
+  },
+  modalButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  cancelButton: {
+    backgroundColor: Colors.border,
+  },
+  cancelButtonText: {
+    color: Colors.textSecondary,
+  },
+  confirmButton: {
+    backgroundColor: Colors.danger,
+  },
+  confirmButtonText: {
+    color: Colors.background,
   },
 });

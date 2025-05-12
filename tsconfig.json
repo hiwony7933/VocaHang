@@ -12,7 +12,7 @@
     "types": ["react-native", "jest"],
     "allowJs": true,
     "skipLibCheck": true,
-    "lib": ["ES2015", "DOM", "es2016"]
+    "lib": ["ES2015", "DOM", "es2016", "ES2017"]
   },
   "include": [
     "src/**/*",

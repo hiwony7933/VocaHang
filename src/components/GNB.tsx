@@ -8,6 +8,7 @@ import {
   Animated,
   Dimensions,
   Platform,
+  // StyleProp, ViewStyle, // StyleProp과 ViewStyle이 필요하면 주석 해제
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
@@ -18,24 +19,41 @@ import {
   SettingsIcon,
   InfoIcon,
   // HeartIcon,
+  // LoginIcon, // LoginIcon은 아직 없으므로 주석 처리 또는 다른 아이콘으로 대체
 } from "./icons";
+import { RootStackParamList } from "../../App";
+import { useAuth } from "../contexts/AuthContext";
+
+// 아이콘 컴포넌트가 받는 Props 정의
+interface IconProps {
+  size: number; // size는 필수로 받는 것으로 보임
+  color: string; // color도 필수로 받는 것으로 보임
+  // style?: StyleProp<ViewStyle>; // 아이콘에 스타일 prop이 필요하다면 추가
+}
+
+type IconComponent = React.FC<IconProps>; // IconProps 사용
+
+interface MenuItem {
+  name: string;
+  icon: IconComponent;
+  screen: keyof RootStackParamList;
+}
 
 interface GNBProps {
   visible: boolean;
   onClose: () => void;
-  onNavigate: (screen: string) => void;
+  onNavigate: (screen: keyof RootStackParamList) => void;
 }
 
 export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
   const { width, height } = Dimensions.get("window");
   const isWeb = Platform.OS === "web";
+  const { isAuthenticated } = useAuth();
 
-  // PC 환경에서는 더 작은 너비 사용
   const menuWidth = isWeb ? Math.min(360, width * 0.3) : width * 0.7;
 
   React.useEffect(() => {
-    // useNativeDriver는 네이티브에서만 지원 (opacity는 지원)
     const useNativeDriver = Platform.OS !== "web";
     if (visible) {
       Animated.timing(fadeAnim, {
@@ -50,9 +68,9 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
         useNativeDriver: useNativeDriver,
       }).start();
     }
-  }, [visible, fadeAnim]); // fadeAnim도 의존성 배열에 추가
+  }, [visible, fadeAnim]);
 
-  const menuItems = [
+  const baseMenuItems: MenuItem[] = [
     {
       name: "게임",
       icon: GameIcon,
@@ -78,12 +96,18 @@ export const GNB: React.FC<GNBProps> = ({ visible, onClose, onNavigate }) => {
       icon: InfoIcon,
       screen: "AppInfo",
     },
-    // {
-    //   name: "후원하기",
-    //   icon: HeartIcon,
-    //   screen: "Support",
-    // },
   ];
+
+  const menuItems: MenuItem[] = !isAuthenticated
+    ? [
+        ...baseMenuItems,
+        {
+          name: "로그인",
+          icon: InfoIcon,
+          screen: "Login",
+        },
+      ]
+    : baseMenuItems;
 
   return (
     <Modal
@@ -151,8 +175,6 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
-    // shadow* 속성 대신 boxShadow 사용 (웹 호환성)
-    // 네이티브 환경에서는 elevation 유지
     ...(Platform.OS === "web"
       ? {
           boxShadow: "0px 2px 3.84px rgba(0, 0, 0, 0.25)",

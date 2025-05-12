@@ -12,4 +12,5 @@ export const Colors = {
   modalBackground: "#FFFFFF",
   overlay: "rgba(0, 0, 0, 0.5)",
   border: "#E0E0E0",
+  danger: "#D9534F",
 };

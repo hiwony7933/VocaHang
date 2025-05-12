@@ -22,9 +22,21 @@ module.exports = {
     "app.config.js",
     "**/*.d.ts",
   ],
+  globals: {
+    console: "readonly",
+    __DEV__: "readonly",
+  },
   rules: {
     "no-console": "off",
     "@typescript-eslint/no-require-imports": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrorsIgnorePattern: "^_",
+      },
+    ],
   },
   overrides: [
     {
