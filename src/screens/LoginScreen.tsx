@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Platform,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import apiClient from "../lib/apiClient";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -18,6 +19,7 @@ import {
   authenticateWithBackend,
   initGoogleSignIn,
 } from "../lib/socialAuthService";
+import { AUTH_ERROR_MESSAGES } from "../config/auth";
 
 // AuthContext에서 정의한 User 타입을 가져오거나, 여기서도 동일하게 정의할 수 있습니다.
 // interface User { userId: string; email: string; nickname: string; role: string; }
@@ -48,6 +50,7 @@ const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const { signIn, isLoading: isAuthLoading } = useAuth();
 
   // 비밀번호 입력 TextInput에 대한 ref 생성
@@ -76,10 +79,6 @@ const LoginScreen = ({ navigation }: Props) => {
         "[LoginScreen] handleLogin: API Response Status:",
         response.status
       ); // API 응답 상태 로그
-      console.log(
-        "[LoginScreen] handleLogin: API Response Data:",
-        JSON.stringify(response.data, null, 2)
-      ); // API 응답 데이터 로그
 
       if (
         response.status === 200 &&
@@ -97,7 +96,6 @@ const LoginScreen = ({ navigation }: Props) => {
         console.log(
           "[LoginScreen] handleLogin: signIn context function finished."
         ); // signIn 호출 후 로그
-        // 성공 시 자동 화면 전환되므로 별도 Alert은 필요 없을 수 있음
       } else {
         // response.data.message가 있을 경우 활용
         const message =
@@ -106,7 +104,7 @@ const LoginScreen = ({ navigation }: Props) => {
       }
     } catch (err) {
       console.error("Login Error Object:", err);
-      let errorMessage = "알 수 없는 오류가 발생했습니다.";
+      let errorMessage = AUTH_ERROR_MESSAGES.UNKNOWN_ERROR;
 
       if (axios.isAxiosError(err) && err.response) {
         errorMessage =
@@ -117,12 +115,6 @@ const LoginScreen = ({ navigation }: Props) => {
           "로그인 요청 중 오류가 발생했습니다.";
       } else if (err instanceof Error) {
         errorMessage = err.message;
-      } else {
-        try {
-          errorMessage = String(err);
-        } catch (_e) {
-          // String(err) 실패 시 기본 메시지 유지
-        }
       }
       setErrorText(errorMessage);
     }
@@ -132,6 +124,7 @@ const LoginScreen = ({ navigation }: Props) => {
   const handleGoogleLogin = async () => {
     try {
       setErrorText("");
+      setIsGoogleLoading(true);
       console.log(
         "[LoginScreen] handleGoogleLogin: Attempting Google login..."
       );
@@ -140,7 +133,10 @@ const LoginScreen = ({ navigation }: Props) => {
       const googleResult = await signInWithGoogle();
 
       if (!googleResult.success || !googleResult.idToken) {
-        setErrorText(googleResult.error || "구글 로그인에 실패했습니다.");
+        setErrorText(
+          googleResult.error || AUTH_ERROR_MESSAGES.GOOGLE_LOGIN_FAILED
+        );
+        setIsGoogleLoading(false);
         return;
       }
 
@@ -172,15 +168,35 @@ const LoginScreen = ({ navigation }: Props) => {
       }
     } catch (err) {
       console.error("Google Login Error:", err);
-      let errorMessage = "구글 로그인 중 오류가 발생했습니다.";
 
-      if (axios.isAxiosError(err) && err.response) {
-        errorMessage = err.response.data?.message || err.message;
+      // 오류 처리 개선
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status;
+
+        if (status === 400) {
+          setErrorText(
+            err.response?.data?.message || AUTH_ERROR_MESSAGES.ID_TOKEN_MISSING
+          );
+        } else if (status === 401) {
+          setErrorText(
+            err.response?.data?.message || AUTH_ERROR_MESSAGES.INVALID_TOKEN
+          );
+        } else if (status === 500) {
+          setErrorText(AUTH_ERROR_MESSAGES.SERVER_ERROR);
+        } else if (!err.response) {
+          setErrorText(AUTH_ERROR_MESSAGES.NETWORK_ERROR);
+        } else {
+          setErrorText(
+            err.response?.data?.message || AUTH_ERROR_MESSAGES.UNKNOWN_ERROR
+          );
+        }
       } else if (err instanceof Error) {
-        errorMessage = err.message;
+        setErrorText(err.message);
+      } else {
+        setErrorText(AUTH_ERROR_MESSAGES.UNKNOWN_ERROR);
       }
-
-      setErrorText(errorMessage);
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
@@ -188,11 +204,13 @@ const LoginScreen = ({ navigation }: Props) => {
   // navigation.navigate('Login')을 호출하므로, LoginScreen에서는 회원가입 화면으로
   // 돌아가는 버튼을 추가할 수 있습니다.
   const goToRegister = () => {
-    if (!isAuthLoading) {
+    if (!isAuthLoading && !isGoogleLoading) {
       // 로딩 중 아닐 때만 네비게이션 허용
       navigation.navigate("Register");
     }
   };
+
+  const isLoading = isAuthLoading || isGoogleLoading;
 
   return (
     <View style={styles.container}>
@@ -204,7 +222,7 @@ const LoginScreen = ({ navigation }: Props) => {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
-        editable={!isAuthLoading}
+        editable={!isLoading}
         returnKeyType="next"
         onSubmitEditing={() => {
           passwordInputRef.current?.focus();
@@ -217,15 +235,15 @@ const LoginScreen = ({ navigation }: Props) => {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        editable={!isAuthLoading}
+        editable={!isLoading}
         returnKeyType="done"
         onSubmitEditing={handleLogin}
       />
       {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
       <TouchableOpacity
-        style={[styles.button, isAuthLoading && styles.buttonDisabled]}
+        style={[styles.button, isLoading && styles.buttonDisabled]}
         onPress={handleLogin}
-        disabled={isAuthLoading}
+        disabled={isLoading}
       >
         <Text style={styles.buttonText}>
           {isAuthLoading ? "처리 중..." : "로그인"}
@@ -241,25 +259,35 @@ const LoginScreen = ({ navigation }: Props) => {
 
       {/* 구글 로그인 버튼 */}
       <TouchableOpacity
-        style={[styles.googleButton, isAuthLoading && styles.buttonDisabled]}
+        style={[styles.googleButton, isLoading && styles.buttonDisabled]}
         onPress={handleGoogleLogin}
-        disabled={isAuthLoading}
+        disabled={isLoading}
       >
         <View style={styles.googleButtonContent}>
-          <Image
-            source={{
-              uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-            }}
-            style={styles.googleIcon}
-          />
-          <Text style={styles.googleButtonText}>Google로 로그인</Text>
+          {isGoogleLoading ? (
+            <ActivityIndicator
+              size="small"
+              color="#4285F4"
+              style={styles.googleIcon}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+              }}
+              style={styles.googleIcon}
+            />
+          )}
+          <Text style={styles.googleButtonText}>
+            {isGoogleLoading ? "처리 중..." : "Google로 로그인"}
+          </Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.linkButton}
         onPress={goToRegister}
-        disabled={isAuthLoading}
+        disabled={isLoading}
       >
         <Text style={styles.linkButtonText}>계정이 없으신가요? 회원가입</Text>
       </TouchableOpacity>

@@ -1,14 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// AuthContext에서 정의했던 TOKEN_KEYS와 동일한 값을 사용하거나, 여기서 별도 정의
-const TOKEN_KEYS = {
-  ACCESS_TOKEN: "accessToken",
-  REFRESH_TOKEN: "refreshToken", // REFRESH_TOKEN 활성화
-};
+import { TOKEN_KEYS, AUTH_ENDPOINTS } from "../config/auth";
 
 // 실제 배포 환경에서는 환경 변수 등을 통해 baseURL을 설정해야 합니다.
-const BASE_URL = "http://182.221.127.172:8080/api/v2"; // TODO: 환경별 URL 설정 필요
+const BASE_URL = "http://182.221.127.172:8080"; // TODO: 환경별 URL 설정 필요
 const TIMEOUT = 10000; // 10초
 
 const apiClient = axios.create({
@@ -53,7 +48,7 @@ apiClient.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      originalRequest.url !== "/auth/refresh-token"
+      originalRequest.url !== AUTH_ENDPOINTS.REFRESH_TOKEN
     ) {
       originalRequest._retry = true; // 재시도 플래그 설정
       console.log("[ApiClient] Attempting to refresh token...");
@@ -63,16 +58,18 @@ apiClient.interceptors.response.use(
           TOKEN_KEYS.REFRESH_TOKEN
         );
         if (refreshToken) {
-          const response = await axios.post(`${BASE_URL}/auth/refresh-token`, {
-            refreshToken: refreshToken,
-          });
+          // 새 엔드포인트로 토큰 갱신 요청
+          const response = await axios.post(
+            `${BASE_URL}${AUTH_ENDPOINTS.REFRESH_TOKEN}`,
+            { refreshToken }
+          );
 
+          // 백엔드 응답 형식에 맞게 토큰 추출
           const newAccessToken = response.data.accessToken;
-          const newRefreshToken = response.data.refreshToken; // 백엔드가 새 리프레시 토큰을 줄 수도 있음
+          const newRefreshToken = response.data.refreshToken; // 새 리프레시 토큰이 있을 경우
 
           await AsyncStorage.setItem(TOKEN_KEYS.ACCESS_TOKEN, newAccessToken);
           if (newRefreshToken) {
-            // 새 리프레시 토큰이 있다면 그것도 저장
             await AsyncStorage.setItem(
               TOKEN_KEYS.REFRESH_TOKEN,
               newRefreshToken
@@ -98,8 +95,8 @@ apiClient.interceptors.response.use(
           // 리프레시 토큰이 없으면, 모든 토큰 삭제 (강제 로그아웃 유도)
           await AsyncStorage.removeItem(TOKEN_KEYS.ACCESS_TOKEN);
           await AsyncStorage.removeItem(TOKEN_KEYS.REFRESH_TOKEN);
+          await AsyncStorage.removeItem(TOKEN_KEYS.USER_INFO);
           // 에러를 반환하여 호출부에서 로그인 페이지로 리다이렉트 등의 처리를 하도록 함
-          // 또는 window.location.href = '/login'; 등으로 강제 리다이렉트 (웹의 경우)
           return Promise.reject(
             new Error("No refresh token available. User logged out.")
           );
@@ -112,6 +109,7 @@ apiClient.interceptors.response.use(
         // 리프레시 실패 시에도 모든 토큰 삭제
         await AsyncStorage.removeItem(TOKEN_KEYS.ACCESS_TOKEN);
         await AsyncStorage.removeItem(TOKEN_KEYS.REFRESH_TOKEN);
+        await AsyncStorage.removeItem(TOKEN_KEYS.USER_INFO);
         return Promise.reject(refreshError); // 원래 에러 또는 refreshError 반환
       }
     }

@@ -34,7 +34,21 @@ export const TOKEN_KEYS = {
 export const AUTH_ENDPOINTS = {
   LOGIN: "/auth/login",
   REGISTER: "/auth/register",
-  GOOGLE: "/auth/google",
-  REFRESH_TOKEN: "/auth/refresh-token",
+  GOOGLE: "/api/v2/auth/google/login", // 업데이트된 구글 로그인 엔드포인트
+  REFRESH_TOKEN: "/api/v2/auth/refresh", // 업데이트된 토큰 갱신 엔드포인트
   LOGOUT: "/auth/logout",
+};
+
+// 오류 메시지
+export const AUTH_ERROR_MESSAGES = {
+  GOOGLE_LOGIN_FAILED: "구글 로그인에 실패했습니다.",
+  GOOGLE_LOGIN_CANCELLED: "구글 로그인이 취소되었습니다.",
+  GOOGLE_LOGIN_IN_PROGRESS: "구글 로그인이 이미 진행 중입니다.",
+  GOOGLE_PLAY_SERVICES_UNAVAILABLE:
+    "Google Play Services를 사용할 수 없습니다.",
+  ID_TOKEN_MISSING: "구글 ID 토큰을 받지 못했습니다.",
+  SERVER_ERROR: "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+  INVALID_TOKEN: "유효하지 않은 토큰입니다. 다시 로그인해주세요.",
+  UNKNOWN_ERROR: "알 수 없는 오류가 발생했습니다.",
+  NETWORK_ERROR: "네트워크 연결을 확인해주세요.",
 };
