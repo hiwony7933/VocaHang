@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,11 +6,18 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  Platform,
+  Image,
 } from "react-native";
 import apiClient from "../lib/apiClient";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import {
+  signInWithGoogle,
+  authenticateWithBackend,
+  initGoogleSignIn,
+} from "../lib/socialAuthService";
 
 // AuthContext에서 정의한 User 타입을 가져오거나, 여기서도 동일하게 정의할 수 있습니다.
 // interface User { userId: string; email: string; nickname: string; role: string; }
@@ -45,6 +52,11 @@ const LoginScreen = ({ navigation }: Props) => {
 
   // 비밀번호 입력 TextInput에 대한 ref 생성
   const passwordInputRef = useRef<TextInput>(null);
+
+  // 컴포넌트 마운트 시 구글 로그인 초기화
+  useEffect(() => {
+    initGoogleSignIn();
+  }, []);
 
   const handleLogin = async () => {
     setErrorText("");
@@ -116,6 +128,62 @@ const LoginScreen = ({ navigation }: Props) => {
     }
   };
 
+  // 구글 로그인 핸들러
+  const handleGoogleLogin = async () => {
+    try {
+      setErrorText("");
+      console.log(
+        "[LoginScreen] handleGoogleLogin: Attempting Google login..."
+      );
+
+      // 구글 로그인 시도
+      const googleResult = await signInWithGoogle();
+
+      if (!googleResult.success || !googleResult.idToken) {
+        setErrorText(googleResult.error || "구글 로그인에 실패했습니다.");
+        return;
+      }
+
+      console.log(
+        "[LoginScreen] handleGoogleLogin: Google login successful, authenticating with backend..."
+      );
+
+      // 백엔드 인증
+      const backendResponse = await authenticateWithBackend(
+        googleResult.idToken
+      );
+
+      if (backendResponse.accessToken && backendResponse.user) {
+        console.log(
+          "[LoginScreen] handleGoogleLogin: Backend authentication successful, calling signIn context function..."
+        );
+
+        await signIn({
+          accessToken: backendResponse.accessToken,
+          refreshToken: backendResponse.refreshToken,
+          user: backendResponse.user,
+        });
+
+        console.log(
+          "[LoginScreen] handleGoogleLogin: signIn context function finished."
+        );
+      } else {
+        setErrorText("백엔드 인증에 실패했습니다.");
+      }
+    } catch (err) {
+      console.error("Google Login Error:", err);
+      let errorMessage = "구글 로그인 중 오류가 발생했습니다.";
+
+      if (axios.isAxiosError(err) && err.response) {
+        errorMessage = err.response.data?.message || err.message;
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
+      setErrorText(errorMessage);
+    }
+  };
+
   // RegisterScreen.tsx의 handleRegister 성공 시 Login으로 이동하는 로직에서
   // navigation.navigate('Login')을 호출하므로, LoginScreen에서는 회원가입 화면으로
   // 돌아가는 버튼을 추가할 수 있습니다.
@@ -163,6 +231,31 @@ const LoginScreen = ({ navigation }: Props) => {
           {isAuthLoading ? "처리 중..." : "로그인"}
         </Text>
       </TouchableOpacity>
+
+      {/* 구분선 */}
+      <View style={styles.separator}>
+        <View style={styles.separatorLine} />
+        <Text style={styles.separatorText}>또는</Text>
+        <View style={styles.separatorLine} />
+      </View>
+
+      {/* 구글 로그인 버튼 */}
+      <TouchableOpacity
+        style={[styles.googleButton, isAuthLoading && styles.buttonDisabled]}
+        onPress={handleGoogleLogin}
+        disabled={isAuthLoading}
+      >
+        <View style={styles.googleButtonContent}>
+          <Image
+            source={{
+              uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+            }}
+            style={styles.googleIcon}
+          />
+          <Text style={styles.googleButtonText}>Google로 로그인</Text>
+        </View>
+      </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.linkButton}
         onPress={goToRegister}
@@ -232,6 +325,46 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#007bff",
     textDecorationLine: "underline",
+  },
+  separator: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    marginVertical: 20,
+  },
+  separatorLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#ccc",
+  },
+  separatorText: {
+    paddingHorizontal: 10,
+    color: "#888",
+  },
+  googleButton: {
+    width: "100%",
+    height: 50,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  googleButtonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  googleIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
+  },
+  googleButtonText: {
+    color: "#333",
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
 

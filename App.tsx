@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   NavigationContainer,
   useNavigation,
@@ -22,6 +22,7 @@ import { Colors } from "./src/constants/theme";
 import { GNB } from "./src/components/GNB";
 import { GameProvider } from "./src/components/GameProvider";
 import { AuthProvider, useAuth } from "./src/contexts/AuthContext";
+import { initGoogleSignIn } from "./src/lib/socialAuthService";
 
 // 스크린 import
 import { IntroScreen } from "./src/screens/IntroScreen";
@@ -134,6 +135,20 @@ function AppNavigation() {
 }
 
 export default function App() {
+  // 앱 시작 시 구글 로그인 초기화
+  useEffect(() => {
+    const setupGoogleSignIn = async () => {
+      try {
+        await initGoogleSignIn();
+        console.log("Google Sign-In initialized successfully");
+      } catch (error) {
+        console.error("Failed to initialize Google Sign-In:", error);
+      }
+    };
+
+    setupGoogleSignIn();
+  }, []);
+
   return (
     <>
       <StatusBar style="dark" backgroundColor="#fff" translucent={false} />
