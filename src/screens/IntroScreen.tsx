@@ -39,7 +39,7 @@ export const IntroScreen = () => {
   const handleSelectGrade = async (grade: GradeType) => {
     setIsGradeModalVisible(false);
     await setCurrentGrade(grade);
-    navigation.navigate("HowToPlay");
+    navigation.navigate("VocaMan");
   };
 
   if (isLoading) {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   videoPlayer: {
-    width: "50%",
+    width: "100%",
     aspectRatio: 16 / 9,
     marginBottom: 20,
   },

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Audio } from "expo-av";
 
@@ -19,35 +25,49 @@ import completeFailSound from "../../assets/sounds/jia_fail_2.m4a";
 
 export type GradeType = 1 | 2 | 3 | 4 | 5 | 6 | "all";
 
+// MAX_TRIES export 추가
+export const MAX_TRIES = 6; // 최대 시도 횟수 정의
+
+// 새로운 타입 정의
+export interface LetterPickFeedbackInfo {
+  type: "letterPickFeedback";
+  message: string;
+  feedbackType: "correct" | "incorrect";
+  remainingTries: number;
+}
+
 interface GameContextType {
   currentWord: WordType;
-  currentHints: { hint1: string; hint2: string };
+  currentHints: { hint1: string; hint2?: string };
   solvedWordIds: string[];
-  wins: number;
-  losses: number;
-  currentStreak: number;
-  bestStreak: number;
   currentIndex: number;
-  wrongGuesses: string[];
   displayTries: number;
-  handlePressLetter: (letter: string) => void;
   stats: {
     wins: number;
     losses: number;
     currentStreak: number;
     bestStreak: number;
   };
-  keyboardLayout: "qwerty" | "alphabet";
-  toggleKeyboardLayout: () => void;
-  gameStatus: "playing" | "won" | "lost";
+  gameStatus: "playing" | "won" | "lost"; // 'lost_pending_modal_close' 같은 중간 상태는 일단 제외
   handleNext: () => void;
   pickNewWord: (list: WordType[], solvedIds: string[]) => void;
-  markWordAsSolved: (solvedWordId: string | undefined) => void;
+  markWordAsSolved: (solvedWordId: string) => void;
   resetGame: () => void;
-  incrementLosses: () => void;
   currentGrade: GradeType;
   setCurrentGrade: (grade: GradeType) => Promise<void>;
   isLoading: boolean;
+  mileage: number;
+  addMileage: (points: number) => Promise<void>;
+  shuffledWordHint?: string[];
+  processUserAnswer: (attemptedWord: string) => void;
+  handleIncorrectLetterPick: () => void;
+  wordForModal: WordType | LetterPickFeedbackInfo | null;
+  setWordForModal: React.Dispatch<
+    React.SetStateAction<WordType | LetterPickFeedbackInfo | null>
+  >;
+  handleCorrectLetterPickFeedback: () => void;
+  finalizeDefeat: () => void;
+  loadGameState?: () => Promise<void>;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -67,58 +87,66 @@ let correctSoundObject: Audio.Sound | null = null;
 let completeSuccessSoundObject: Audio.Sound | null = null;
 let completeFailSoundObject: Audio.Sound | null = null;
 
+// Fisher-Yates (aka Knuth) Shuffle 함수
+const shuffleArray = (array: string[]) => {
+  let currentIndex = array.length,
+    randomIndex;
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+};
+
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [currentWord, setCurrentWord] = useState<WordType>({
-    id: "",
+    id: "INITIAL_PLACEHOLDER",
     word: "",
     hints: { hint1: "", hint2: "" },
     category: "",
-    education: { schoolLevel: "", grade: 1 },
+    education: { schoolLevel: "elementary", grade: 1 },
   });
-  const [currentHints, setCurrentHints] = useState({ hint1: "", hint2: "" });
+  const [wordForModal, setWordForModal] = useState<
+    WordType | LetterPickFeedbackInfo | null
+  >(null);
+  const [currentHints, setCurrentHints] = useState<{
+    hint1: string;
+    hint2?: string;
+  }>({ hint1: "" });
   const [solvedWordIds, setSolvedWordIds] = useState<string[]>([]);
   const [wins, setWins] = useState(0);
   const [losses, setLosses] = useState(0);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [wrongGuesses, setWrongGuesses] = useState<string[]>([]);
-  const [keyboardLayout, setKeyboardLayout] = useState<"qwerty" | "alphabet">(
-    "qwerty"
-  );
   const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
     "playing"
   );
   const [currentGrade, setCurrentGrade] = useState<GradeType>(1);
   const [wordList, setWordList] = useState<WordType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastInputTime, setLastInputTime] = useState(0);
-  const INPUT_DELAY = 300; // 입력 딜레이 (ms)
-  const MODAL_DELAY = 500; // 모달 표시 딜레이 (ms)
+  const [mileage, setMileage] = useState(0);
+  const [shuffledWordHint, setShuffledWordHint] = useState<
+    string[] | undefined
+  >(undefined);
+  const [displayTries, setDisplayTries] = useState(MAX_TRIES);
 
-  const loadWordList = async (grade: GradeType) => {
-    console.log("Loading word list for grade:", grade);
+  const loadWordList = useCallback(async (grade: GradeType) => {
+    console.log("Loading word list for grade (memoized):", grade);
     try {
       let newWordList: WordType[] = [];
-
-      // 단어 데이터 확인
-      console.log("Available word lists:", Object.keys(gradeToWordList));
-      console.log(
-        "Grade 1 word list sample:",
-        gradeToWordList[1]?.wordList?.[0]
-      );
-
       if (grade === "all") {
-        console.log("Loading all grades...");
-        // 1~6학년 데이터를 모두 합침
         for (let gradeNum = 1; gradeNum <= 6; gradeNum++) {
           const gradeWords = gradeToWordList[gradeNum]?.wordList || [];
-          console.log(`Grade ${gradeNum} words:`, gradeWords.length);
-          if (gradeWords.length > 0) {
-            console.log(`Sample word from grade ${gradeNum}:`, gradeWords[0]);
-          }
           const wordsWithIds = gradeWords.map((word) => ({
             ...word,
             id:
@@ -129,14 +157,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
           }));
           newWordList = [...newWordList, ...wordsWithIds];
         }
-        console.log("Total words loaded for all grades:", newWordList.length);
       } else {
-        console.log(`Loading grade ${grade}...`);
         const words = gradeToWordList[grade as number]?.wordList || [];
-        console.log(`Grade ${grade} words:`, words.length);
-        if (words.length > 0) {
-          console.log(`Sample word from grade ${grade}:`, words[0]);
-        }
         newWordList = words.map((word) => ({
           ...word,
           id:
@@ -146,252 +168,282 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
               .substring(2, 11)}`,
         }));
       }
-
       if (newWordList.length === 0) {
         console.error(`No words available for grade: ${grade}`);
         return null;
       }
-
-      // 단어 목록 샘플 출력
-      if (newWordList.length > 0) {
-        console.log("Sample from final word list:", {
-          firstWord: newWordList[0],
-          totalWords: newWordList.length,
-        });
-      }
-
       return newWordList;
     } catch (error) {
       console.error("Error loading word list:", error);
       return null;
     }
-  };
+  }, []);
 
-  const updateCurrentGrade = async (grade: GradeType) => {
-    try {
-      console.log("Starting grade update process...");
+  const pickNewWord = useCallback(
+    (list: WordType[], solvedIdsArg: string[]) => {
+      console.log("Picking new word (memoized - revised dependencies)");
       setIsLoading(true);
-
-      // 게임 상태 초기화
-      setSolvedWordIds([]);
-      setWins(0);
-      setLosses(0);
-      setCurrentStreak(0);
-      setBestStreak(0);
-      setWrongGuesses([]);
-      setCurrentIndex(0);
       setGameStatus("playing");
-
-      // 단어 목록 로드
-      console.log("Loading word list...");
-      const newWordList = await loadWordList(grade);
-
-      if (!newWordList || newWordList.length === 0) {
-        console.error("No words available for grade:", grade);
+      setWordForModal(null);
+      setCurrentWord((prev) => ({
+        id: prev?.id || "loading...",
+        word: "",
+        hints: { hint1: "", hint2: "" },
+        category: prev?.category || "",
+        education: prev?.education || { schoolLevel: "elementary", grade: 1 },
+      }));
+      setCurrentHints({ hint1: "" });
+      const availableWords = list.filter(
+        (word) => word.id && !solvedIdsArg.includes(word.id)
+      );
+      if (availableWords.length === 0) {
+        if (list.length > 0) {
+          setCurrentWord({
+            id: "ALL_SOLVED_PLACEHOLDER",
+            word: "ALL SOLVED!",
+            hints: { hint1: "축하합니다! 다음 학년에 도전하세요.", hint2: "" },
+            category: "Congratulations",
+            education: {
+              schoolLevel: "elementary",
+              grade: typeof currentGrade === "number" ? currentGrade : 1,
+            },
+          });
+          setCurrentHints({
+            hint1: "축하합니다! 다음 학년에 도전하세요.",
+            hint2: "",
+          });
+        } else {
+          setCurrentWord({
+            id: "NODATA",
+            word: "NODATA",
+            hints: { hint1: "데이터 없음", hint2: "" },
+            category: "",
+            education: { schoolLevel: "elementary", grade: 1 },
+          });
+          setCurrentHints({ hint1: "데이터 없음", hint2: "" });
+          setDisplayTries(0);
+        }
+        setShuffledWordHint(undefined);
+        setIsLoading(false);
         return;
       }
+      const randomIndex = Math.floor(Math.random() * availableWords.length);
+      const newWordToSet = availableWords[randomIndex];
+      if (newWordToSet && newWordToSet.word && newWordToSet.id) {
+        setCurrentWord(newWordToSet);
+        setCurrentHints({
+          hint1: newWordToSet.hints.hint1,
+          hint2: newWordToSet.hints.hint2,
+        });
+        const wordChars = newWordToSet.word.toUpperCase().split("");
+        setShuffledWordHint(shuffleArray(wordChars));
+      } else {
+        setCurrentWord({
+          id: "ERROR_PICK",
+          word: "PICK_ERROR",
+          hints: { hint1: "단어 선택 오류", hint2: "" },
+          category: "",
+          education: { schoolLevel: "elementary", grade: 1 },
+        });
+        setCurrentHints({ hint1: "단어 선택 오류", hint2: "" });
+        setShuffledWordHint(undefined);
+      }
+      setDisplayTries(MAX_TRIES);
+      setIsLoading(false);
+    },
+    [
+      currentGrade,
+      setIsLoading,
+      setGameStatus,
+      setWordForModal,
+      setCurrentWord,
+      setCurrentHints,
+      setShuffledWordHint,
+      setDisplayTries,
+    ]
+  );
 
-      // 현재 등급 설정
-      console.log("Setting current grade...");
-      setCurrentGrade(grade);
+  const loadGameState = useCallback(async () => {
+    console.log("Loading game state (memoized)");
+    setIsLoading(true);
+    try {
+      const savedGrade = (await AsyncStorage.getItem(
+        "currentGrade"
+      )) as GradeType;
+      const currentGradeToLoad = savedGrade || (1 as GradeType);
+      setCurrentGrade(currentGradeToLoad);
 
-      // 단어 목록 설정
-      console.log("Setting word list...");
-      setWordList(newWordList);
+      const savedGameStateString = await AsyncStorage.getItem("gameState");
+      let loadedSolvedIds: string[] = [];
+      if (savedGameStateString) {
+        const savedGameData = JSON.parse(savedGameStateString);
+        if (savedGameData) {
+          if (savedGameData.wins !== undefined) setWins(savedGameData.wins);
+          if (savedGameData.losses !== undefined)
+            setLosses(savedGameData.losses);
+          if (savedGameData.currentStreak !== undefined)
+            setCurrentStreak(savedGameData.currentStreak);
+          if (savedGameData.bestStreak !== undefined)
+            setBestStreak(savedGameData.bestStreak);
+          if (savedGameData.currentIndex !== undefined)
+            setCurrentIndex(savedGameData.currentIndex);
+          if (savedGameData.solvedWordIds !== undefined)
+            loadedSolvedIds = savedGameData.solvedWordIds;
+        }
+      }
+      setSolvedWordIds(loadedSolvedIds);
 
-      // 새 단어 선택
-      const randomWord =
-        newWordList[Math.floor(Math.random() * newWordList.length)];
-      console.log("Selected word details:", {
-        word: randomWord.word,
-        hints: randomWord.hints,
-        id: randomWord.id,
-      });
+      const newWordList = await loadWordList(currentGradeToLoad);
+      if (newWordList && newWordList.length > 0) {
+        setWordList(newWordList);
+        pickNewWord(newWordList, loadedSolvedIds);
+      } else if (currentGradeToLoad) {
+        const fallbackWordList = await loadWordList(1);
+        if (fallbackWordList && fallbackWordList.length > 0) {
+          setWordList(fallbackWordList);
+          pickNewWord(fallbackWordList, []);
+        } else {
+          console.error("Fallback word list also failed to load.");
+        }
+      }
 
-      // 상태 업데이트를 동기적으로 처리
-      setCurrentWord(randomWord);
-      setCurrentHints(randomWord.hints);
-
-      // AsyncStorage 업데이트
-      console.log("Updating AsyncStorage...");
-      await Promise.all([
-        AsyncStorage.setItem("currentGrade", grade.toString()),
-        saveGameState(),
-      ]);
-
-      // 개발 단계에서 로딩 화면을 확인하기 위한 2초 지연
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      console.log("Final state check:", {
-        currentWord: currentWord,
-        currentHints: currentHints,
-        grade: currentGrade,
-      });
+      const savedMileage = await AsyncStorage.getItem("userMileage");
+      if (savedMileage !== null) setMileage(parseInt(savedMileage, 10));
+      else setMileage(0);
     } catch (error) {
-      console.error("Error updating grade:", error);
+      console.error("Error loading game state:", error);
+      setMileage(0);
+      const fallbackWordList = await loadWordList(1);
+      if (fallbackWordList && fallbackWordList.length > 0) {
+        setWordList(fallbackWordList);
+        pickNewWord(fallbackWordList, []);
+      }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [
+    loadWordList,
+    pickNewWord,
+    setIsLoading,
+    setCurrentGrade,
+    setWins,
+    setLosses,
+    setCurrentStreak,
+    setBestStreak,
+    setCurrentIndex,
+    setSolvedWordIds,
+    setWordList,
+    setMileage,
+  ]);
 
-  const initializeGame = async () => {
+  const initializeGame = useCallback(async () => {
     setIsLoading(true);
     try {
       await loadGameState();
-      // 저장된 키보드 레이아웃 불러오기 (loadGameState에서 처리하도록 개선 가능)
-      const savedLayout = await AsyncStorage.getItem("keyboardLayout");
-      if (savedLayout === "alphabet" || savedLayout === "qwerty") {
-        setKeyboardLayout(savedLayout);
-      }
-      // 데이터 사전 로드 (필요하다면 유지)
-      console.log("Pre-loading word data...");
-      // ... 사전 로드 로직 ...
     } catch (error) {
       console.error("Error initializing game:", error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [loadGameState, setIsLoading]);
 
-  const loadGameState = async () => {
-    try {
-      const savedData = await AsyncStorage.getItem("gameState");
-      if (savedData) {
-        const {
-          solvedWordIds = [],
-          wins = 0,
-          losses = 0,
-          currentStreak = 0,
-          bestStreak = 0,
-          currentIndex = 0,
-          keyboardLayout = "qwerty",
-          currentGrade = 1,
-        } = JSON.parse(savedData);
+  useEffect(() => {
+    initializeGame();
+  }, [initializeGame]);
 
-        // 상태 설정
-        setSolvedWordIds(solvedWordIds);
-        setWins(wins);
-        setLosses(losses);
-        setCurrentStreak(currentStreak);
-        setBestStreak(bestStreak);
-        setCurrentIndex(currentIndex);
-        setKeyboardLayout(keyboardLayout);
-        setCurrentGrade(currentGrade);
+  const updateCurrentGrade = useCallback(
+    async (grade: GradeType) => {
+      setIsLoading(true);
+      setWordForModal(null);
+      setSolvedWordIds([]);
+      setWins(0);
+      setLosses(0);
+      setCurrentStreak(0);
+      setCurrentIndex(0);
+      setGameStatus("playing");
+      setDisplayTries(MAX_TRIES);
 
-        // 현재 등급에 맞는 단어 목록 로드
-        const newWordList = await loadWordList(currentGrade);
-        if (newWordList && newWordList.length > 0) {
-          setWordList(newWordList); // 상태 업데이트
-          pickNewWord(newWordList, solvedWordIds); // 로드된 리스트와 solvedWordIds 전달
-        } else {
-          console.error("Loaded word list is empty for grade:", currentGrade);
-        }
-      } else {
-        // 저장된 데이터가 없을 경우 (첫 실행 등)
-        const initialGrade: GradeType = 1;
-        setCurrentGrade(initialGrade);
-        setKeyboardLayout("qwerty"); // 기본값
-        const initialWordList = await loadWordList(initialGrade);
-        if (initialWordList && initialWordList.length > 0) {
-          setWordList(initialWordList);
-          pickNewWord(initialWordList, []); // 초기 solvedWordIds는 빈 배열
-        } else {
-          console.error(
-            "Initial word list load failed for grade:",
-            initialGrade
-          );
-        }
+      const newWordList = await loadWordList(grade);
+      if (!newWordList || newWordList.length === 0) {
+        console.error("No words available for grade:", grade);
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error("Failed to load game state:", error);
-    }
-  };
+      setCurrentGrade(grade);
+      setWordList(newWordList);
+      pickNewWord(newWordList, []);
+      await AsyncStorage.setItem("currentGrade", grade.toString());
+      setIsLoading(false);
+    },
+    [
+      loadWordList,
+      pickNewWord,
+      setIsLoading,
+      setWordForModal,
+      setSolvedWordIds,
+      setWins,
+      setLosses,
+      setCurrentStreak,
+      setCurrentIndex,
+      setGameStatus,
+      setDisplayTries,
+      setCurrentGrade,
+      setWordList,
+    ]
+  );
 
-  const saveGameState = async () => {
+  const saveGameState = useCallback(async () => {
     try {
-      const gameState = {
+      const gameStateToSave = {
         solvedWordIds,
         wins,
         losses,
         currentStreak,
         bestStreak,
         currentIndex,
-        keyboardLayout,
         currentGrade,
       };
-      await AsyncStorage.setItem("gameState", JSON.stringify(gameState));
+      await AsyncStorage.setItem("gameState", JSON.stringify(gameStateToSave));
     } catch (error) {
       console.error("Failed to save game state:", error);
     }
-  };
+  }, [
+    solvedWordIds,
+    wins,
+    losses,
+    currentStreak,
+    bestStreak,
+    currentIndex,
+    currentGrade,
+  ]);
 
-  const pickNewWord = (list: WordType[], solvedIds: string[]) => {
-    if (!list || list.length === 0) {
-      console.error("No words available in the provided list."); // 에러 메시지 수정
-      // 적절한 fallback 처리 (예: 에러 상태 설정 또는 기본 단어 설정)
-      setCurrentWord({
-        id: "",
-        word: "ERROR",
-        hints: { hint1: "단어", hint2: "없음" },
-        category: "",
-        education: { schoolLevel: "", grade: 1 },
-      });
-      setCurrentHints({ hint1: "단어", hint2: "없음" });
-      setGameStatus("lost"); // 또는 다른 적절한 상태
-      return;
+  useEffect(() => {
+    if (
+      currentWord &&
+      currentWord.id !== "INITIAL_PLACEHOLDER" &&
+      currentWord.id !== "loading..."
+    ) {
+      saveGameState();
     }
+  }, [
+    wins,
+    losses,
+    currentStreak,
+    bestStreak,
+    solvedWordIds,
+    currentGrade,
+    currentWord,
+    saveGameState,
+  ]);
 
-    const availableWords = list.filter(
-      (word) => word.id && !solvedIds.includes(word.id)
-    );
-
-    if (availableWords.length === 0) {
-      // 모든 단어를 다 풀었을 때 처리 (기존 로직 유지)
-      console.log("All words solved, resetting solved list...");
-      const halfLength = Math.floor(solvedIds.length / 2);
-      const oldestSolvedWords = solvedIds.slice(0, halfLength);
-      const remainingSolvedWords = solvedIds.slice(halfLength);
-      setSolvedWordIds(remainingSolvedWords); // 상태 업데이트
-      const resetWords = list.filter(
-        (word) => word.id && oldestSolvedWords.includes(word.id)
-      );
-      if (resetWords.length > 0) {
-        const randomWord =
-          resetWords[Math.floor(Math.random() * resetWords.length)];
-        setCurrentWord(randomWord);
-        setCurrentHints(randomWord.hints);
-        setWrongGuesses([]);
-        setCurrentIndex(0);
-        setGameStatus("playing");
-      } else {
-        // oldestSolvedWords에 해당하는 단어도 없는 극단적인 경우
-        console.error("Cannot reset words, something went wrong.");
-        // fallback 처리
-        const randomWord = list[Math.floor(Math.random() * list.length)]; // 그냥 리스트에서 다시 뽑기
-        setCurrentWord(randomWord);
-        setCurrentHints(randomWord.hints);
-        setWrongGuesses([]);
-        setCurrentIndex(0);
-        setGameStatus("playing");
-      }
+  const handleNext = useCallback(() => {
+    setWordForModal(null);
+    if (wordList.length > 0) {
+      pickNewWord(wordList, solvedWordIds);
     } else {
-      // 풀지 않은 단어 중 랜덤 선택
-      const randomWord =
-        availableWords[Math.floor(Math.random() * availableWords.length)];
-      setCurrentWord(randomWord);
-      setCurrentHints(randomWord.hints);
-      setWrongGuesses([]);
-      setCurrentIndex(0);
-      setGameStatus("playing");
+      console.warn("Word list is empty, cannot pick next word.");
     }
-  };
-
-  const handleNext = () => {
-    setGameStatus("playing");
-    setCurrentIndex(0);
-    setWrongGuesses([]);
-    pickNewWord(wordList, solvedWordIds); // 현재 상태의 wordList와 solvedWordIds 전달
-  };
+  }, [pickNewWord, wordList, solvedWordIds, setWordForModal]);
 
   // 사운드 파일 미리 로드
   const preloadSounds = async () => {
@@ -438,28 +490,44 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     soundType: "wrong" | "correct" | "success" | "fail"
   ) => {
     try {
-      let soundObject = null;
+      let soundObjectToPlay: Audio.Sound | null = null;
+
       switch (soundType) {
         case "wrong":
-          soundObject = wrongSoundObject;
+          if (!wrongSoundObject) {
+            wrongSoundObject = new Audio.Sound();
+            await wrongSoundObject.loadAsync(wrongSound);
+          }
+          soundObjectToPlay = wrongSoundObject;
           break;
         case "correct":
-          soundObject = correctSoundObject;
+          if (!correctSoundObject) {
+            correctSoundObject = new Audio.Sound();
+            await correctSoundObject.loadAsync(correctSound);
+          }
+          soundObjectToPlay = correctSoundObject;
           break;
         case "success":
-          soundObject = completeSuccessSoundObject;
+          if (!completeSuccessSoundObject) {
+            completeSuccessSoundObject = new Audio.Sound();
+            await completeSuccessSoundObject.loadAsync(completeSuccessSound);
+          }
+          soundObjectToPlay = completeSuccessSoundObject;
           break;
         case "fail":
-          soundObject = completeFailSoundObject;
+          if (!completeFailSoundObject) {
+            completeFailSoundObject = new Audio.Sound();
+            await completeFailSoundObject.loadAsync(completeFailSound);
+          }
+          soundObjectToPlay = completeFailSoundObject;
           break;
       }
 
-      if (soundObject) {
-        await soundObject.setPositionAsync(0); // 재생 위치 초기화
-        await soundObject.playAsync();
+      if (soundObjectToPlay) {
+        await soundObjectToPlay.replayAsync(); // 기존 재생 중이면 중지하고 처음부터 재생
       }
     } catch (error) {
-      console.error("Error playing sound:", error);
+      console.error(`Error playing ${soundType} sound:`, error);
     }
   };
 
@@ -471,79 +539,35 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, []);
 
-  const handlePressLetter = async (letter: string) => {
-    if (gameStatus !== "playing") return;
-
-    const currentTime = Date.now();
-    if (currentTime - lastInputTime < INPUT_DELAY) return;
-    setLastInputTime(currentTime);
-
-    const correctLetter = currentWord.word.toUpperCase()[currentIndex];
-
-    if (letter === correctLetter) {
-      setCurrentIndex((prev) => prev + 1);
-      if (currentIndex + 1 === currentWord.word.length) {
-        setGameStatus("won");
-        await playSound("success");
-        await new Promise((resolve) => setTimeout(resolve, MODAL_DELAY));
-        markWordAsSolved(currentWord.id); // id 전달
-      } else {
-        await playSound("correct");
+  const markWordAsSolved = useCallback(
+    (solvedWordId: string) => {
+      if (solvedWordId) {
+        setSolvedWordIds((prev) => [...prev, solvedWordId]);
       }
-    } else {
-      setWrongGuesses((prev) => [...prev, letter]);
-      if (wrongGuesses.length + 1 >= 6) {
-        setGameStatus("lost");
-        await playSound("fail");
-        await new Promise((resolve) => setTimeout(resolve, MODAL_DELAY));
-        incrementLosses();
-      } else if (currentIndex + 1 < currentWord.word.length) {
-        await playSound("wrong");
-      }
-    }
-  };
+    },
+    [setSolvedWordIds]
+  );
 
-  const markWordAsSolved = (solvedWordId: string | undefined) => {
-    if (solvedWordId) {
-      const newSolvedWordIds = [...solvedWordIds, solvedWordId];
-      setSolvedWordIds(newSolvedWordIds);
-      setWins((prev) => prev + 1);
-      const newStreak = currentStreak + 1;
-      setCurrentStreak(newStreak);
-      setBestStreak((prev) => Math.max(prev, newStreak));
-      // saveGameState(); // 상태 변경 useEffect에서 처리됨
-    }
-  };
-
-  const incrementLosses = () => {
-    setLosses((prev) => prev + 1);
-    setCurrentStreak(0);
-    saveGameState();
-  };
-
-  const resetGame = () => {
-    const initialSolvedWordIds: string[] = [];
-    setSolvedWordIds(initialSolvedWordIds);
-    setWins(0);
-    setLosses(0);
-    setCurrentStreak(0);
-    // bestStreak은 유지
-    setWrongGuesses([]);
-    setCurrentIndex(0);
-    setGameStatus("playing");
-    // saveGameState(); // 상태 변경 useEffect에서 처리됨
-
-    // 현재 wordList에서 새 단어 선택
-    if (wordList.length > 0) {
-      pickNewWord(wordList, initialSolvedWordIds); // 초기화된 solvedWordIds 전달
-    }
-  };
-
-  const toggleKeyboardLayout = async () => {
-    const newLayout = keyboardLayout === "qwerty" ? "alphabet" : "qwerty";
-    setKeyboardLayout(newLayout);
-    await saveGameState();
-  };
+  const resetGame = useCallback(() => {
+    console.log("Resetting game...");
+    setIsLoading(true);
+    setWordForModal(null);
+    updateCurrentGrade(currentGrade)
+      .then(() => {
+        console.log("Game reset complete for grade:", currentGrade);
+      })
+      .catch((error) => {
+        console.error("Error resetting game:", error);
+      })
+      .then(
+        () => {
+          setIsLoading(false);
+        },
+        () => {
+          setIsLoading(false);
+        }
+      );
+  }, [updateCurrentGrade, currentGrade, setIsLoading, setWordForModal]);
 
   const stats = {
     wins,
@@ -552,57 +576,138 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     bestStreak,
   };
 
-  const displayTries = 6 - wrongGuesses.length;
+  // 마일리지 추가 함수 구현
+  const addMileage = useCallback(
+    async (points: number) => {
+      setMileage((prevMileage) => {
+        const newMileage = prevMileage + points;
+        AsyncStorage.setItem("userMileage", newMileage.toString());
+        return newMileage;
+      });
+    },
+    [setMileage]
+  );
 
-  // 게임 상태 변경 시 저장
-  useEffect(() => {
+  const handleIncorrectLetterPick = useCallback(() => {
+    playSound("wrong");
+    const newTries = displayTries - 1;
+    setDisplayTries(newTries);
+
+    setWordForModal({
+      type: "letterPickFeedback",
+      message: "틀렸어요!",
+      feedbackType: "incorrect",
+      remainingTries: newTries,
+    });
+  }, [displayTries, setDisplayTries, setWordForModal, playSound]);
+
+  const handleCorrectLetterPickFeedback = useCallback(() => {
+    playSound("correct");
+    setWordForModal({
+      type: "letterPickFeedback",
+      message: "맞았어요!",
+      feedbackType: "correct",
+      remainingTries: displayTries,
+    });
+  }, [displayTries, setDisplayTries, setWordForModal, playSound]);
+
+  const processUserAnswer = useCallback(
+    (attemptedWord: string) => {
+      if (
+        !currentWord ||
+        !currentWord.word ||
+        !currentWord.id ||
+        attemptedWord.toUpperCase() !== currentWord.word.toUpperCase()
+      ) {
+        console.warn(
+          "processUserAnswer called with incorrect word or invalid state"
+        );
+        return;
+      }
+
+      const solution = currentWord.word.toUpperCase();
+      const currentWordId = currentWord.id;
+
+      markWordAsSolved(currentWordId);
+      const pointsEarned = solution.length >= 5 ? 20 : 10;
+      addMileage(pointsEarned);
+      setWins((prev) => prev + 1);
+      setCurrentStreak((prev) => {
+        const newStreak = prev + 1;
+        if (newStreak > bestStreak) {
+          setBestStreak(newStreak);
+        }
+        return newStreak;
+      });
+
+      setGameStatus("won");
+      setWordForModal(currentWord);
+      setShuffledWordHint(undefined);
+      playSound("success");
+
+      saveGameState();
+    },
+    [
+      currentWord,
+      markWordAsSolved,
+      addMileage,
+      setWins,
+      setCurrentStreak,
+      setBestStreak,
+      setGameStatus,
+      setWordForModal,
+      setShuffledWordHint,
+      playSound,
+      saveGameState,
+    ]
+  );
+
+  const finalizeDefeat = useCallback(() => {
+    setLosses((prevLosses) => prevLosses + 1);
+    setCurrentStreak(0);
+    setGameStatus("lost");
+    setWordForModal(currentWord);
+    playSound("fail");
     saveGameState();
   }, [
-    wins,
-    losses,
-    currentStreak,
-    bestStreak,
-    solvedWordIds,
-    currentIndex,
-    keyboardLayout,
-    currentGrade,
+    currentWord,
+    setLosses,
+    setCurrentStreak,
+    setGameStatus,
+    setWordForModal,
+    playSound,
+    saveGameState,
   ]);
 
-  // 최초 렌더링 시 게임 초기화 (한 번만 실행)
-  useEffect(() => {
-    initializeGame();
-  }, []); // 빈 의존성 배열 유지
+  const contextValue: GameContextType = {
+    currentWord,
+    currentHints,
+    solvedWordIds,
+    currentIndex,
+    displayTries,
+    stats,
+    gameStatus,
+    handleNext,
+    pickNewWord,
+    markWordAsSolved,
+    resetGame,
+    currentGrade,
+    setCurrentGrade: updateCurrentGrade,
+    isLoading,
+    mileage,
+    addMileage,
+    shuffledWordHint,
+    processUserAnswer,
+    handleIncorrectLetterPick,
+    wordForModal,
+    setWordForModal,
+    handleCorrectLetterPickFeedback,
+    finalizeDefeat,
+    loadGameState,
+  };
 
   return (
-    <GameContext.Provider
-      value={{
-        currentWord,
-        currentHints,
-        solvedWordIds,
-        wins,
-        losses,
-        currentStreak,
-        bestStreak,
-        currentIndex,
-        wrongGuesses,
-        displayTries,
-        handlePressLetter,
-        stats,
-        keyboardLayout,
-        toggleKeyboardLayout,
-        gameStatus,
-        handleNext,
-        pickNewWord,
-        markWordAsSolved,
-        resetGame,
-        incrementLosses,
-        currentGrade,
-        setCurrentGrade: updateCurrentGrade,
-        isLoading,
-      }}
-    >
-      {children}
-    </GameContext.Provider>
+    <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>
   );
 };
 

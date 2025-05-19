@@ -1,16 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import Constants from "expo-constants";
-import { Header } from "../components/Header";
-import { GNB } from "../components/GNB";
-import { useNavigation } from "@react-navigation/native";
 
 const AppInfoScreen = () => {
-  const [isGNBVisible, setIsGNBVisible] = useState(false);
-  const navigation = useNavigation();
-
   const releaseNotes = [
     {
       version: "1.0.7",
@@ -90,7 +84,7 @@ const AppInfoScreen = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <Header onMenuPress={() => setIsGNBVisible(true)} />
+      <Text style={styles.screenTitle}>앱 정보</Text>
       <ScrollView style={styles.content}>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>버전 정보</Text>
@@ -132,14 +126,6 @@ const AppInfoScreen = () => {
           ))}
         </View>
       </ScrollView>
-      <GNB
-        visible={isGNBVisible}
-        onClose={() => setIsGNBVisible(false)}
-        onNavigate={(screen) => {
-          navigation.navigate(screen as never);
-          setIsGNBVisible(false);
-        }}
-      />
     </SafeAreaView>
   );
 };
@@ -148,6 +134,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+  },
+  screenTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: Colors.text,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   content: {
     flex: 1,

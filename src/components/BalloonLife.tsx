@@ -62,6 +62,40 @@ interface BalloonLifeProps {
   onPopComplete: () => void; // 팡 애니메이션 완료 콜백
 }
 
+// 개별 풍선 애니메이션 컴포넌트
+const FloatingBalloon = ({ size, delay }: { size: number; delay: number }) => {
+  const translateY = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(translateY, {
+          toValue: -5, // 위로 이동
+          duration: 500,
+          delay,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 5, // 아래로 이동
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0, // 원래 위치로
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [translateY, delay]);
+
+  return (
+    <Animated.View style={{ transform: [{ translateY }] }}>
+      <Text style={[styles.balloon, { fontSize: size }]}>🎈</Text>
+    </Animated.View>
+  );
+};
+
 export function BalloonLife({ remaining, onPopComplete }: BalloonLifeProps) {
   const prevRemaining = usePrevious(remaining);
   const [poppedIndex, setPoppedIndex] = useState<number | null>(null);
@@ -71,7 +105,7 @@ export function BalloonLife({ remaining, onPopComplete }: BalloonLifeProps) {
     if (prevRemaining != null && remaining < prevRemaining) {
       setPoppedIndex(prevRemaining - 1);
     }
-  }, [remaining]);
+  }, [remaining, prevRemaining]);
 
   // 팡 애니메이션 완료 핸들러
   const handlePopComplete = () => {
@@ -85,20 +119,25 @@ export function BalloonLife({ remaining, onPopComplete }: BalloonLifeProps) {
   const horizontalPadding = 32 * 2; // 좌우 패딩
   const totalMargin = horizontalPadding + (MAX_TRIES - 1) * spacing;
   const baseSize = (screenWidth - totalMargin) / MAX_TRIES;
-  const size = Math.max(24, Math.min(48, baseSize));
-  const containerWidth = MAX_TRIES * size + (MAX_TRIES - 1) * spacing;
+  const calculatedSize = Math.max(24, Math.min(48, baseSize));
+  const displaySize = calculatedSize * 1.2; // 풍선 크기 20% 증가
+
+  const containerWidth = MAX_TRIES * displaySize + (MAX_TRIES - 1) * spacing; // 컨테이너 너비도 새 크기 반영
 
   return (
     <View style={[styles.container, { width: containerWidth }]}>
       {Array.from({ length: MAX_TRIES }).map((_, i) => (
-        <View key={i} style={[styles.slot, { width: size, height: size }]}>
+        <View
+          key={i}
+          style={[styles.slot, { width: displaySize, height: displaySize }]} // 슬롯 크기도 새 크기 반영
+        >
           {/* 남은 기회만큼만 풍선 표시 */}
           {i < remaining && (
-            <Text style={[styles.balloon, { fontSize: size }]}>🎈</Text>
+            <FloatingBalloon size={displaySize} delay={i * 200} /> // 각 풍선에 애니메이션과 delay 적용
           )}
           {/* 팡 애니메이션 */}
           {poppedIndex === i && (
-            <BalloonPop size={size} onComplete={handlePopComplete} />
+            <BalloonPop size={displaySize} onComplete={handlePopComplete} /> // Pop 애니메이션에도 새 크기 적용
           )}
         </View>
       ))}
@@ -110,9 +149,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row", // 한 줄 레이아웃
     justifyContent: "space-between", // 슬롯 간 균등 간격
+    alignItems: "center", // 슬롯들을 수직 중앙 정렬
     alignSelf: "center", // 중앙 정렬
-    marginTop: 12,
-    marginBottom: 12,
+    marginTop: 40,
+    marginBottom: 20,
+    paddingHorizontal: 20,
   },
   slot: {
     alignItems: "center",
@@ -120,5 +161,6 @@ const styles = StyleSheet.create({
   },
   balloon: {
     margin: 0,
+    textAlign: "center", // 이모지가 중앙에 오도록
   },
 });

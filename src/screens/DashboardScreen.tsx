@@ -1,30 +1,54 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
-import { Header } from "../components/Header";
-import { GNB } from "../components/GNB";
-import { useNavigation } from "@react-navigation/native";
+import { useGame } from "../components/GameProvider";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const DashboardScreen = () => {
-  const [isGNBVisible, setIsGNBVisible] = useState(false);
-  const navigation = useNavigation();
+  const { stats, loadGameState } = useGame();
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log("DashboardScreen focused. Attempting to load game state.");
+      if (loadGameState) {
+        loadGameState().then(() => {
+          console.log(
+            "Game state loaded in DashboardScreen. Current stats:",
+            stats
+          );
+        });
+      }
+      return () => {
+        console.log("DashboardScreen unfocused");
+      };
+    }, [loadGameState])
+  );
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <Header onMenuPress={() => setIsGNBVisible(true)} />
       <View style={styles.content}>
         <Text style={styles.title}>통계</Text>
-        <Text style={styles.comingSoon}>준비 중입니다...</Text>
+
+        <View style={styles.statsDisplayContainer}>
+          <View style={styles.statItem}>
+            <Text style={styles.statLabel}>🏆 총 승리</Text>
+            <Text style={styles.statValue}>{stats.wins}</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statLabel}>💀 총 패배</Text>
+            <Text style={styles.statValue}>{stats.losses}</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statLabel}>🔥 현재 연승</Text>
+            <Text style={styles.statValue}>{stats.currentStreak}</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statLabel}>🏅 최고 연승</Text>
+            <Text style={styles.statValue}>{stats.bestStreak}</Text>
+          </View>
+        </View>
       </View>
-      <GNB
-        visible={isGNBVisible}
-        onClose={() => setIsGNBVisible(false)}
-        onNavigate={(screen) => {
-          navigation.navigate(screen as never);
-          setIsGNBVisible(false);
-        }}
-      />
     </SafeAreaView>
   );
 };
@@ -37,16 +61,42 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: Colors.text,
-    marginBottom: 20,
+    marginBottom: 30,
   },
-  comingSoon: {
-    fontSize: 16,
+  statsDisplayContainer: {
+    width: "80%",
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  statItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightGray,
+  },
+  statItemLast: {
+    borderBottomWidth: 0,
+  },
+  statLabel: {
+    fontSize: 18,
     color: Colors.textSecondary,
+  },
+  statValue: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: Colors.primary,
   },
 });

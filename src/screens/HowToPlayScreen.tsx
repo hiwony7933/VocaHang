@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,17 +7,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
-import { Header } from "../components/Header";
-import { GNB } from "../components/GNB";
 import { useNavigation } from "@react-navigation/native";
 
 export const HowToPlayScreen: React.FC = () => {
-  const [isGNBVisible, setIsGNBVisible] = useState(false);
   const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.wrapper} edges={["top", "left", "right"]}>
-      <Header onMenuPress={() => setIsGNBVisible(true)} />
       <ScrollView style={styles.container}>
         <Text style={styles.title}>게임 방법</Text>
 
@@ -40,16 +35,16 @@ export const HowToPlayScreen: React.FC = () => {
           </Text>
         </View>
 
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.sectionTitle}>3. 키보드 설정</Text>
           <Text style={styles.description}>
             • 설정에서 키보드 배열을 변경할 수 있습니다.{"\n"}• QWERTY: 일반
             키보드 배열{"\n"}• ABC: 알파벳 순서 배열
           </Text>
-        </View>
+        </View> */}
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>4. 통계 시스템</Text>
+          <Text style={styles.sectionTitle}>3. 통계 시스템</Text>
           <View style={styles.statItem}>
             <Text style={styles.statTitle}>🏆 승리 (Wins)</Text>
             <Text style={styles.description}>
@@ -100,14 +95,6 @@ export const HowToPlayScreen: React.FC = () => {
           <Text style={styles.backToGameText}>게임 시작하기</Text>
         </TouchableOpacity>
       </ScrollView>
-      <GNB
-        visible={isGNBVisible}
-        onClose={() => setIsGNBVisible(false)}
-        onNavigate={(screen) => {
-          navigation.navigate(screen as never);
-          setIsGNBVisible(false);
-        }}
-      />
     </SafeAreaView>
   );
 };

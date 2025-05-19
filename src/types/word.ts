@@ -7,7 +7,7 @@ export interface WordType {
   };
   category: string;
   education: {
-    schoolLevel: string;
+    schoolLevel: "elementary" | "middle" | "high";
     grade: number;
   };
 }

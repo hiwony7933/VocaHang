@@ -1,18 +1,13 @@
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GameProvider, useGame } from "../components/GameProvider";
 import { GameBoard } from "../components/GameBoard";
 import { GameModal } from "../components/GameModal";
-import { Header } from "../components/Header";
-import { GNB } from "../components/GNB";
 import { Colors } from "../constants/theme";
-import { useNavigation } from "@react-navigation/native";
 import { LoadingScreen } from "../components/LoadingScreen";
 
 const VocaManContent = () => {
-  const [isGNBVisible, setIsGNBVisible] = useState(false);
-  const navigation = useNavigation();
   const { isLoading } = useGame();
 
   if (isLoading) {
@@ -20,18 +15,15 @@ const VocaManContent = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <Header onMenuPress={() => setIsGNBVisible(true)} />
-      <GameBoard />
+    <SafeAreaView style={styles.container} edges={["left", "right"]}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <GameBoard />
+      </ScrollView>
       <GameModal />
-      <GNB
-        visible={isGNBVisible}
-        onClose={() => setIsGNBVisible(false)}
-        onNavigate={(screen) => {
-          navigation.navigate(screen as never);
-          setIsGNBVisible(false);
-        }}
-      />
     </SafeAreaView>
   );
 };
@@ -48,5 +40,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 10,
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -9,8 +9,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../constants/theme";
 import { useGame, GradeType } from "../components/GameProvider";
-import { Header } from "../components/Header";
-import { GNB } from "../components/GNB";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 type RootStackParamList = {
@@ -18,21 +16,12 @@ type RootStackParamList = {
   Settings: undefined;
   Support: undefined;
   Dashboard: undefined;
+  AppInfo: undefined;
 };
 
-type NavigationProps = NavigationProp<RootStackParamList>;
-
 export const SettingsScreen = () => {
-  const {
-    keyboardLayout,
-    toggleKeyboardLayout,
-    currentGrade,
-    setCurrentGrade,
-  } = useGame();
-  const [isGNBVisible, setIsGNBVisible] = useState(false);
-  const navigation = useNavigation<NavigationProps>();
-
-  const displayLayout = keyboardLayout === "qwerty" ? "QWERTY" : "ABC";
+  const { currentGrade, setCurrentGrade } = useGame();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const gradeOptions: { label: string; value: GradeType }[] = [
     { label: "초등학교 1학년", value: 1 },
@@ -46,23 +35,8 @@ export const SettingsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-      <Header onMenuPress={() => setIsGNBVisible(true)} />
+      <Text style={styles.screenTitle}>설정</Text>
       <ScrollView style={styles.content}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>키보드 레이아웃</Text>
-          <View style={styles.settingItem}>
-            <Text style={styles.settingText}>
-              현재 레이아웃: {displayLayout}
-            </Text>
-            <TouchableOpacity
-              style={styles.toggleButton}
-              onPress={toggleKeyboardLayout}
-            >
-              <Text style={styles.toggleText}>변경</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>학년 설정</Text>
           <View style={styles.gradeContainer}>
@@ -95,15 +69,14 @@ export const SettingsScreen = () => {
         >
           <Text style={styles.backToGameText}>게임으로 돌아가기</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.appInfoButton}
+          onPress={() => navigation.navigate("AppInfo")}
+        >
+          <Text style={styles.appInfoButtonText}>앱 정보 보기</Text>
+        </TouchableOpacity>
       </ScrollView>
-      <GNB
-        visible={isGNBVisible}
-        onClose={() => setIsGNBVisible(false)}
-        onNavigate={(screen) => {
-          navigation.navigate(screen as never);
-          setIsGNBVisible(false);
-        }}
-      />
     </SafeAreaView>
   );
 };
@@ -112,6 +85,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+  },
+  screenTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: Colors.text,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   content: {
     flex: 1,
@@ -177,7 +158,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     paddingVertical: 16,
     borderRadius: 8,
-    marginTop: "auto",
     marginBottom: 16,
   },
   backToGameText: {
@@ -185,5 +165,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  appInfoButton: {
+    marginTop: 16,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  appInfoButtonText: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    textDecorationLine: "underline",
   },
 });
