@@ -7,6 +7,11 @@ import Constants from "expo-constants";
 const AppInfoScreen = () => {
   const releaseNotes = [
     {
+      version: "1.0.10",
+      date: "2025.05",
+      notes: ["버그픽스"],
+    },
+    {
       version: "1.0.9",
       date: "2025.05",
       notes: [
