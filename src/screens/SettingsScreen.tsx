@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.border,
   },
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   gradeButtonTextSelected: {
-    color: Colors.background,
+    color: Colors.white,
     fontWeight: "bold",
   },
   backToGameButton: {

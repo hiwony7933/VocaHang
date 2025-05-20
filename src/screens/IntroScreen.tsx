@@ -19,7 +19,7 @@ type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export const IntroScreen = () => {
   const navigation = useNavigation<NavigationProps>();
-  const { setCurrentGrade, isLoading } = useGame();
+  const { setCurrentGrade, isLoading, currentGrade } = useGame();
   const [isGradeModalVisible, setIsGradeModalVisible] = useState(false);
 
   const gradeOptions: { label: string; value: GradeType }[] = [
@@ -80,10 +80,21 @@ export const IntroScreen = () => {
               {gradeOptions.map((option) => (
                 <TouchableOpacity
                   key={option.value}
-                  style={styles.gradeButton}
+                  style={[
+                    styles.gradeButton,
+                    currentGrade === option.value && styles.gradeButtonSelected,
+                  ]}
                   onPress={() => handleSelectGrade(option.value)}
                 >
-                  <Text style={styles.gradeButtonText}>{option.label}</Text>
+                  <Text
+                    style={[
+                      styles.gradeButtonText,
+                      currentGrade === option.value &&
+                        styles.gradeButtonTextSelected,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -160,13 +171,23 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.border,
+  },
+  gradeButtonSelected: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
   },
   gradeButtonText: {
     fontSize: 16,
     color: Colors.text,
     textAlign: "center",
+  },
+  gradeButtonTextSelected: {
+    fontSize: 16,
+    color: Colors.white,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });

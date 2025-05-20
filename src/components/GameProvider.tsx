@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  ReactNode,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Audio } from "expo-av";
@@ -48,10 +49,14 @@ interface GameContextType {
     currentStreak: number;
     bestStreak: number;
   };
-  gameStatus: "playing" | "won" | "lost"; // 'lost_pending_modal_close' 같은 중간 상태는 일단 제외
+  gameStatus: "playing" | "won" | "lost";
   handleNext: () => void;
-  pickNewWord: (list: WordType[], solvedIds: string[]) => void;
-  markWordAsSolved: (solvedWordId: string) => void;
+  pickNewWord: (
+    list: WordType[],
+    solvedIds: string[],
+    gradeOfList: GradeType
+  ) => void;
+  markWordAsSolved: (solvedWordId: string, gradeOfWord: GradeType) => void;
   resetGame: () => void;
   currentGrade: GradeType;
   setCurrentGrade: (grade: GradeType) => Promise<void>;
@@ -91,12 +96,9 @@ let completeFailSoundObject: Audio.Sound | null = null;
 const shuffleArray = (array: string[]) => {
   let currentIndex = array.length,
     randomIndex;
-  // While there remain elements to shuffle.
   while (currentIndex !== 0) {
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
       array[currentIndex],
@@ -105,7 +107,7 @@ const shuffleArray = (array: string[]) => {
   return array;
 };
 
-export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
+export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [currentWord, setCurrentWord] = useState<WordType>({
@@ -131,9 +133,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
     "playing"
   );
-  const [currentGrade, setCurrentGrade] = useState<GradeType>(1);
+  const [currentGrade, setCurrentGradeInternal] = useState<GradeType>(1);
   const [wordList, setWordList] = useState<WordType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [mileage, setMileage] = useState(0);
   const [shuffledWordHint, setShuffledWordHint] = useState<
     string[] | undefined
@@ -141,17 +143,20 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const [displayTries, setDisplayTries] = useState(MAX_TRIES);
 
   const loadWordList = useCallback(async (grade: GradeType) => {
-    console.log("Loading word list for grade (memoized):", grade);
+    console.log(
+      "[GameProvider] Loading word list for grade (memoized):",
+      grade
+    );
     try {
       let newWordList: WordType[] = [];
       if (grade === "all") {
         for (let gradeNum = 1; gradeNum <= 6; gradeNum++) {
           const gradeWords = gradeToWordList[gradeNum]?.wordList || [];
-          const wordsWithIds = gradeWords.map((word) => ({
+          const wordsWithIds = gradeWords.map((word, index) => ({
             ...word,
             id:
               word.id ||
-              `${word.word}_${gradeNum}_${Math.random()
+              `${word.word}_${gradeNum}_${index}_${Math.random()
                 .toString(36)
                 .substring(2, 11)}`,
           }));
@@ -159,76 +164,70 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } else {
         const words = gradeToWordList[grade as number]?.wordList || [];
-        newWordList = words.map((word) => ({
+        newWordList = words.map((word, index) => ({
           ...word,
           id:
             word.id ||
-            `${word.word}_${grade}_${Math.random()
+            `${word.word}_${grade}_${index}_${Math.random()
               .toString(36)
               .substring(2, 11)}`,
         }));
       }
       if (newWordList.length === 0) {
-        console.error(`No words available for grade: ${grade}`);
+        console.warn(`[GameProvider] No words available for grade: ${grade}`);
         return null;
       }
       return newWordList;
     } catch (error) {
-      console.error("Error loading word list:", error);
+      console.error("[GameProvider] Error loading word list:", error);
       return null;
     }
   }, []);
 
   const pickNewWord = useCallback(
-    (list: WordType[], solvedIdsArg: string[]) => {
-      console.log("Picking new word (memoized - revised dependencies)");
+    (list: WordType[], solvedIdsArg: string[], gradeOfList: GradeType) => {
+      console.log(
+        `[GameProvider] Picking new word for grade ${gradeOfList}. Solved IDs count: ${solvedIdsArg.length}`
+      );
       setIsLoading(true);
       setGameStatus("playing");
       setWordForModal(null);
-      setCurrentWord((prev) => ({
-        id: prev?.id || "loading...",
-        word: "",
-        hints: { hint1: "", hint2: "" },
-        category: prev?.category || "",
-        education: prev?.education || { schoolLevel: "elementary", grade: 1 },
-      }));
-      setCurrentHints({ hint1: "" });
+
       const availableWords = list.filter(
         (word) => word.id && !solvedIdsArg.includes(word.id)
       );
+
       if (availableWords.length === 0) {
-        if (list.length > 0) {
-          setCurrentWord({
-            id: "ALL_SOLVED_PLACEHOLDER",
-            word: "ALL SOLVED!",
-            hints: { hint1: "축하합니다! 다음 학년에 도전하세요.", hint2: "" },
-            category: "Congratulations",
-            education: {
-              schoolLevel: "elementary",
-              grade: typeof currentGrade === "number" ? currentGrade : 1,
-            },
-          });
-          setCurrentHints({
-            hint1: "축하합니다! 다음 학년에 도전하세요.",
-            hint2: "",
-          });
-        } else {
-          setCurrentWord({
-            id: "NODATA",
-            word: "NODATA",
-            hints: { hint1: "데이터 없음", hint2: "" },
-            category: "",
-            education: { schoolLevel: "elementary", grade: 1 },
-          });
-          setCurrentHints({ hint1: "데이터 없음", hint2: "" });
-          setDisplayTries(0);
-        }
+        const placeholderWord = list.length > 0 ? "ALL_SOLVED" : "NO_WORDS";
+        const placeholderMessage =
+          list.length > 0
+            ? "축하합니다! 모든 단어를 맞췄어요."
+            : "단어 데이터가 없습니다.";
+
+        setCurrentWord({
+          id: placeholderWord,
+          word: placeholderWord,
+          hints: { hint1: placeholderMessage, hint2: "" },
+          category:
+            placeholderWord === "ALL_SOLVED" ? "Congratulations" : "Error",
+          education: {
+            schoolLevel: "elementary",
+            grade: typeof gradeOfList === "number" ? gradeOfList : 1,
+          },
+        });
+        setCurrentHints({ hint1: placeholderMessage, hint2: "" });
         setShuffledWordHint(undefined);
+        setDisplayTries(list.length > 0 ? MAX_TRIES : 0);
         setIsLoading(false);
+        console.log(
+          `[GameProvider] No available words. Setting placeholder: ${placeholderWord}`
+        );
         return;
       }
+
       const randomIndex = Math.floor(Math.random() * availableWords.length);
       const newWordToSet = availableWords[randomIndex];
+
       if (newWordToSet && newWordToSet.word && newWordToSet.id) {
         setCurrentWord(newWordToSet);
         setCurrentHints({
@@ -237,13 +236,22 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         });
         const wordChars = newWordToSet.word.toUpperCase().split("");
         setShuffledWordHint(shuffleArray(wordChars));
+        console.log(
+          `[GameProvider] Picked new word: ${newWordToSet.word} (id: ${newWordToSet.id})`
+        );
       } else {
+        console.error(
+          "[GameProvider] Error picking new word - newWordToSet is invalid."
+        );
         setCurrentWord({
           id: "ERROR_PICK",
           word: "PICK_ERROR",
           hints: { hint1: "단어 선택 오류", hint2: "" },
-          category: "",
-          education: { schoolLevel: "elementary", grade: 1 },
+          category: "Error",
+          education: {
+            schoolLevel: "elementary",
+            grade: typeof gradeOfList === "number" ? gradeOfList : 1,
+          },
         });
         setCurrentHints({ hint1: "단어 선택 오류", hint2: "" });
         setShuffledWordHint(undefined);
@@ -252,7 +260,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoading(false);
     },
     [
-      currentGrade,
       setIsLoading,
       setGameStatus,
       setWordForModal,
@@ -263,116 +270,100 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     ]
   );
 
-  const loadGameState = useCallback(async () => {
-    console.log("Loading game state (memoized)");
-    setIsLoading(true);
-    try {
-      const savedGrade = (await AsyncStorage.getItem(
-        "currentGrade"
-      )) as GradeType;
-      const currentGradeToLoad = savedGrade || (1 as GradeType);
-      setCurrentGrade(currentGradeToLoad);
-
-      const savedGameStateString = await AsyncStorage.getItem("gameState");
-      let loadedSolvedIds: string[] = [];
-      if (savedGameStateString) {
-        const savedGameData = JSON.parse(savedGameStateString);
-        if (savedGameData) {
-          if (savedGameData.wins !== undefined) setWins(savedGameData.wins);
-          if (savedGameData.losses !== undefined)
-            setLosses(savedGameData.losses);
-          if (savedGameData.currentStreak !== undefined)
-            setCurrentStreak(savedGameData.currentStreak);
-          if (savedGameData.bestStreak !== undefined)
-            setBestStreak(savedGameData.bestStreak);
-          if (savedGameData.currentIndex !== undefined)
-            setCurrentIndex(savedGameData.currentIndex);
-          if (savedGameData.solvedWordIds !== undefined)
-            loadedSolvedIds = savedGameData.solvedWordIds;
-        }
+  const loadSolvedWordIds = useCallback(
+    async (grade: GradeType): Promise<string[]> => {
+      const key = `solvedWordIds_${grade}`;
+      try {
+        const savedIdsString = await AsyncStorage.getItem(key);
+        const loadedIds = savedIdsString ? JSON.parse(savedIdsString) : [];
+        console.log(
+          `[GameProvider] Loaded solvedWordIds for grade ${grade} (${key}):`,
+          loadedIds.length
+        );
+        return loadedIds;
+      } catch (error) {
+        console.error(
+          `[GameProvider] Error loading solvedWordIds for grade ${grade} (${key}):`,
+          error
+        );
+        return [];
       }
-      setSolvedWordIds(loadedSolvedIds);
+    },
+    []
+  );
 
-      const newWordList = await loadWordList(currentGradeToLoad);
-      if (newWordList && newWordList.length > 0) {
-        setWordList(newWordList);
-        pickNewWord(newWordList, loadedSolvedIds);
-      } else if (currentGradeToLoad) {
-        const fallbackWordList = await loadWordList(1);
-        if (fallbackWordList && fallbackWordList.length > 0) {
-          setWordList(fallbackWordList);
-          pickNewWord(fallbackWordList, []);
-        } else {
-          console.error("Fallback word list also failed to load.");
-        }
+  const saveSolvedWordIds = useCallback(
+    async (grade: GradeType, ids: string[]) => {
+      const key = `solvedWordIds_${grade}`;
+      try {
+        await AsyncStorage.setItem(key, JSON.stringify(ids));
+        console.log(
+          `[GameProvider] Saved solvedWordIds for grade ${grade} (${key}):`,
+          ids.length
+        );
+      } catch (error) {
+        console.error(
+          `[GameProvider] Error saving solvedWordIds for grade ${grade} (${key}):`,
+          error
+        );
       }
-
-      const savedMileage = await AsyncStorage.getItem("userMileage");
-      if (savedMileage !== null) setMileage(parseInt(savedMileage, 10));
-      else setMileage(0);
-    } catch (error) {
-      console.error("Error loading game state:", error);
-      setMileage(0);
-      const fallbackWordList = await loadWordList(1);
-      if (fallbackWordList && fallbackWordList.length > 0) {
-        setWordList(fallbackWordList);
-        pickNewWord(fallbackWordList, []);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [
-    loadWordList,
-    pickNewWord,
-    setIsLoading,
-    setCurrentGrade,
-    setWins,
-    setLosses,
-    setCurrentStreak,
-    setBestStreak,
-    setCurrentIndex,
-    setSolvedWordIds,
-    setWordList,
-    setMileage,
-  ]);
-
-  const initializeGame = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      await loadGameState();
-    } catch (error) {
-      console.error("Error initializing game:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [loadGameState, setIsLoading]);
-
-  useEffect(() => {
-    initializeGame();
-  }, [initializeGame]);
+    },
+    []
+  );
 
   const updateCurrentGrade = useCallback(
-    async (grade: GradeType) => {
+    async (newGrade: GradeType) => {
+      console.log(
+        "[GameProvider] updateCurrentGrade called with newGrade:",
+        newGrade
+      );
       setIsLoading(true);
       setWordForModal(null);
-      setSolvedWordIds([]);
+
+      setCurrentGradeInternal(newGrade);
+
       setWins(0);
       setLosses(0);
       setCurrentStreak(0);
+      setBestStreak(0);
       setCurrentIndex(0);
       setGameStatus("playing");
       setDisplayTries(MAX_TRIES);
 
-      const newWordList = await loadWordList(grade);
+      const newWordList = await loadWordList(newGrade);
       if (!newWordList || newWordList.length === 0) {
-        console.error("No words available for grade:", grade);
+        console.warn(
+          `[GameProvider] No words available for new grade: ${newGrade}`
+        );
+        setWordList([]);
+        setSolvedWordIds([]);
+        setCurrentWord({
+          id: "NO_WORDS_FOR_GRADE",
+          word: "NO WORDS",
+          hints: { hint1: "해당 학년의 단어가 없습니다.", hint2: "" },
+          category: "Error",
+          education: {
+            schoolLevel: "elementary",
+            grade: typeof newGrade === "number" ? newGrade : 0,
+          },
+        });
+        setShuffledWordHint(undefined);
+        await AsyncStorage.setItem("currentGrade", newGrade.toString());
         setIsLoading(false);
         return;
       }
-      setCurrentGrade(grade);
+
       setWordList(newWordList);
-      pickNewWord(newWordList, []);
-      await AsyncStorage.setItem("currentGrade", grade.toString());
+      const newSolvedIds = await loadSolvedWordIds(newGrade);
+      setSolvedWordIds(newSolvedIds);
+
+      pickNewWord(newWordList, newSolvedIds, newGrade);
+
+      await AsyncStorage.setItem("currentGrade", newGrade.toString());
+      console.log(
+        "[GameProvider] Grade updated in AsyncStorage and state to:",
+        newGrade
+      );
       setIsLoading(false);
     },
     [
@@ -380,75 +371,145 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       pickNewWord,
       setIsLoading,
       setWordForModal,
-      setSolvedWordIds,
       setWins,
       setLosses,
       setCurrentStreak,
+      setBestStreak,
       setCurrentIndex,
       setGameStatus,
       setDisplayTries,
-      setCurrentGrade,
+      setCurrentGradeInternal,
       setWordList,
+      setSolvedWordIds,
+      loadSolvedWordIds,
     ]
   );
 
-  const saveGameState = useCallback(async () => {
+  const loadGameState = useCallback(async () => {
+    console.log("[GameProvider] loadGameState called");
+    setIsLoading(true);
     try {
-      const gameStateToSave = {
-        solvedWordIds,
-        wins,
-        losses,
-        currentStreak,
-        bestStreak,
-        currentIndex,
-        currentGrade,
-      };
-      await AsyncStorage.setItem("gameState", JSON.stringify(gameStateToSave));
+      const savedGradeString = await AsyncStorage.getItem("currentGrade");
+      let gradeToLoad: GradeType = 1;
+      if (savedGradeString) {
+        gradeToLoad =
+          savedGradeString === "all"
+            ? "all"
+            : (parseInt(savedGradeString, 10) as GradeType);
+      }
+      console.log(
+        "[GameProvider] Initial grade to load from AsyncStorage:",
+        gradeToLoad
+      );
+      setCurrentGradeInternal(gradeToLoad);
+
+      const savedStatsString = await AsyncStorage.getItem("gameStats");
+      if (savedStatsString) {
+        const savedStats = JSON.parse(savedStatsString);
+        setWins(savedStats.wins || 0);
+        setLosses(savedStats.losses || 0);
+        setCurrentStreak(savedStats.currentStreak || 0);
+        setBestStreak(savedStats.bestStreak || 0);
+      }
+
+      const newWordList = await loadWordList(gradeToLoad);
+      if (newWordList && newWordList.length > 0) {
+        setWordList(newWordList);
+        const loadedSolvedIds = await loadSolvedWordIds(gradeToLoad);
+        setSolvedWordIds(loadedSolvedIds);
+        pickNewWord(newWordList, loadedSolvedIds, gradeToLoad);
+      } else {
+        console.warn(
+          `[GameProvider] Word list for initial grade ${gradeToLoad} is empty. Trying fallback to grade 1.`
+        );
+        setCurrentGradeInternal(1);
+        await AsyncStorage.setItem("currentGrade", "1");
+        const fallbackWordList = await loadWordList(1);
+        if (fallbackWordList && fallbackWordList.length > 0) {
+          setWordList(fallbackWordList);
+          const fallbackSolvedIds = await loadSolvedWordIds(1);
+          setSolvedWordIds(fallbackSolvedIds);
+          pickNewWord(fallbackWordList, fallbackSolvedIds, 1);
+        } else {
+          console.error(
+            "[GameProvider] Fallback word list (grade 1) also failed to load."
+          );
+          setCurrentWord({
+            id: "FATAL_NO_WORDS",
+            word: "ERROR",
+            hints: { hint1: "단어 데이터 없음", hint2: "" },
+            category: "Error",
+            education: { schoolLevel: "elementary", grade: 1 },
+          });
+          setShuffledWordHint(undefined);
+          setSolvedWordIds([]);
+        }
+      }
+
+      const savedMileage = await AsyncStorage.getItem("userMileage");
+      setMileage(savedMileage !== null ? parseInt(savedMileage, 10) : 0);
     } catch (error) {
-      console.error("Failed to save game state:", error);
+      console.error("[GameProvider] Error loading game state:", error);
+      setCurrentGradeInternal(1);
+      await AsyncStorage.setItem("currentGrade", "1");
+      setWordList(gradeToWordList[1]?.wordList || []);
+      setSolvedWordIds([]);
+      pickNewWord(gradeToWordList[1]?.wordList || [], [], 1);
+      setMileage(0);
+    } finally {
+      setIsLoading(false);
+      console.log("[GameProvider] loadGameState finished. isLoading:", false);
     }
   }, [
-    solvedWordIds,
-    wins,
-    losses,
-    currentStreak,
-    bestStreak,
-    currentIndex,
-    currentGrade,
+    loadWordList,
+    pickNewWord,
+    setIsLoading,
+    setCurrentGradeInternal,
+    setWins,
+    setLosses,
+    setCurrentStreak,
+    setBestStreak,
+    setWordList,
+    setSolvedWordIds,
+    setMileage,
+    loadSolvedWordIds,
   ]);
 
   useEffect(() => {
-    if (
-      currentWord &&
-      currentWord.id !== "INITIAL_PLACEHOLDER" &&
-      currentWord.id !== "loading..."
-    ) {
-      saveGameState();
+    console.log(
+      "[GameProvider] Initializing game (useEffect calling loadGameState)"
+    );
+    loadGameState();
+  }, [loadGameState]);
+
+  const saveGameStats = useCallback(async () => {
+    try {
+      const statsToSave = { wins, losses, currentStreak, bestStreak };
+      await AsyncStorage.setItem("gameStats", JSON.stringify(statsToSave));
+      console.log("[GameProvider] Game stats saved:", statsToSave);
+    } catch (error) {
+      console.error("[GameProvider] Failed to save game stats:", error);
     }
-  }, [
-    wins,
-    losses,
-    currentStreak,
-    bestStreak,
-    solvedWordIds,
-    currentGrade,
-    currentWord,
-    saveGameState,
-  ]);
+  }, [wins, losses, currentStreak, bestStreak]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      saveGameStats();
+    }
+  }, [wins, losses, currentStreak, bestStreak, isLoading, saveGameStats]);
 
   const handleNext = useCallback(() => {
     setWordForModal(null);
     if (wordList.length > 0) {
-      pickNewWord(wordList, solvedWordIds);
+      pickNewWord(wordList, solvedWordIds, currentGrade);
     } else {
-      console.warn("Word list is empty, cannot pick next word.");
+      console.warn("[GameProvider] Word list is empty, cannot pick next word.");
     }
-  }, [pickNewWord, wordList, solvedWordIds, setWordForModal]);
+  }, [pickNewWord, wordList, solvedWordIds, currentGrade, setWordForModal]);
 
-  // 사운드 파일 미리 로드
   const preloadSounds = async () => {
     try {
-      console.log("Preloading sounds...");
+      console.log("[GameProvider] Preloading sounds...");
       const { sound: wrong } = await Audio.Sound.createAsync(wrongSound);
       const { sound: correct } = await Audio.Sound.createAsync(correctSound);
       const { sound: success } = await Audio.Sound.createAsync(
@@ -461,13 +522,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       completeSuccessSoundObject = success;
       completeFailSoundObject = fail;
 
-      console.log("Sounds preloaded successfully");
+      console.log("[GameProvider] Sounds preloaded successfully");
     } catch (error) {
-      console.error("Error preloading sounds:", error);
+      console.error("[GameProvider] Error preloading sounds:", error);
     }
   };
-
-  // 컴포넌트 언마운트 시 사운드 객체 해제
   const unloadSounds = async () => {
     try {
       if (wrongSoundObject) await wrongSoundObject.unloadAsync();
@@ -480,12 +539,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       correctSoundObject = null;
       completeSuccessSoundObject = null;
       completeFailSoundObject = null;
+      console.log("[GameProvider] Sounds unloaded");
     } catch (error) {
-      console.error("Error unloading sounds:", error);
+      console.error("[GameProvider] Error unloading sounds:", error);
     }
   };
-
-  // 사운드 재생 함수 수정
   const playSound = async (
     soundType: "wrong" | "correct" | "success" | "fail"
   ) => {
@@ -524,14 +582,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       if (soundObjectToPlay) {
-        await soundObjectToPlay.replayAsync(); // 기존 재생 중이면 중지하고 처음부터 재생
+        await soundObjectToPlay.replayAsync();
       }
     } catch (error) {
-      console.error(`Error playing ${soundType} sound:`, error);
+      console.error(`[GameProvider] Error playing ${soundType} sound:`, error);
     }
   };
 
-  // 컴포넌트 마운트/언마운트 시 사운드 로드/해제
   useEffect(() => {
     preloadSounds();
     return () => {
@@ -540,43 +597,41 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const markWordAsSolved = useCallback(
-    (solvedWordId: string) => {
+    async (solvedWordId: string, gradeOfWord: GradeType) => {
       if (solvedWordId) {
-        setSolvedWordIds((prev) => [...prev, solvedWordId]);
+        const newSolvedIdsForStorage = await loadSolvedWordIds(gradeOfWord);
+        if (!newSolvedIdsForStorage.includes(solvedWordId)) {
+          newSolvedIdsForStorage.push(solvedWordId);
+          await saveSolvedWordIds(gradeOfWord, newSolvedIdsForStorage);
+        }
+
+        if (gradeOfWord === currentGrade) {
+          setSolvedWordIds((prev) => {
+            if (!prev.includes(solvedWordId)) {
+              return [...prev, solvedWordId];
+            }
+            return prev;
+          });
+        }
+        console.log(
+          `[GameProvider] Word ${solvedWordId} marked as solved for grade ${gradeOfWord}`
+        );
       }
     },
-    [setSolvedWordIds]
+    [solvedWordIds, currentGrade, loadSolvedWordIds, saveSolvedWordIds]
   );
 
-  const resetGame = useCallback(() => {
-    console.log("Resetting game...");
-    setIsLoading(true);
-    setWordForModal(null);
-    updateCurrentGrade(currentGrade)
-      .then(() => {
-        console.log("Game reset complete for grade:", currentGrade);
-      })
-      .catch((error) => {
-        console.error("Error resetting game:", error);
-      })
-      .then(
-        () => {
-          setIsLoading(false);
-        },
-        () => {
-          setIsLoading(false);
-        }
-      );
-  }, [updateCurrentGrade, currentGrade, setIsLoading, setWordForModal]);
+  const resetGame = useCallback(async () => {
+    console.log(
+      "[GameProvider] Resetting game for current grade:",
+      currentGrade
+    );
+    await updateCurrentGrade(currentGrade);
+    console.log("[GameProvider] Game reset complete for grade:", currentGrade);
+  }, [updateCurrentGrade, currentGrade]);
 
-  const stats = {
-    wins,
-    losses,
-    currentStreak,
-    bestStreak,
-  };
+  const stats = { wins, losses, currentStreak, bestStreak };
 
-  // 마일리지 추가 함수 구현
   const addMileage = useCallback(
     async (points: number) => {
       setMileage((prevMileage) => {
@@ -620,15 +675,17 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
         attemptedWord.toUpperCase() !== currentWord.word.toUpperCase()
       ) {
         console.warn(
-          "processUserAnswer called with incorrect word or invalid state"
+          "[GameProvider] processUserAnswer called with incorrect word or invalid state"
         );
         return;
       }
 
       const solution = currentWord.word.toUpperCase();
       const currentWordId = currentWord.id;
+      const gradeOfSolvedWord =
+        (currentWord.education.grade as GradeType) || currentGrade;
 
-      markWordAsSolved(currentWordId);
+      markWordAsSolved(currentWordId, gradeOfSolvedWord);
       const pointsEarned = solution.length >= 5 ? 20 : 10;
       addMileage(pointsEarned);
       setWins((prev) => prev + 1);
@@ -644,8 +701,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       setWordForModal(currentWord);
       setShuffledWordHint(undefined);
       playSound("success");
-
-      saveGameState();
     },
     [
       currentWord,
@@ -658,7 +713,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       setWordForModal,
       setShuffledWordHint,
       playSound,
-      saveGameState,
+      currentGrade,
     ]
   );
 
@@ -668,7 +723,6 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     setGameStatus("lost");
     setWordForModal(currentWord);
     playSound("fail");
-    saveGameState();
   }, [
     currentWord,
     setLosses,
@@ -676,8 +730,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     setGameStatus,
     setWordForModal,
     playSound,
-    saveGameState,
   ]);
+
+  console.log(
+    `[GameProvider] Rendering. Grade: ${currentGrade}, isLoading: ${isLoading}, Word: ${currentWord?.word}`
+  );
 
   const contextValue: GameContextType = {
     currentWord,

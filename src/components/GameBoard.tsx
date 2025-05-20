@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Animated,
   Modal,
-  Button,
 } from "react-native";
 import { useGame, MAX_TRIES } from "./GameProvider";
 import { Colors } from "../constants/theme";
@@ -171,8 +170,8 @@ export const GameBoard: React.FC = () => {
           <Text style={styles.modalText}>
             남은 기회: {feedbackData.remainingTries} / {MAX_TRIES}
           </Text>
-          <Button
-            title="OK"
+          <TouchableOpacity
+            style={styles.modalBtn}
             onPress={() => {
               setWordForModal(null); // GameBoard의 피드백 모달만 닫음
               if (
@@ -185,8 +184,9 @@ export const GameBoard: React.FC = () => {
                 finalizeDefeat();
               }
             }}
-            color={Colors.primary}
-          />
+          >
+            <Text style={{ color: Colors.white, textAlign: "center" }}>OK</Text>
+          </TouchableOpacity>
         </View>
       );
     }
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 40,
     marginHorizontal: 20,
-    paddingHorizontal: 0,
+    paddingHorizontal: 10,
   },
   card: {
     backgroundColor: Colors.primary,
@@ -557,5 +557,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: "center",
     color: Colors.textSecondary,
+  },
+  modalBtn: {
+    marginTop: 20,
+    backgroundColor: Colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 8,
+    alignSelf: "center",
   },
 });

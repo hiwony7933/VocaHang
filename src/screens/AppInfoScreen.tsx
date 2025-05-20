@@ -7,6 +7,27 @@ import Constants from "expo-constants";
 const AppInfoScreen = () => {
   const releaseNotes = [
     {
+      version: "1.0.9",
+      date: "2025.05",
+      notes: [
+        "새로운 하단 플로팅 메뉴 도입 및 헤더 전역 관리로 앱 탐색 경험 개선",
+        "게임 플레이 중 즉각적인 피드백 제공 (글자 선택 시 성공/실패 모달 추가)",
+        "게임 데이터 동기화 문제 해결 및 전반적인 앱 안정성 향상",
+        "다양한 UI 개선 (풍선 애니메이션, 카드 디자인 업데이트 등) 및 코드 리팩토링",
+      ],
+    },
+    {
+      version: "1.0.8",
+      date: "2025.04",
+      notes: [
+        "린트 설정 수정 (d.ts 파일 제외, tsconfig 업데이트)",
+        "Expo Doctor 권고 사항 수정 (@types/react-native 제거, yarn.lock 제거)",
+        "웹 환경 호환성 개선 (boxShadow 사용, useNativeDriver 조건부 적용)",
+        "사용하지 않는 파일 제거 (HangmanDrawing 및 관련 이미지)",
+        "게임방법 화면 토글 기능 제거 및 관련 로직 수정",
+      ],
+    },
+    {
       version: "1.0.7",
       date: "2025.04",
       notes: [
