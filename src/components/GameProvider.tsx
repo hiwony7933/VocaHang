@@ -656,6 +656,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   const finalizeDefeat = useCallback(() => {
+    if (gameStatus === "lost") {
+      console.log(
+        "[GameProvider] finalizeDefeat called but game already lost. Skipping."
+      );
+      return;
+    }
+
     setStatsByGrade((prevStats) => {
       const gradeStats = prevStats[currentGrade] || { ...initialGradeStats };
       return {
@@ -678,6 +685,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   }, [currentGrade, currentWord, setGameStatus, setWordForModal, playSound]);
 
   const handleIncorrectLetterPick = useCallback(() => {
+    if (gameStatus !== "playing") {
+      console.log(
+        `[GameProvider] handleIncorrectLetterPick called but game status is ${gameStatus}. Skipping.`
+      );
+      return;
+    }
+
     playSound("wrong");
     const newTries = displayTries - 1;
     setDisplayTries(newTries);
@@ -686,10 +700,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     );
 
     if (newTries <= 0) {
-      console.log("[GameProvider] No tries left, finalizing defeat.");
-      finalizeDefeat();
+      if (gameStatus === "playing") {
+        console.log(
+          "[GameProvider] No tries left and game is still playing, finalizing defeat."
+        );
+        finalizeDefeat();
+      } else {
+        console.log(
+          `[GameProvider] No tries left but game status is ${gameStatus} (not playing). Defeat finalization skipped.`
+        );
+      }
     }
-  }, [displayTries, setDisplayTries, playSound, finalizeDefeat]);
+  }, [displayTries, setDisplayTries, playSound, finalizeDefeat, gameStatus]);
 
   const handleCorrectLetterPickFeedback = useCallback(() => {
     playSound("correct");

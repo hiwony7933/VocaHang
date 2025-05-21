@@ -33,27 +33,29 @@ export const DashboardScreen = () => {
             const gradeStats = getGradeStats(grade);
             if (!gradeStats) return null;
 
-            const displayGrade = grade === "all" ? "종합" : `${grade}학년`;
+            const displayGrade = grade === "all" ? "전체 학년" : `${grade}학년`;
 
             return (
               <View key={grade} style={styles.statsDisplayContainer}>
                 <Text style={styles.gradeTitle}>{displayGrade} 통계</Text>
-                <View style={styles.statItem}>
-                  <Text style={styles.statLabel}>🏆 총 승리</Text>
-                  <Text style={styles.statValue}>{gradeStats.wins}</Text>
+                <View style={styles.statItemsRow}>
+                  <View style={[styles.statItem, styles.statItemHorizontal]}>
+                    <Text style={styles.statLabel}>🏆 총 승리</Text>
+                    <Text style={styles.statValue}>{gradeStats.wins}</Text>
+                  </View>
+                  <View style={[styles.statItem, styles.statItemHorizontal]}>
+                    <Text style={styles.statLabel}>💀 총 패배</Text>
+                    <Text style={styles.statValue}>{gradeStats.losses}</Text>
+                  </View>
+                  <View style={[styles.statItem, styles.statItemHorizontal]}>
+                    <Text style={styles.statLabel}>🏅 최고 연승</Text>
+                    <Text style={styles.statValue}>
+                      {gradeStats.bestStreak}
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.statItem}>
-                  <Text style={styles.statLabel}>💀 총 패배</Text>
-                  <Text style={styles.statValue}>{gradeStats.losses}</Text>
-                </View>
-                {/* 현재 연승은 현재 플레이 중인 학년에만 의미가 있을 수 있어 currentGrade와 비교하여 표시하거나, 항상 표시할 수 있습니다. */}
-                {/* 여기서는 최고 연승만 표시하겠습니다. */}
-                <View style={styles.statItem}>
-                  <Text style={styles.statLabel}>🏅 최고 연승</Text>
-                  <Text style={styles.statValue}>{gradeStats.bestStreak}</Text>
-                </View>
-                {grade === currentGrade && ( // 현재 선택된 학년의 현재 연승 표시
-                  <View style={styles.statItem}>
+                {grade === currentGrade && gradeStats.currentStreak > 0 && (
+                  <View style={[styles.statItem, styles.currentStreakStatItem]}>
                     <Text style={styles.statLabel}>🔥 현재 연승</Text>
                     <Text style={styles.statValue}>
                       {gradeStats.currentStreak}
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     color: Colors.text,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   gradeTitle: {
     fontSize: 20,
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: Colors.white,
     borderRadius: 10,
-    padding: 20,
+    padding: 10,
     marginBottom: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -104,12 +106,28 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  statItemsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "flex-start",
+    marginBottom: 10,
+  },
   statItem: {
+    // paddingVertical: 8,
+    alignItems: "center",
+  },
+  statItemHorizontal: {
+    flex: 1,
+    paddingHorizontal: 5,
+    gap: 10,
+  },
+  currentStreakStatItem: {
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: Colors.lightGray,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGray,
   },
   statItemLast: {
     borderBottomWidth: 0,
