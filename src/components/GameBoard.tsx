@@ -6,9 +6,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Animated,
-  Modal,
 } from "react-native";
-import { useGame, MAX_TRIES } from "./GameProvider";
+import { useGame } from "./GameProvider";
 import { Colors } from "../constants/theme";
 import { BalloonLife } from "./BalloonLife";
 
@@ -20,10 +19,7 @@ export const GameBoard: React.FC = () => {
     currentHints,
     processUserAnswer,
     handleIncorrectLetterPick,
-    wordForModal,
-    setWordForModal,
     handleCorrectLetterPickFeedback,
-    finalizeDefeat,
   } = useGame();
 
   const [userInput, setUserInput] = React.useState<string[]>([]);
@@ -154,44 +150,6 @@ export const GameBoard: React.FC = () => {
     } else {
       handleIncorrectLetterPick();
     }
-  };
-
-  const renderModalContent = () => {
-    // GameBoard 모달은 오직 LetterPickFeedbackInfo 타입일 때만 렌더링
-    if (
-      wordForModal &&
-      "type" in wordForModal &&
-      wordForModal.type === "letterPickFeedback"
-    ) {
-      const feedbackData = wordForModal; // 타입이 이미 LetterPickFeedbackInfo로 좁혀짐
-      return (
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>{feedbackData.message}</Text>
-          <Text style={styles.modalText}>
-            남은 기회: {feedbackData.remainingTries} / {MAX_TRIES}
-          </Text>
-          <TouchableOpacity
-            style={styles.modalBtn}
-            onPress={() => {
-              setWordForModal(null); // GameBoard의 피드백 모달만 닫음
-              if (
-                feedbackData.feedbackType === "incorrect" &&
-                feedbackData.remainingTries <= 0
-              ) {
-                // 기회가 모두 소진된 경우, GameProvider의 finalizeDefeat를 호출하여
-                // gameStatus를 'lost'로 변경하고, wordForModal을 WordType으로 설정하여
-                // GameModal이 결과 모달을 띄우도록 유도함.
-                finalizeDefeat();
-              }
-            }}
-          >
-            <Text style={{ color: Colors.white, textAlign: "center" }}>OK</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-    // WordType이거나 gameStatus가 won/lost인 경우는 GameModal에서 처리하므로 여기서는 null 반환
-    return null;
   };
 
   return (
@@ -377,35 +335,6 @@ export const GameBoard: React.FC = () => {
           </TouchableOpacity>
         )}
       </View>
-
-      <Modal
-        transparent={true}
-        // GameBoard 모달은 wordForModal이 LetterPickFeedbackInfo 타입일 때만 보이도록 visible 조건 수정
-        visible={
-          wordForModal !== null &&
-          "type" in wordForModal &&
-          wordForModal.type === "letterPickFeedback"
-        }
-        animationType="fade"
-        onRequestClose={() => {
-          // OK 버튼으로만 _닫도록 유도. 필요시 LetterPickFeedbackInfo에 한해 setWordForModal(null) 처리 가능
-          if (
-            wordForModal &&
-            "type" in wordForModal &&
-            wordForModal.type === "letterPickFeedback"
-          ) {
-            setWordForModal(null);
-            if (
-              wordForModal.feedbackType === "incorrect" &&
-              wordForModal.remainingTries <= 0
-            ) {
-              finalizeDefeat();
-            }
-          }
-        }}
-      >
-        <View style={styles.modalOverlay}>{renderModalContent()}</View>
-      </Modal>
     </View>
   );
 };
@@ -527,43 +456,5 @@ const styles = StyleSheet.create({
   },
   cardTextUsed: {
     color: Colors.lightGray,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    backgroundColor: Colors.white,
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 15,
-    color: Colors.text,
-  },
-  modalText: {
-    fontSize: 16,
-    marginBottom: 10,
-    textAlign: "center",
-    color: Colors.textSecondary,
-  },
-  modalBtn: {
-    marginTop: 20,
-    backgroundColor: Colors.primary,
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 8,
-    alignSelf: "center",
   },
 });

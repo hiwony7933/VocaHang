@@ -30,11 +30,13 @@ export type GradeType = 1 | 2 | 3 | 4 | 5 | 6 | "all";
 export const MAX_TRIES = 6; // 최대 시도 횟수 정의
 
 // 새로운 타입 정의
-export interface LetterPickFeedbackInfo {
-  type: "letterPickFeedback";
-  message: string;
-  feedbackType: "correct" | "incorrect";
-  remainingTries: number;
+// export interface LetterPickFeedbackInfo { ... } // 타입 정의 제거
+
+export interface IndividualGradeStats {
+  wins: number;
+  losses: number;
+  currentStreak: number;
+  bestStreak: number;
 }
 
 interface GameContextType {
@@ -43,12 +45,8 @@ interface GameContextType {
   solvedWordIds: string[];
   currentIndex: number;
   displayTries: number;
-  stats: {
-    wins: number;
-    losses: number;
-    currentStreak: number;
-    bestStreak: number;
-  };
+  stats: IndividualGradeStats;
+  statsByGrade: { [key in GradeType]?: IndividualGradeStats };
   gameStatus: "playing" | "won" | "lost";
   handleNext: () => void;
   pickNewWord: (
@@ -66,10 +64,8 @@ interface GameContextType {
   shuffledWordHint?: string[];
   processUserAnswer: (attemptedWord: string) => void;
   handleIncorrectLetterPick: () => void;
-  wordForModal: WordType | LetterPickFeedbackInfo | null;
-  setWordForModal: React.Dispatch<
-    React.SetStateAction<WordType | LetterPickFeedbackInfo | null>
-  >;
+  wordForModal: WordType | null;
+  setWordForModal: React.Dispatch<React.SetStateAction<WordType | null>>;
   handleCorrectLetterPickFeedback: () => void;
   finalizeDefeat: () => void;
   loadGameState?: () => Promise<void>;
@@ -107,6 +103,13 @@ const shuffleArray = (array: string[]) => {
   return array;
 };
 
+const initialGradeStats: IndividualGradeStats = {
+  wins: 0,
+  losses: 0,
+  currentStreak: 0,
+  bestStreak: 0,
+};
+
 export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -117,22 +120,15 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     category: "",
     education: { schoolLevel: "elementary", grade: 1 },
   });
-  const [wordForModal, setWordForModal] = useState<
-    WordType | LetterPickFeedbackInfo | null
-  >(null);
+  const [wordForModal, setWordForModal] = useState<WordType | null>(null);
   const [currentHints, setCurrentHints] = useState<{
     hint1: string;
     hint2?: string;
-  }>({ hint1: "" });
+  }>({ hint1: "", hint2: "" });
   const [solvedWordIds, setSolvedWordIds] = useState<string[]>([]);
-  const [wins, setWins] = useState(0);
-  const [losses, setLosses] = useState(0);
-  const [currentStreak, setCurrentStreak] = useState(0);
-  const [bestStreak, setBestStreak] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
-    "playing"
-  );
+  const [statsByGrade, setStatsByGrade] = useState<{
+    [key in GradeType]?: IndividualGradeStats;
+  }>({});
   const [currentGrade, setCurrentGradeInternal] = useState<GradeType>(1);
   const [wordList, setWordList] = useState<WordType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -141,6 +137,12 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     string[] | undefined
   >(undefined);
   const [displayTries, setDisplayTries] = useState(MAX_TRIES);
+  const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
+    "playing"
+  );
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const currentGradeStats = statsByGrade[currentGrade] || initialGradeStats;
 
   const loadWordList = useCallback(async (grade: GradeType) => {
     console.log(
@@ -232,7 +234,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         setCurrentWord(newWordToSet);
         setCurrentHints({
           hint1: newWordToSet.hints.hint1,
-          hint2: newWordToSet.hints.hint2,
+          hint2: newWordToSet.hints.hint2 || "",
         });
         const wordChars = newWordToSet.word.toUpperCase().split("");
         setShuffledWordHint(shuffleArray(wordChars));
@@ -314,33 +316,41 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const updateCurrentGrade = useCallback(
     async (newGrade: GradeType) => {
       console.log(
-        "[GameProvider] updateCurrentGrade called with newGrade:",
-        newGrade
+        `[GameProvider] updateCurrentGrade CALLED. New Grade: ${newGrade}, Current isLoading: ${isLoading}`
       );
+      console.warn(
+        `🚨 [GameProvider] updateCurrentGrade TRIGGERED with grade: ${newGrade}`
+      );
+
       setIsLoading(true);
-      setWordForModal(null);
-
       setCurrentGradeInternal(newGrade);
+      await AsyncStorage.setItem("currentGrade", newGrade.toString());
 
-      setWins(0);
-      setLosses(0);
-      setCurrentStreak(0);
-      setBestStreak(0);
-      setCurrentIndex(0);
-      setGameStatus("playing");
-      setDisplayTries(MAX_TRIES);
+      setStatsByGrade((prevStatsByGrade) => {
+        if (!prevStatsByGrade[newGrade]) {
+          console.log(
+            `[GameProvider] Initializing stats for new grade: ${newGrade} (inside updateCurrentGrade)`
+          );
+          return {
+            ...prevStatsByGrade,
+            [newGrade]: { ...initialGradeStats },
+          };
+        }
+        return prevStatsByGrade;
+      });
+
+      setWordForModal(null);
+      const newSolvedIds = await loadSolvedWordIds(newGrade);
+      setSolvedWordIds(newSolvedIds);
 
       const newWordList = await loadWordList(newGrade);
       if (!newWordList || newWordList.length === 0) {
-        console.warn(
-          `[GameProvider] No words available for new grade: ${newGrade}`
-        );
+        console.warn(`[GameProvider] No words for new grade: ${newGrade}`);
         setWordList([]);
-        setSolvedWordIds([]);
         setCurrentWord({
           id: "NO_WORDS_FOR_GRADE",
           word: "NO WORDS",
-          hints: { hint1: "해당 학년의 단어가 없습니다.", hint2: "" },
+          hints: { hint1: "단어없음", hint2: "" },
           category: "Error",
           education: {
             schoolLevel: "elementary",
@@ -348,45 +358,40 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           },
         });
         setShuffledWordHint(undefined);
-        await AsyncStorage.setItem("currentGrade", newGrade.toString());
-        setIsLoading(false);
-        return;
+      } else {
+        setWordList(newWordList);
+        pickNewWord(newWordList, newSolvedIds, newGrade);
       }
 
-      setWordList(newWordList);
-      const newSolvedIds = await loadSolvedWordIds(newGrade);
-      setSolvedWordIds(newSolvedIds);
+      setGameStatus("playing");
+      setDisplayTries(MAX_TRIES);
+      setCurrentIndex(0);
 
-      pickNewWord(newWordList, newSolvedIds, newGrade);
-
-      await AsyncStorage.setItem("currentGrade", newGrade.toString());
-      console.log(
-        "[GameProvider] Grade updated in AsyncStorage and state to:",
-        newGrade
-      );
       setIsLoading(false);
+      console.log("[GameProvider] Grade updated to:", newGrade);
     },
     [
-      loadWordList,
-      pickNewWord,
       setIsLoading,
+      setCurrentGradeInternal,
       setWordForModal,
-      setWins,
-      setLosses,
-      setCurrentStreak,
-      setBestStreak,
-      setCurrentIndex,
+      setSolvedWordIds,
+      setWordList,
+      setCurrentWord,
       setGameStatus,
       setDisplayTries,
-      setCurrentGradeInternal,
-      setWordList,
-      setSolvedWordIds,
+      setCurrentIndex,
       loadSolvedWordIds,
+      loadWordList,
+      pickNewWord,
     ]
   );
 
   const loadGameState = useCallback(async () => {
-    console.log("[GameProvider] loadGameState called");
+    console.log(
+      `[GameProvider] loadGameState CALLED. Current isLoading: ${isLoading}`
+    );
+    console.warn("🚨 [GameProvider] loadGameState TRIGGERED");
+
     setIsLoading(true);
     try {
       const savedGradeString = await AsyncStorage.getItem("currentGrade");
@@ -397,20 +402,20 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
             ? "all"
             : (parseInt(savedGradeString, 10) as GradeType);
       }
-      console.log(
-        "[GameProvider] Initial grade to load from AsyncStorage:",
-        gradeToLoad
-      );
       setCurrentGradeInternal(gradeToLoad);
+      console.log("[GameProvider] Initial grade to load:", gradeToLoad);
 
-      const savedStatsString = await AsyncStorage.getItem("gameStats");
-      if (savedStatsString) {
-        const savedStats = JSON.parse(savedStatsString);
-        setWins(savedStats.wins || 0);
-        setLosses(savedStats.losses || 0);
-        setCurrentStreak(savedStats.currentStreak || 0);
-        setBestStreak(savedStats.bestStreak || 0);
+      const allPossibleGrades: GradeType[] = [1, 2, 3, 4, 5, 6, "all"];
+      const loadedStatsByGrade: { [key in GradeType]?: IndividualGradeStats } =
+        {};
+      for (const grade of allPossibleGrades) {
+        const statsString = await AsyncStorage.getItem(`gameStats_${grade}`);
+        if (statsString) {
+          loadedStatsByGrade[grade] = JSON.parse(statsString);
+        }
       }
+      setStatsByGrade(loadedStatsByGrade);
+      console.log("[GameProvider] Loaded statsByGrade:", loadedStatsByGrade);
 
       const newWordList = await loadWordList(gradeToLoad);
       if (newWordList && newWordList.length > 0) {
@@ -445,34 +450,29 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
           setSolvedWordIds([]);
         }
       }
-
       const savedMileage = await AsyncStorage.getItem("userMileage");
       setMileage(savedMileage !== null ? parseInt(savedMileage, 10) : 0);
     } catch (error) {
       console.error("[GameProvider] Error loading game state:", error);
       setCurrentGradeInternal(1);
       await AsyncStorage.setItem("currentGrade", "1");
+      setStatsByGrade({});
       setWordList(gradeToWordList[1]?.wordList || []);
       setSolvedWordIds([]);
       pickNewWord(gradeToWordList[1]?.wordList || [], [], 1);
       setMileage(0);
     } finally {
       setIsLoading(false);
-      console.log("[GameProvider] loadGameState finished. isLoading:", false);
     }
   }, [
-    loadWordList,
-    pickNewWord,
     setIsLoading,
     setCurrentGradeInternal,
-    setWins,
-    setLosses,
-    setCurrentStreak,
-    setBestStreak,
     setWordList,
     setSolvedWordIds,
     setMileage,
     loadSolvedWordIds,
+    loadWordList,
+    pickNewWord,
   ]);
 
   useEffect(() => {
@@ -482,21 +482,33 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     loadGameState();
   }, [loadGameState]);
 
-  const saveGameStats = useCallback(async () => {
-    try {
-      const statsToSave = { wins, losses, currentStreak, bestStreak };
-      await AsyncStorage.setItem("gameStats", JSON.stringify(statsToSave));
-      console.log("[GameProvider] Game stats saved:", statsToSave);
-    } catch (error) {
-      console.error("[GameProvider] Failed to save game stats:", error);
+  const saveCurrentGradeStats = useCallback(async () => {
+    const gradeToSave = currentGrade;
+    const statsToSave = statsByGrade[gradeToSave];
+    if (statsToSave) {
+      try {
+        await AsyncStorage.setItem(
+          `gameStats_${gradeToSave}`,
+          JSON.stringify(statsToSave)
+        );
+        console.log(
+          `[GameProvider] Stats for grade ${gradeToSave} saved:`,
+          statsToSave
+        );
+      } catch (error) {
+        console.error(
+          `[GameProvider] Failed to save stats for grade ${gradeToSave}:`,
+          error
+        );
+      }
     }
-  }, [wins, losses, currentStreak, bestStreak]);
+  }, [currentGrade, statsByGrade]);
 
   useEffect(() => {
-    if (!isLoading) {
-      saveGameStats();
+    if (!isLoading && currentGradeStats !== initialGradeStats) {
+      saveCurrentGradeStats();
     }
-  }, [wins, losses, currentStreak, bestStreak, isLoading, saveGameStats]);
+  }, [currentGradeStats, isLoading, saveCurrentGradeStats]);
 
   const handleNext = useCallback(() => {
     setWordForModal(null);
@@ -630,7 +642,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     console.log("[GameProvider] Game reset complete for grade:", currentGrade);
   }, [updateCurrentGrade, currentGrade]);
 
-  const stats = { wins, losses, currentStreak, bestStreak };
+  const stats = currentGradeStats;
 
   const addMileage = useCallback(
     async (points: number) => {
@@ -643,28 +655,46 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     [setMileage]
   );
 
+  const finalizeDefeat = useCallback(() => {
+    setStatsByGrade((prevStats) => {
+      const gradeStats = prevStats[currentGrade] || { ...initialGradeStats };
+      return {
+        ...prevStats,
+        [currentGrade]: {
+          ...gradeStats,
+          losses: gradeStats.losses + 1,
+          currentStreak: 0,
+        },
+      };
+    });
+
+    setGameStatus("lost");
+    setWordForModal(currentWord);
+    playSound("fail");
+    console.log(
+      "[GameProvider] Game lost, defeat finalized for grade:",
+      currentGrade
+    );
+  }, [currentGrade, currentWord, setGameStatus, setWordForModal, playSound]);
+
   const handleIncorrectLetterPick = useCallback(() => {
     playSound("wrong");
     const newTries = displayTries - 1;
     setDisplayTries(newTries);
+    console.log(
+      `[GameProvider] Incorrect letter picked. Tries remaining: ${newTries}`
+    );
 
-    setWordForModal({
-      type: "letterPickFeedback",
-      message: "틀렸어요!",
-      feedbackType: "incorrect",
-      remainingTries: newTries,
-    });
-  }, [displayTries, setDisplayTries, setWordForModal, playSound]);
+    if (newTries <= 0) {
+      console.log("[GameProvider] No tries left, finalizing defeat.");
+      finalizeDefeat();
+    }
+  }, [displayTries, setDisplayTries, playSound, finalizeDefeat]);
 
   const handleCorrectLetterPickFeedback = useCallback(() => {
     playSound("correct");
-    setWordForModal({
-      type: "letterPickFeedback",
-      message: "맞았어요!",
-      feedbackType: "correct",
-      remainingTries: displayTries,
-    });
-  }, [displayTries, setDisplayTries, setWordForModal, playSound]);
+    console.log("[GameProvider] Correct letter picked, feedback sound played.");
+  }, [playSound]);
 
   const processUserAnswer = useCallback(
     (attemptedWord: string) => {
@@ -685,52 +715,38 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       const gradeOfSolvedWord =
         (currentWord.education.grade as GradeType) || currentGrade;
 
+      setStatsByGrade((prevStats) => {
+        const gradeStats = prevStats[currentGrade] || { ...initialGradeStats };
+        const newCurrentStreak = gradeStats.currentStreak + 1;
+        return {
+          ...prevStats,
+          [currentGrade]: {
+            ...gradeStats,
+            wins: gradeStats.wins + 1,
+            currentStreak: newCurrentStreak,
+            bestStreak: Math.max(gradeStats.bestStreak, newCurrentStreak),
+          },
+        };
+      });
+
       markWordAsSolved(currentWordId, gradeOfSolvedWord);
       const pointsEarned = solution.length >= 5 ? 20 : 10;
       addMileage(pointsEarned);
-      setWins((prev) => prev + 1);
-      setCurrentStreak((prev) => {
-        const newStreak = prev + 1;
-        if (newStreak > bestStreak) {
-          setBestStreak(newStreak);
-        }
-        return newStreak;
-      });
-
       setGameStatus("won");
       setWordForModal(currentWord);
       setShuffledWordHint(undefined);
       playSound("success");
     },
     [
+      currentGrade,
       currentWord,
       markWordAsSolved,
       addMileage,
-      setWins,
-      setCurrentStreak,
-      setBestStreak,
       setGameStatus,
       setWordForModal,
-      setShuffledWordHint,
       playSound,
-      currentGrade,
     ]
   );
-
-  const finalizeDefeat = useCallback(() => {
-    setLosses((prevLosses) => prevLosses + 1);
-    setCurrentStreak(0);
-    setGameStatus("lost");
-    setWordForModal(currentWord);
-    playSound("fail");
-  }, [
-    currentWord,
-    setLosses,
-    setCurrentStreak,
-    setGameStatus,
-    setWordForModal,
-    playSound,
-  ]);
 
   console.log(
     `[GameProvider] Rendering. Grade: ${currentGrade}, isLoading: ${isLoading}, Word: ${currentWord?.word}`
@@ -743,6 +759,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     currentIndex,
     displayTries,
     stats,
+    statsByGrade,
     gameStatus,
     handleNext,
     pickNewWord,

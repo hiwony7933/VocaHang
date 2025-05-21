@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { GameProvider, useGame } from "../components/GameProvider";
+import { useGame } from "../components/GameProvider";
 import { GameBoard } from "../components/GameBoard";
 import { GameModal } from "../components/GameModal";
 import { Colors } from "../constants/theme";
@@ -29,11 +29,7 @@ const VocaManContent = () => {
 };
 
 export const VocaManScreen: React.FC = () => {
-  return (
-    <GameProvider>
-      <VocaManContent />
-    </GameProvider>
-  );
+  return <VocaManContent />;
 };
 
 const styles = StyleSheet.create({
